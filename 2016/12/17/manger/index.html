@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Manger&#39;s attack against RSA OAEP &middot; Yolan Romailler</title>
+        <meta name="description" content="Now the question is why I implemented it?">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Manger&#39;s attack against RSA OAEP">
+<meta property="og:description" content="Now the question is why I implemented it?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2016/12/17/manger/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Manger&#39;s attack against RSA OAEP</h1>
+    
+        <p class="post-description" itemprop="description">Now the question is why I implemented it?</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2016-12-17" itemprop="datePublished">Sat, Dec 17, 2016</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>Not too long ago I published on Github Go code to perform the famous Manger&rsquo;s attack against RSA OAEP. This code allows us to leverage a padding Oracle in order to break RSA OAEP encryption, even though it has been mathematically proven secure&hellip; <em>How come?!</em> may be your first reaction, but although a scheme is secure it doesn&rsquo;t mean that its implementation aren&rsquo;t leaking knowledge which can be leveraged to break the said scheme!</p>
+<p>This is exactly what&rsquo;s happening there with Manger&rsquo;s attack, we use just one tiny bit of information and yet we can break a message encrypted using 2048 bits RSA in less than 2300 queries. Provided we have the Oracle we need, obviously!
+And in practice such Oracles are generally not easily built and use side-channels such as timings or caches to extract that one bit of information with enough probability to be correct.</p>
+<p>However, the code I release isn&rsquo;t doing anything like that, instead it assumes it has an Oracle which provides him with the little tiny bit of information we&rsquo;ll rely on to perform Manger&rsquo;s attack. Since the Go\Crypto library does <em>hopefully</em> not provides us with such an oracle out of the box, I had to tweak the RSA code a bit, to have an information leak I could then exploit as an Oracle.</p>
+<p>I was fairly astonished not to find any previous implementation except for <a href="https://github.com/GDSSecurity/mangers-oracle">one</a>! One would think that someone already leveraged the power of Manger&rsquo;s attack to break weak libraries, but it seems like those who did it either kept the code for themselves and only showed its results or didn&rsquo;t even publish the said results.</p>
+<p>You may find my code in my <a href="https://github.com/AnomalRoil/go-manger-attack">go-manger-attack</a> Github repository. I was really pleased to implement it in Go, because it allowed for a fairly direct translation from mathematical formulas to code.</p>
+<p>EDIT: see my follow-up post on the topic: <a href="/2018/04/05/manger-explained/">&ldquo;Understanding and implementing Manger attack&rdquo;</a></p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>, 
+                <a href="/tags/talk/">talk</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Manger%27s%20attack%20against%20RSA%20OAEP&url=https%3a%2f%2fromailler.ch%2f2016%2f12%2f17%2fmanger%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Manger%27s%20attack%20against%20RSA%20OAEP&url=https%3a%2f%2fromailler.ch%2f2016%2f12%2f17%2fmanger%2f&summary=Now%20the%20question%20is%20why%20I%20implemented%20it%3f"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

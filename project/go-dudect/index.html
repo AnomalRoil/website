@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Go-dudect &middot; Yolan Romailler</title>
+        <meta name="description" content="dude, is my Go code constant time?">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Go-dudect">
+<meta property="og:description" content="dude, is my Go code constant time?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/project/go-dudect/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">Go-dudect</h1>
+    
+        <p class="post-description">dude, is my Go code constant time?</p>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <p>Go-dudect is available on Github: <a href="https://github.com/AnomalRoil/go-dudect">https://github.com/AnomalRoil/go-dudect</a></p>
+<h1 id="go-dudect">go-dudect</h1>
+<p>This is a toy implementation in Go of <a href="https://github.com/oreparaz/dudect">Dudect</a>, almost directly translated from C.</p>
+<p>Its only purpose is to play around with the DecryptOAEP function to see if the signal caused by the leftPad timing discrepancies is enough to leak being given DecryptOAEP noise. Long story, short: no it doesn&rsquo;t. So Manger&rsquo;s attack would not apply there, unless someone finds another detectable discprancy or a better distinguisher, of course.  (Note that Dudect&rsquo;s aim isn&rsquo;t to be a distinguisher, just to assess the existence of a timing leak and that it&rsquo;s not because it didn&rsquo;t find one there isn&rsquo;t one. The same applies here.)</p>
+<p><a href="https://github.com/AnomalRoil/go-dudect/blob/master/dudect.go">dudect.go</a> ideas&rsquo; and design&rsquo;s are coming from Oscar Reparaz, Josep Balasch and Ingrid Verbauwhede, all credit goes to them.</p>
+<h2 id="to-use-it-with-your-code">To use it with your code</h2>
+<p>Simply write a file containing your function, a <code>func prepare_inputs() (input_data [][]byte, classes []int)</code> function returning the input data and its classes and a <code>func do_one_computation(data []byte)</code> function using your function on the given input, then do a <code>make filename</code>, <em>et voilà</em> you can try it with your Go code, natively without having to use any kind of wrapper in C or whatever.</p>
+<h2 id="how-does-it-work">How does it work?</h2>
+<p>It tests executables in a black-box setup and does not need to instrument the said executables in anyway.</p>
+<p>Now regarding how it actually works, firstly <code>dudect</code> needs two different input data classes of inputs.
+It then repeatedly measures the execution time, also called &ldquo;traces&rdquo;, of the function under study on inputs belonging to the two classes.  (See below.)
+<code>dudect</code> then performs post-processing on the measurements prior to their statistical analysis.
+It implements two different post-processing procedures: it crops the measurement on each percentiles and processes these cropped data, because timing distributions usually appear to be skewed toward larger execution times; it also performs the statistical analysis on the whole set of data, just in case. Note that only the maximal <code>t</code>-value is reported to the user.</p>
+<p><code>dudect</code> leverages Welch&rsquo;s <code>t</code>-test to perform statistical analysis on the sampled data. The usage of Welch&rsquo;s <code>t</code>-test in the side-channel community has been initiated by Cryptography Research Inc. in 2011.
+The goal of this statistical analysis is to disprove the null hypothesis &ldquo;the two timing distributions are equal&rdquo;, which is the same as saying &ldquo;this code seems to run in constant time&rdquo;.
+For large samples a <code>t</code>-value of <code>5</code> or more can be considered sufficient evidence of a timing leak, while a value of <code>100</code> or more is an overwhelming evidence (cf. Dudect&rsquo;s paper).</p>
+<p>A typical output of the <code>dudect</code> test goes as follows:</p>
+<pre tabindex="0"><code> 21/50: meas:  0.06 M, max t(39): +1.90, max tau: 3.17e-05, 
+       (5/tau)^2:  2.49e+10,    m.time (ms): 156.79
+ INFO:  For the moment, maybe constant time.
+</code></pre><p>where the <code>meas</code> value represents the number of measurements performed. The <code>max t(39)</code> is the maximum <code>t</code>-value found and the percentile at which we cropped the data&ndash;if any&ndash;to get that value. The <code>max tau</code> is a <code>t</code>-value normalized by the number of measurements, so that one may compare <code>max tau</code> values taken with different numbers of measurements. Finally the <code>(5/tau)^2</code> value tells us how many measurements we would need to detect an eventual leak, if we aim for a <code>t</code>-value of <code>5</code>.</p>
+<h2 id="classes-definition">Classes definition</h2>
+<p>As explained in dudect&rsquo;s paper, this leakage detection method requires two sets of traces for two different input data classes, and we are interested by their respective distributions.</p>
+<p>In order to detect timing leaks, there are various ways to define those input data classes:<br>
+One of these ways that is known to detect many different potential leaks consists in the <strong>fixed-vs-random</strong> <code>t</code>-tests (cf. Dudect&rsquo;s paper or Goodwill <em>et al.</em> &ldquo;A testing methodology for side-channel resistance validation&rdquo;), where one class is fixed to a constant value, while the input data in the second class is picked at random.</p>
+<p>A second method to construct the data set, allowing us to detect timing leaks with less false-positive than the fixed-vs-random case, is the so called <strong>semi-fixed-vs-random</strong> <code>t</code>-tests (see Schneider &amp; Moradi &ldquo;Leakage Assessment Methodology - a clear roadmap for side-channel evaluations&rdquo;), where we choose the inputs for a class such that a certain intermediate value is obtained.<br>
+Certain inputs are known to force certain rare behaviours, which may leak sensitive information if they are not seemingly constant-time. (See Jaffe <em>et al.</em> &ldquo;Efficient side-channel testing for public key algorithms: RSA case study&rdquo;).</p>
+<p>Note again that a positive results in any of the <code>t</code>-tests does not imply it is possible to efficiently distinguish the computations and directly perform any sort of timing attacks.
+It simply informs us that the code seems to not run in constant time, but it necessitates further, manual, analysis to lead to any meaningful result.</p>
+
+</div>
+
+        <footer class="post-footer clearfix"><div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Go-dudect&url=https%3a%2f%2fromailler.ch%2fproject%2fgo-dudect%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Go-dudect&url=https%3a%2f%2fromailler.ch%2fproject%2fgo-dudect%2f&summary=dude%2c%20is%20my%20Go%20code%20constant%20time%3f"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

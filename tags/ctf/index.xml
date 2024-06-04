@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ctf on Yolan Romailler</title>
+    <link>https://romailler.ch/tags/ctf/</link>
+    <description>Recent content in Ctf on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Wed, 26 Apr 2017 19:00:00 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CTF Writeup / PlaidCTF / Echo</title>
+      <link>https://romailler.ch/2017/04/26/pctf17-echo/</link>
+      <pubDate>Wed, 26 Apr 2017 19:00:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/04/26/pctf17-echo/</guid>
+      <description>&lt;p&gt;&lt;em&gt;We&amp;rsquo;re given a webapp performing text2speech on a maximium of 4 tweets. Exploiting an remote command injection in the dockerized script generating the audio allows to decode remotely the flag before exfiltrating it using text2speech.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

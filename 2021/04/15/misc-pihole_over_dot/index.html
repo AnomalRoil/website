@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Being ad-free on Android without rooting &middot; Yolan Romailler</title>
+        <meta name="description" content="thanks to DNS-Over-TLS">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Being ad-free on Android without rooting">
+<meta property="og:description" content="thanks to DNS-Over-TLS">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2021/04/15/misc-pihole_over_dot/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Being ad-free on Android without rooting</h1>
+    
+        <p class="post-description" itemprop="description">thanks to DNS-Over-TLS</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2021-04-15" itemprop="datePublished">Thu, Apr 15, 2021</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>As everyone, I hate advertisment.</p>
+<p>I know most of the webservices are relying on it to get some revenue, however I don&rsquo;t like how intrusive it can get and how it defaces most websites when there&rsquo;s too much of it.</p>
+<p>So when I learned that Android 9 was bringing a so-called &ldquo;Private DNS&rdquo; that basically allowed one to configure their own global DNS server served over TLS using the <a href="https://en.wikipedia.org/wiki/DNS_over_TLS">DoT protocol</a>, I immediately thought of running my own DNS server serving PiHoled DNS responses over TLS to get rid of advertisment.
+Sadly <a href="https://discourse.pi-hole.net/t/implement-dns-over-tls-capability-in-pi-hole/8722/44">PiHole isn&rsquo;t serving DNS over TLS (yet?)</a>, so I had to struggle a bit in order to get a working solution.  But I did, and will explain you my journey towards an ad-free Android below.</p>
+<p>Furthermore this solution works <strong>on both Wifi and LTE networks</strong>, without the need for any active VPN system, and it is entirely controlled by a single option. Notice it requires an Android 9+ device, which are fairy common nowadays, since Android 9 was released over 3 years ago.
+And it also doesn&rsquo;t require a rooted device, so it works on full stock, non-rooted devices. (I used to run a rooted phone just to be able to set my own <code>/etc/hosts</code> file back in my college years, so I really had this one coming.)</p>
+<h2 id="first-attempt-pihole--unbound">First attempt: PiHole &amp; Unbound</h2>
+<p>Sadly, my intuition that using <a href="https://pi-hole.net/">PiHole</a> would be easy wasn&rsquo;t true&hellip;
+While it is fairly easy to run PiHole and it is also easy to get it to query DoT servers, it is not that easy to come up with a setup where it would <em>serve</em> sinkholed DNS over TLS using DoT.
+I could find some obscure comments on Reddit, but nothing that truly helped me.</p>
+<p>Also, it wouldn&rsquo;t be fun if I didn&rsquo;t decide to add an extra layer of indirection and tried to do all of this using Docker containers and <code>docker-compose</code> (and that despite the fierce recommendations of one of my friends to go with <a href="https://linuxcontainers.org">LXC containers</a> instead. But I&rsquo;m lazy, I guess: Docker seemed easier, coming with nice pre-made images and all. I&rsquo;m alright with Vim&rsquo;s learning curve, granted, but since I&rsquo;m no sysadmin or cloud person, I went with the easiest way I could find.)</p>
+<p>My first attempt was to rely on <a href="https://pi-hole.net/">Pi-Hole</a> to do the ad-blocking, as it works well on a local network, and since PiHole couldn&rsquo;t serve DoT, I used <a href="https://www.nlnetlabs.nl/projects/unbound/about/">unbound</a> as a DoT server.</p>
+<p>In case you&rsquo;re wondering what it was like, here&rsquo;s a snippet of my docker-compose file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.4&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>: 
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">pihole</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">image</span>: <span style="color:#ae81ff">pihole/pihole:latest</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">expose</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">443</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#e6db74">&#39;8081:8081/tcp&#39;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#e6db74">&#34;VIRTUAL_HOST=youramazing.url&#34;</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#e6db74">&#34;VIRTUAL_PORT=80&#34;</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#e6db74">&#34;WEB_PORT=8081&#34;</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#e6db74">&#34;WEBPASSWORD=youramazingpassword&#34;</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#e6db74">&#34;PROXY_LOCATION=pihole&#34;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">dns</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">127.0.0.1</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">1.1.1.1</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">1.0.0.1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">pih:/etc/pihole/</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">dnsmasq:/etc/dnsmasq.d/</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">depends_on</span>: 
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">nginx-proxy</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">nginx-proxy-letsencrypt</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">mydns</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.123.123.3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">unbound-toh</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">image</span>: <span style="color:#ae81ff">mvance/unbound:latest</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">853</span>:<span style="color:#ae81ff">853</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">/home/user/unbound:/opt/unbound/etc/unbound/</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">/home/user/unbound/certs:/etc/unbound/certs/</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">pihole</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">healthcheck</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">disable</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">mydns</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">ipv4_address</span>: <span style="color:#ae81ff">10.123.123.4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">pih</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">dnsmasq</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">mydns</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">ipam</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">driver</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>				- <span style="color:#f92672">subnet</span>: <span style="color:#ae81ff">10.123.123.0</span><span style="color:#ae81ff">/24</span>
+</span></span></code></pre></div><p>I&rsquo;m not showing you the <code>nginx-proxy</code> and <code>nginx-proxy-letsencrypt</code> details, as these have nothing fancy in my setup. In any case I wouldn&rsquo;t advice you to try and run the above, since it wasn&rsquo;t working reliably in my experience. If you want to skip the technicalities you can <a href="#second-attempt-technitium-dns-server">go below</a> to read about my second, more sucessful, attempt.</p>
+<p>As you can guess, this required me to copy the certificates from Letsencrypt from <code>/etc/letsencrypt/live/youramazing.url/</code> to <code>/home/user/unbound/certs/</code>. I could have tried to bind my volume directly to <code>/etc/letsencrypt/live/youramazing.url/</code> on my host, but that didn&rsquo;t feel right.
+Notice how the PiHole container needs to expose both port 80 and 443 in order to be able to effectively sinkhole ads. This is somewhat handled by my <code>nginx-proxy</code>, so I didn&rsquo;t need to expose the ports on the host explicitely here.
+It is nice too because PiHole comes with an official docker image.</p>
+<p>Sadly this setup would die on me randomly, making me create strange cron jobs to try and reboot it in case it was in standstill.
+It wasn&rsquo;t really as stable as I&rsquo;d liked and it was also quite tedious to get it to work with Letsencrypt certificates and required custom docker networks with fixed IPs because unbound wasn&rsquo;t able to resolve a named container in its config files. I also had to override the default unbound config file with my own, in order to be able to enable the DoT. I took the default <code>unbound.conf</code> file from my docker image, and changed the following:</p>
+<pre tabindex="0"><code>...
+    interface: 0.0.0.0@853
+## My DoT customizations
+    tls-service-key: &#34;/etc/unbound/certs/privkey.pem&#34;
+    tls-service-pem: &#34;/etc/unbound/certs/fullchain.pem&#34;
+    tls-port: 853
+    incoming-num-tcp: 1000 
+    do-udp: no
+    udp-upstream-without-downstream: yes
+## End customizations
+	
+    # Rotates RRSet order in response (the pseudo-random number is taken from
+    # the query ID, for speed and thread safety).
+    rrset-roundrobin: yes
+    # Drop user  privileges after  binding the port.
+    username: &#34;_unbound&#34;
+...
+## at the very end 
+    ###########################################################################
+    # LOCAL ZONE
+    ###########################################################################
+    # Include file for local-data and local-data-ptr
+## Commenting the default files
+    #include: /opt/unbound/etc/unbound/a-records.conf
+    #include: /opt/unbound/etc/unbound/srv-records.conf
+
+## Adding my pihole
+forward-zone:
+        name: &#34;.&#34;
+        forward-addr: 10.123.123.3@53
+</code></pre><p>I also had to set the <code>healthcheck:	disable: true</code> option on my unbound docker image because otherwise it would sometimes go into a degraded state without any reason.</p>
+<p>Sadly, this wasn&rsquo;t really stable, getting often stuck in some degraded state, and I was having quite a few issue with the dedicated container IPs which would sometime complain about overlapping network ips upon <code>docker-compose up -d</code> thus making the automation of the update of my containers prone to failure.
+And then I was battling with the config files, and the certificates&rsquo; renewal, etc.
+Also I couldn&rsquo;t find a way to properly delegate the handling of the Letsencrypt certificate to Nginx-proxy&rsquo;s letsencrypt companion image, since I needed the TLS on a custom port (853, for DoT) and didn&rsquo;t need it for HTTPS. I couldn&rsquo;t find a way to properly bind it to my docker container without having to expose all the ports and that was pretty annoying too.</p>
+<p>I plan to try and get back to this one day, probably removing the nginx-proxy and directly exposing the ports, altough I would have preferred to have a reverse proxy in front. Maybe I&rsquo;ll finally dig into Traefik.
+I should also probably move away from unbound to try something like <a href="https://knot-resolver.readthedocs.io/en/stable/index.html">Knot resolver</a> instead <a href="https://knot-resolver.readthedocs.io/en/stable/daemon-bindings-net_tlssrv.html">since it also supports DoT</a>.</p>
+<h2 id="second-attempt-technitium-dns-server">Second attempt: Technitium DNS server</h2>
+<p>So, when I discovered that the <a href="https://technitium.com/dns/">Technitium DNS Server</a> was supporting both ad-blocking and serving DoT requests, I was very interested, as you can guess!
+A quick study of that solution revealed it was written in C#, came with a nice web-based interface, had IPv6 support, did caching, was able to connect to public DNS resolvers using both DoT and DoH, thus preventing your ISP to see any of your DNS traffic, and was fairly easy to setup.</p>
+<p>So, I decided to change and it really simplified my setup, since now my docker-compose file could look almost exactly like the example from the <a href="https://hub.docker.com/r/m400/technitium">docker image</a> I decided to use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.4&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">dns_server</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">image</span>: <span style="color:#ae81ff">m400/technitium</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">technitium-network</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">aliases</span>:
+</span></span><span style="display:flex;"><span>					- <span style="color:#ae81ff">technitium-dns</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">853</span>:<span style="color:#ae81ff">853</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">5380</span>:<span style="color:#ae81ff">5380</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">53443</span>:<span style="color:#ae81ff">53443</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">TZ=Europe/Zurich</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">dns-data:/app/config</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">/home/user/dns/ssl:/etc/ssl</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">/home/user/dns/logs:/app/config/logs</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">dns-data</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">technitium-network</span>:
+</span></span></code></pre></div><p>Next I had to ensure I wouldn&rsquo;t run into the same problems as previously. But my problem with the renewal of Letsencrypt certificates could be solved by using certbot directly on my docker host device instead of trying to rely on the , altough Technitium didn&rsquo;t make it easy because it requires a conversion from OpenSSL format to to PKCS#12 for it to use the certificate&hellip;
+But Technitium is aware of the problem and discussed its solution <a href="https://blog.technitium.com/2020/07/how-to-host-your-own-dns-over-https-and.html">in a post last year</a>.</p>
+<p>So, it appears that <code>certbot</code> allows for &ldquo;renewal-hooks&rdquo;, which are basically scripts triggered upon renewal of a certificate.
+We can thus simply create a script handling the conversion automagically in <code>/etc/letsencrypt/renewal-hooks/post/pkcs12convert.sh</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>openssl pkcs12 -export -out /etc/letsencrypt/live/youramazing.url/youramazing.url.pfx -inkey /etc/letsencrypt/live/youramazing.url/privkey.pem -in /etc/letsencrypt/live/pih.romailler.net/cert.pem -certfile /etc/letsencrypt/live/youramazing.url/chain.pem -passout pass:somepassword
+</span></span><span style="display:flex;"><span>cp /etc/letsencrypt/live/youramazing.url/youramazing.url.pfx /home/user/dns/ssl/
+</span></span></code></pre></div><p>That last copy command is optionnal, obviously, depending on your setup.
+And so, the issue of having to convert and import the TLS certificate for Technitium DNS is solved. :)</p>
+<p>Alas, with my setup, I tweaked some things because I wanted to access the logs from my host and be able to easily provision my SSL certificate to the <a href="https://hub.docker.com/r/m400/technitium"><code>m400/technitium</code> docker image</a>, and so at first it wouldn&rsquo;t work well.
+I was spammed with the following errors in the logs:</p>
+<pre tabindex="0"><code>[2021-03-21 22:30:09 UTC] [someip] Check for update was done {updateAvailable: False;}
+System.Net.Http.HttpRequestException: The SSL connection could not be established, see inner exception.
+ ---&gt; System.Security.Authentication.AuthenticationException: The remote certificate is invalid because of
+errors in the certificate chain: PartialChain
+   at System.Net.Security.SslStream.SendAuthResetSignal(ProtocolToken message, ExceptionDispatchInfo exception)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+</code></pre><p>but that&rsquo;s simply because it is lacking a root certificates store, since that is typically in <code>/etc/ssl/certs</code>, but we have mapped in our docker-compose file the whole <code>/etc/ssl</code> folder to a local folder <code>/home/user/dns/ssl</code> instead of letting it live in its own named volume.
+So we need to provision it with a copy of our root certificate store:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cp -r /etc/ssl/certs /home/user/dns/ssl/.
+</span></span></code></pre></div><p>Notice how I also followed their doc which said that &ldquo;creating a docker network with an alias will ensure seamless updates&rdquo; and added the required network and its alias to my docker-compose file.</p>
+<p>So, after some fiddling around, I decided I wanted to try and have a simpler setup, more able to &ldquo;work out of the box&rdquo;, and settled with the following docker-compose:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.4&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">dns_server</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">image</span>: <span style="color:#ae81ff">m400/technitium</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">technitium-network</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">aliases</span>:
+</span></span><span style="display:flex;"><span>					- <span style="color:#ae81ff">technitium-dns</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">853</span>:<span style="color:#ae81ff">853</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">53443</span>:<span style="color:#ae81ff">53443</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">TZ=Europe/Zurich</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">dns-data:/app/config</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">/home/user/dns/ssl/:/etc/letsencrypt/live/youramazing.url/</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">dns-ssl:/etc/ssl</span>
+</span></span><span style="display:flex;"><span>			- <span style="color:#ae81ff">dns-logs:/app/config/logs</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">dns-data</span>:  
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">dns-ssl</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">dns-logs</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">technitium-network</span>:
+</span></span></code></pre></div><p>I kept using a different folder on my host for my PKCS#12 certificate file, since it&rsquo;s encrypted and I didn&rsquo;t want to share the Letsencrypt folder on my host with a container.
+But used volumes for the rest, because Technitium DNS allows you to manage your log files directly from the Web interface.
+Since I had meanwhile configured HTTPS access to my Web interface, see below for the details, I also stopped exposing the HTTP port 5380.</p>
+<p>Here, some of the &ldquo;tricky&rdquo; details that you should double check are that:</p>
+<ul>
+<li>you really need to expose the port 853 on your host and forward it to the Technitium DNS server, since its the standard port for DoT.</li>
+<li>you really need to provide a valid DNS name and valid TLS certificate (but the free Letsencrypt certificates are fine) to Technitium DNS server.</li>
+<li>you need to ensure that upon renewal of your TLS certificate, it will be automatically converted into the proper format for Technitium DNS and provided to the Technitium DNS server.</li>
+</ul>
+<p>As you can see I didn&rsquo;t need to handle exposing the port 80 or 443, because it is sinkholing the ads by sending them to 0.0.0.0 instead of sending them to a dedicated no-op page like PiHole.
+I believe that this method is sometimes less effective than PiHole because we will get from times to times big squares with the &ldquo;failed connection&rdquo; logo instead of having a fully empty ad:<br>
+<img src="/images/dnsdot/buggy.png#center" alt="an empty ad taking too much space"></p>
+<p>Nonetheless it works and allows for a pretty simple setup, with just a few ports exposed. I guess I can live with that, especially if it&rsquo;s stable!</p>
+<h2 id="configuring-technitium-dns-server">Configuring Technitium DNS server</h2>
+<p>Next, we simply need to configure Technitium DNS server, but that&rsquo;s fairly easy too.
+First, make sure you&rsquo;ve exposed the port 5380 for your initial setup phase. And then access <a href="http://youramazing.url:5380/">http://youramazing.url:5380/</a> with your favourite web browser.
+You should be greeted with the following:</p>
+<p>You can login using default the username &lsquo;admin&rsquo; and password &lsquo;admin&rsquo;. Don&rsquo;t forget to change the default passowrd and replace it with a strong password.<br>
+(<strong>Tip:</strong> if you are using <a href="https://github.com/gopasspw/gopass">gopass</a>, you can simply run: <code>gopass generate -c technitium-dns 24</code> and paste the newly generated password in the required fields of your web browser.)</p>
+<p>In its &ldquo;Settings&rdquo; tab, Technitium DNS has all the options you need to care about:</p>
+<ul>
+<li>
+<p>DNS Server domain: set it to your desired primary domain for the server, the one for which you&rsquo;ve got certbot running and configured as above. E.g. youramazing.url</p>
+</li>
+<li>
+<p>HTTPS Options: check &ldquo;Enable HTTPS&rdquo;, since we have a TLS certificate</p>
+</li>
+<li>
+<p>TLS Certificate File Path: <strong>this is an important setting</strong>, the path will depend on your setup and how you are provisionning the Letsencrypt certificate converted into PKCS#12 format, but in my setup it&rsquo;s simply <code>/etc/letsencrypt/live/youramazing.url/youramazing.url.pfx</code></p>
+</li>
+<li>
+<p>TLS Certificate Password: in my above example I set the password <code>somepassword</code> for our certificate in <code>.pfx</code>, so we need to provide it here too.</p>
+</li>
+<li>
+<p>Optional DNS Server Protocols: <strong>this is an important setting</strong> to set in our example since we want to answer DoT requests. So check the &ldquo;Enable DNS-over-TLS&rdquo;</p>
+</li>
+<li>
+<p>Recursive Resolver: here you can uncheck the &ldquo;Allow Recursion Only For Private Networks&rdquo; and make sure to have the &ldquo;Allow Recursion&rdquo; and &ldquo;QNAME Minimization&rdquo; option checked.</p>
+<blockquote>
+<p>Notice that <strong>allowing recursion</strong> is not an issue with our setup, even if we are exposing our server on the internet, because it&rsquo;s only exposing port 853 and only does DoT resolution, not regular DNS requests on port 53, and thus shouldn&rsquo;t allow for the same kind of <strong>&quot;<a href="https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/">DNS Amplification attacks</a>&quot;</strong> to DDoS servers on the internet using your server as an amplifier, because of the significant overhead caused by the DoT protocol which nullifies the amplification factor.</p>
+</blockquote>
+</li>
+<li>
+<p>Block List URLs: <strong>this is an important setting</strong> if we want to achieve our goal of blocking ads. I decided to use many lists, to make sure to enjoy a nice, ad-free experience:</p>
+<pre><code>  https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+  https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+  https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+  https://adaway.org/hosts.txt
+  https://v.firebog.net/hosts/AdguardDNS.txt
+  https://v.firebog.net/hosts/Admiral.txt
+</code></pre>
+</li>
+<li>
+<p>Forwarders: this is the server it will query when trying to resolve DNS queries. I decided to use DNS-over-TLS here too, to prevent my ISP from seeing any of my DNS queries:</p>
+<pre><code>  dns.google (8.8.8.8:853)
+  dns.google (8.8.4.4:853)
+  cloudflare-dns.com (1.1.1.1:853)
+  cloudflare-dns.com (1.0.0.1:853)
+  dns.google ([2001:4860:4860::8888]:853)
+  dns.google ([2001:4860:4860::8844]:853)
+  cloudflare-dns.com ([2606:4700:4700::1111]:853)
+  cloudflare-dns.com ([2606:4700:4700::1001]:853)
+</code></pre>
+</li>
+</ul>
+<p>Et voilà ! Don&rsquo;t forget to save your changes, you can also restart your server by running a quick <code>docker-compose down &amp;&amp; docker-compose up -d</code>, as I&rsquo;ve noticed some changes aren&rsquo;t applied without first rebooting the DNS container.</p>
+<p>You can also remove the HTTP port 5380 from the exposed port as we can now log on the web interface using the much safer HTTPS protocol using <a href="https://youramazing.url:53443">https://youramazing.url:53443</a></p>
+<h2 id="phone-setup">Phone setup</h2>
+<p>You now just need to configure the DNS server on your Android device: You can use the built-in DHCP server to assign IP addresses and the DNS servers automatically on your local network.
+To do so, go to your settings, go to the &ldquo;Connections&rdquo; settings, clic on &ldquo;More connection settings&rdquo; and add your server URL to the &ldquo;Private DNS&rdquo; option.</p>
+<table>
+<thead>
+<tr>
+<th>On any Android 9+ phone, you need to:  <figure><img src="/images/dnsdot/setup-1.jpg"><figcaption>
+      <h4>Locate the &#39;More connection settings&#39; button</h4>
+    </figcaption>
+</figure>
+</th>
+<th><figure><img src="/images/dnsdot/setup-2.jpg"><figcaption>
+      <h4>Add your DNS server as a &#39;Private DNS&#39;</h4>
+    </figcaption>
+</figure>
+</th>
+</tr>
+</thead>
+</table>
+<p>No need to specify any port, this Private DNS setting only works using DoT on port 853.<br>
+This sadly doesn&rsquo;t work on iPhones for now.</p>
+<h2 id="enjoy">Enjoy</h2>
+<p>Now you can enjoy an ad-free Android experience!</p>
+<p>This even works for ads in some apps, but it won&rsquo;t block the Youtube ads, I&rsquo;m afraid.
+It also won&rsquo;t block &ldquo;Sponsored content&rdquo; that are not coming through an ad-network.</p>
+<p>Here&rsquo;s a little gallery of examples:</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/images/dnsdot/sudoku-0.jpg" alt=""></td>
+<td><img src="/images/dnsdot/sudoku-1.jpg" alt=""></td>
+</tr>
+<tr>
+<td><img src="/images/dnsdot/the-local-0.jpg" alt=""></td>
+<td><img src="/images/dnsdot/the-local-1.jpg" alt=""></td>
+</tr>
+<tr>
+<td><img src="/images/dnsdot/speed-test-0.jpg" alt=""></td>
+<td><img src="/images/dnsdot/speed-test-1.jpg" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>And the best thing is that it is working for both the Wifi and the 4G/LTE networks!</p>
+<p>You can also use the nice dashboard to see how many requests were blocked, or processed:
+<figure><img src="/images/dnsdot/dashboard.png"><figcaption>
+      <h4>Technitium&#39;s dashboard showing us the last day stats in its Web interface</h4>
+    </figcaption>
+</figure>
+</p>
+<h2 id="the-end">The End</h2>
+<p>This was an interesting adventure, playing around with Docker, Docker-compose, Nginx-proxy, Letsencrypt, PiHole, Unbound and it tooks me a few days of fiddling around before being able to come up with such a simple, yet fully working solution.</p>
+<p>I hope you&rsquo;ll try it too, because my Android experience really improved now that I can get rid of ads on both Wifi and 4G/LTE networks.</p>
+<h3 id="post-scriptum">Post-Scriptum</h3>
+<p>For the sake of completeness, let me mention here that there are &ldquo;free&rdquo;, &ldquo;public&rdquo;, &ldquo;ad-blocking&rdquo; DoT servers which you can use right now if you want.
+On my side, I wanted to go through the exercice of setting up the ad-blocking and the DoT server on my own.
+So in case you &ldquo;just want to enjoy an ad-free experience on Android without doing anything&rdquo;, you setup one of the following servers on your phones just like in <a href="#phone-setup">the setup above</a>:</p>
+<p>These servers are blocking ads, tracking and phishing:</p>
+<ul>
+<li>dns.adguard.com</li>
+<li>dns.comss.one</li>
+<li>dns.east.comss.one</li>
+<li>dot-fi.blahdns.com</li>
+<li>dot-jp.blahdns.com</li>
+<li>dot-de.blahdns.com</li>
+<li>dnsforge.de</li>
+</ul>
+<p>These servers are blocking adult or explicit websites (the first two also block ads and the DNSforFamily one also blocks malware and such):</p>
+<ul>
+<li>dns-family.adguard.com</li>
+<li>dns-dot.dnsforfamily.com</li>
+<li>family-filter-dns.cleanbrowsing.org</li>
+</ul>
+<p>These servers aren&rsquo;t blocking ads but are running a privacy-friendly DoT server with no logging (in theory 😉) to prevent your ISP from seeing your DNS requests:</p>
+<ul>
+<li>unicast.censurfridns.dk</li>
+<li>ns1.dnsprivacy.at</li>
+<li>dot.seby.io</li>
+<li>dns-unfiltered.adguard.com</li>
+<li>dns.quad9.net</li>
+<li>dot.tiar.app</li>
+<li>dns.decloudus.com</li>
+</ul>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/misc/">misc</a>, 
+                <a href="/tags/docker/">docker</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Being%20ad-free%20on%20Android%20without%20rooting&url=https%3a%2f%2fromailler.ch%2f2021%2f04%2f15%2fmisc-pihole_over_dot%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Being%20ad-free%20on%20Android%20without%20rooting&url=https%3a%2f%2fromailler.ch%2f2021%2f04%2f15%2fmisc-pihole_over_dot%2f&summary=thanks%20to%20DNS-Over-TLS"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

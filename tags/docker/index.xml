@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on Yolan Romailler</title>
+    <link>https://romailler.ch/tags/docker/</link>
+    <description>Recent content in Docker on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Thu, 15 Apr 2021 20:22:22 +0100</lastBuildDate>
+    <atom:link href="https://romailler.ch/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Being ad-free on Android without rooting</title>
+      <link>https://romailler.ch/2021/04/15/misc-pihole_over_dot/</link>
+      <pubDate>Thu, 15 Apr 2021 20:22:22 +0100</pubDate>
+      <guid>https://romailler.ch/2021/04/15/misc-pihole_over_dot/</guid>
+      <description>As everyone, I hate advertisment.&#xA;I know most of the webservices are relying on it to get some revenue, however I don&amp;rsquo;t like how intrusive it can get and how it defaces most websites when there&amp;rsquo;s too much of it.&#xA;So when I learned that Android 9 was bringing a so-called &amp;ldquo;Private DNS&amp;rdquo; that basically allowed one to configure their own global DNS server served over TLS using the DoT protocol, I immediately thought of running my own DNS server serving PiHoled DNS responses over TLS to get rid of advertisment.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Forget Homomorphic Encryption &middot; Yolan Romailler</title>
+        <meta name="description" content="Here Comes Functional Encryption">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Forget Homomorphic Encryption">
+<meta property="og:description" content="Here Comes Functional Encryption">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2019/11/25/crypto-forget_he_heres_fe/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Forget Homomorphic Encryption</h1>
+    
+        <p class="post-description" itemprop="description">Here Comes Functional Encryption</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2019-11-25" itemprop="datePublished">Mon, Nov 25, 2019</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p><em>This is a copy of <a href="https://research.kudelskisecurity.com/2019/11/25/forget-homomorphic-encryption-here-comes-functional-encryption/">my original post on Kudelski Security&rsquo;s Research Blog</a> for my archives.</em></p>
+<hr>
+<p>Have you ever heard of Functional Encryption (FE)? If so, you may be associating it with some sort of <a href="https://en.wikipedia.org/wiki/Homomorphic_encryption">homomorphic encryption</a>, which is not wrong, but not exactly right neither.</p>
+<p>Let us see today what FE is along with a few examples, roughly how it differs from Fully Homomorphic Encryption, and how the FENTEC project is working on it!</p>
+<p>Now, let us define what we mean when we are talking about FE. It is only recently, in 2010, that&nbsp; <a href="https://eprint.iacr.org/2010/543.pdf">Dan Boneh, Amit Sahai and Brent Waters</a> formalized the notion of <em>functional encryption</em>. We can roughly describe FE by saying it is a <strong>public-key encryption scheme </strong>with <em>different decryption keys </em>allowing a user to learn <em><strong>specific functions</strong></em> <em><strong>of the encrypted data</strong></em>.</p>
+<p>So, in an FE scheme for function $ F(\cdot, \cdot)$, an authority holding a master key generates a key $ s_k$ that enables the computation of the function $ F(k, \cdot)$ on encrypted data, so that an evaluator knowing a ciphertext $ c$ of the data $ x$ and the key $ s_k$ is able to compute $ F(k,x)$, but without being able to learn anything more than the result of the function evaluation about $ x$.</p>
+<h3>FE vs FHE, why the <s>ache</s> H?</h3>
+<p>If you are familiar with the concept of (Fully) Homomorphic Encryption, (F)HE, it is interesting to draw the following parallel:</p>
+<p>With FHE one can compute arbitrary functions on encrypted data without decrypting that data. This is very interesting for delegating computation to untrusted third parties. The downside (depending on your use case) of FHE being that the result is still encrypted and thus needs to be sent back to the entity holding the private key in order to decrypt the result of the computation. We can somehow represent the FHE process as follows, with $ E $ being an encryption scheme and $ F $ being the function we want to compute on the encrypted data:</p>
+<p>$$ E(x_1), E(x_2), &hellip;, E(x_n) \rightarrow E(F(x_1,x_2, \cdots, x_n))$$</p>
+<p>On the other hand, with FE, the result is directly accessible in plaintext after computation, which means we could see it as follows:</p>
+<p>$$ E(x_1), E(x_2), \cdots , E(x_n) \rightarrow F(x_1,x_2, \cdots, x_n)$$</p>
+<p>In some sense, we can see FE as being a scheme that does both evaluation and decryption of the result of a function at the same time, without leaking the private key allowing to decrypt the data and without leaking information about the plaintexts $ x_1, x_2, \cdots, x_n $ other than the result of their evaluation by the function $ F $.</p>
+<p>Obviously, we don't want everyone to be able to evaluate any function they might want to, as otherwise it would be easy to leak information about individual plaintexts. (Look! I'd like to evaluate the identity function, <em>pretty please</em>.) Hence, only the private key holder is actually able to decrypt $ E(x_i) $, and only they can generate the evaluation keys for specific functions of their choice. This means that functional encryption requires a "central authority" to issue the "evaluation key" to the parties in charge of the functional evaluation.</p>
+<p>So, functional encryption <em>per se</em> is a generalization of the notion of public-key encryption, which allows users to delegate to third parties the computation of certain classes of functions of the encrypted data by generating specific secret keys for these functions. Unlike standard encryption schemes, it allows for a more fine-grained control of the decryption capabilities of third parties.</p>
+<p>Functional Encryption is extremely useful since<strong> it basically allows us to intentionally leak some information about encrypted data</strong> to chosen users. For example, we could get the average value of a set of encrypted data without revealing the data itself, or we could go further and obtain even more statistical data about an encrypted dataset. With the current privacy concerns and requirements raised by new laws such as GDPR, the need for efficient FE schemes appears even more clearly as it would allow some processing on encrypted data to be done by certain third parties without leaking the actual plaintexts to anyone. This means we could go further than pseudonymization of personal data, to ensure some kind of stricter confidentiality! The FENTEC blog also has <a href="http://fentec.eu/content/obscure-meaning-cryptic-messages-cryptography-and-law">an entry about cryptography and laws</a> if that's interesting to you.</p>
+<h3>The FENTEC project</h3>
+<p>Now, you may wonder: what is this <a href="http://fentec.eu/">FENTEC project</a> he's talking about? Well, it is a project that received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 780108, and whose goal is to further develop <strong>F</strong>unctional <strong>En</strong>cryption <strong>Tec</strong>hnologies as an&nbsp; alternative to the all-or-nothing approach of traditional encryption systems. (That is: either you have encryption, or you don't, there were no middle ground until Functional Encryption.)</p>
+<p>The project brings together multiple universities and industrial partners in order to design and implement efficient, innovative FE systems which are application oriented and can be used in a wide range of scenarios. <strong><a href="https://www.kudelskisecurity.com/services/research-and-development/research/">Kudelski Security's</a></strong> research team is glad to be one of the industrial partners taking part in the FENTEC project, which will last 36 months. The project officially started in January 2018 and will thus end in December 2020.</p>
+<figure><img src="/images/fentec.png" alt="A fentec infographic"/></figure>
+<h3>Back to FE</h3>
+<p>Due to its generality, functional encryption encompasses and unifies many other advanced encryption schemes that used to be studied independently, such as <a href="https://crypto.stanford.edu/~dabo/papers/bfibe.pdf">identity-based encryption</a>, <a href="https://crypto.stanford.edu/~dabo/pubs/papers/encsearch.pdf">searchable public-key encryption</a>, <a href="https://eprint.iacr.org/2006/287">hidden-vector encryption</a>, <a href="http://neven.org/papers/wibe-journal.pdf">identity-based encryption with wildcards</a>, <a href="https://eprint.iacr.org/2006/309">attribute-based encryption</a>, and <a href="https://eprint.iacr.org/2015/017">inner-product functional encryption</a>.</p>
+<p>While FE schemes are still very young, a lot of things happened since 2010 and there are now quite a few interesting schemes allowing for functionalities that seemed hard to achieve 8 years ago. It has now come to a point where certain cryptography conferences even have a session named "Functional Encryption"!</p>
+<p>Let us take a look at several different types of functional encryption schemes. For example:</p>
+<ul><li>Inner product functional encryption (IPFE) schemes, where the plaintext is a vector and the encrypted data can be used along with an evaluation key to compute the inner product of the said vector with another vector. There are multiple variants of IPFE actually: multi-clients, multi-inputs, decentralized, function hiding, etc.</li><li>Attribute-based encryption (ABE) schemes, where the encrypted data is linked with a set of attributes and secret keys along with certain policies that allow to control which ciphertexts can be decrypted depending on the attributes we possess.</li><li>"General-purpose" FE schemes, that allow to evaluate any kind of function $ f $ (or circuit, depending on the scheme) on the encrypted data $ \mathrm{Enc}(x) $. <s>(I wish we'd call these "Fully Functional Encryption schemes", even if they don't really work in practice)</s></li></ul>
+<p>However, it is also important to notice here that while there has been a lot of work focused on the theoretical aspects of FE in order to go as far as we can, all the <em>general-purpose </em>FE schemes are currently too inefficient for practical usages. This is also one of the focuses of the FENTEC project: making FE usable in practice by designing and implementing practical schemes that can be used in industrial use-cases. This objective is supported by the design and implementation of new schemes, allowing for richer functionalities and practical instantiations, but also by designing dedicated co-processors that can further accelerate the required computations, in order to be able to bridge the theory with the practice. You can read more about the hardware components of the project <a href="http://fentec.eu/content/hardware-support-and-acceleration-functional-encryption">in this FENTEC blog post</a>.</p>
+<h2>Wanna use FE today? Please, do.</h2>
+<p>But what if you want to use FE tomorrow? Well, that shouldn't be a problem! Indeed, in the frame of the FENTEC project, the team at XLAB has been implementing many of the schemes designed by the partner universities in a C library "<a href="https://github.com/fentec-project/CiFEr">CiFEr</a>" and a Go library "<a href="https://github.com/fentec-project/gofe">GoFE</a>", that are ready to go!</p>
+<p>You can read more about the FENTEC libraries <a href="http://fentec.eu/content/functional-encryption-library">on the FENTEC blog</a>, or you can go directly to Github to start playing with <a href="https://github.com/fentec-project/CiFEr">CiFEr</a> &amp; <a href="https://github.com/fentec-project/gofe">GoFE</a>. By the way, guess what? We tested it, and it even runs in your browser using WASM, shall you so wish!</p>
+<p>There even are a couple examples available on the FENTEC's Github repositories, namely:</p>
+<ul><li>How an Attribute-Based Encryption scheme can help managing access to clinical data: <a href="https://github.com/fentec-project/Selective-Access-to-Clinical-Data">https://github.com/fentec-project/Selective-Access-to-Clinical-Data</a></li><li>How an Inner Product Functional Encryption scheme can help building a heat-map of the location of users in a fully anonymous way: <a href="https://github.com/fentec-project/FE-anonymous-heatmap">https://github.com/fentec-project/FE-anonymous-heatmap</a></li><li>How a Quadratic Function Encryption scheme can enable <strong>machine learning on encrypted data</strong>, allowing us to do OCR of handwritten digits without leaking the actual handwriting: <a href="https://github.com/fentec-project/neural-network-on-encrypted-data">https://github.com/fentec-project/neural-network-on-encrypted-data</a></li></ul>
+<h3>The gory details: the guts of a FE scheme</h3>
+<p>Among currently implemented schemes you can find a lot of "Inner Product Functional Encryption" ones. But what does it mean? Well, exactly what it says: these are schemes that allow a third party to compute the inner product of two vectors using FE.</p>
+<p>Let's say that you would like to encrypt a given vector $ a $ and obtain its inner product with a vector $ y $. First, we need to have a central authority in order to implement functional encryption.</p>
+<p>In this case, the central authority would issue a "master public key" $ mpk $, as well as an evaluation key $ z_y $ for a given vector $ y $. Then, anybody knowing the public key could encrypt a vector $ a $, allowing any third party in possession of the evaluation key $ z_y $ would then be able to compute the values of $ \langle a, y \rangle $ when provided with $ E_{mpk}(a) $, without learning anything about the vector $ a $.</p>
+<p>However, note that in this FE scheme, the vector $ y $ corresponding to the evaluation key $ z_y $ has to be known by the third party in order to evaluate the inner product. That is: only the vector $ a $ is remaining secret.</p>
+<p>Now, what if you want both vectors $ a $ and $ y $ to remain secret while you still want that third party to evaluate their inner product?</p>
+<p>Thankfully, this is a field of research that has also known tremendous improvement over the past years and is named "FE with function hiding". Basically, an inner product encryption scheme is "function-hiding" if the keys and ciphertexts reveal no additional information about both vectors $ a $ and $ y $ beyond their inner product $ \langle a,y\rangle $. <a href="https://eprint.iacr.org/2017/972.pdf">Newer inner</a> <a href="https://eprint.iacr.org/2016/440.pdf">product FE</a> <a href="http://fentec.eu/content/paper-multi-input-functional-encryption-inner-products-function-hiding-realizations-and">schemes</a> are more and more featuring function hiding.</p>
+<h2>To wind-up</h2>
+<p>While it is still young, Functional Encryption has many interesting usages we can foresee. Among them, one that seems particularly interesting to us is the possibility to move the decision making process based on end-to-end encrypted data from the back-end systems to some gateways in complex networks. We call this "<strong>local decision making</strong>", and being able to enable gateways to perform such local decision making is a big step forward to secure IoT networks and other highly decentralized networks that might want to implement end-to-end encryption, without losing too much decision capabilities at the gateways level.</p>
+<p>At Kudelski Security, in the frame of the FENTEC project, we are currently working on a prototype leveraging an inner product FE scheme in order to detect motion in a video stream between a camera and a backend system at the gateway level, using the so-called "motion vectors" that are present in the H.264/<em>MPEG</em>-4 AVC standard.</p>
+<figure><img src="/images/motion_vectors_big_buck_bunny_pf2.png" alt="A bird moving with motion vectors displayed." /><figcaption>Visualization of motion vectors in a frame from a <a href="https://en.wikipedia.org/wiki/H.264">H.264</a> encoding of the open shortfilm Big Buck Bunny<em>: (c) copyright Blender Foundation | www.bigbuckbunny.org</em></figcaption></figure>
+<p>Notice how motion vectors are good candidates for application of an Inner Product Functional Encryption schemes, as Inner Products are defined on vectors spaces! We are still exploring the best movement detection methods, but are looking forward to having a fully working prototype leveraging FE to detect motion by the end of next year!</p>
+<p>In case you'd like to stay tuned for more about FE, FENTEC and motion detection, don't hesitate to <a href="https://twitter.com/KudelskiSec/">follow us on Twitter</a>, or to <a href="https://twitter.com/FENTEC_Project">follow the FENTEC project</a>!</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>, 
+                <a href="/tags/research/">research</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Forget%20Homomorphic%20Encryption&url=https%3a%2f%2fromailler.ch%2f2019%2f11%2f25%2fcrypto-forget_he_heres_fe%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Forget%20Homomorphic%20Encryption&url=https%3a%2f%2fromailler.ch%2f2019%2f11%2f25%2fcrypto-forget_he_heres_fe%2f&summary=Here%20Comes%20Functional%20Encryption"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yolan Romailler</title>
+    <link>https://romailler.ch/</link>
+    <description>Recent content on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Wed, 17 Jan 2024 11:11:11 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Talks</title>
+      <link>https://romailler.ch/page/talks/</link>
+      <pubDate>Wed, 17 Jan 2024 11:11:11 +0000</pubDate>
+      <guid>https://romailler.ch/page/talks/</guid>
+      <description>A supply chain issue lurking in your API (PDF)&#xA;2023-09-27, San Diego, USA&#xA;GopherCon USA (Lightning talk)&#xA;tlock: encrypting messages to the future in Go (PDF)&#xA;2023-06-29, Berlin, Germany&#xA;GopherCon EU (Lightning talk)&#xA;Practical exploitation of cryptographic flaws in Windows (PDF)&#xA;Done with Sylvain Pelissier.&#xA;2023-05-18, Montréal, Canada&#xA;North Sec&#xA;tlock: Practical timelock encryption based on threshold BLS (PDF) (Video)&#xA;Along with a research paper&#xA;2023-03, Tokyo, Japan&#xA;Real World Crypto</description>
+    </item>
+    <item>
+      <title>How ephemeral keys validate possession of a static key</title>
+      <link>https://romailler.ch/2021/08/18/crypto-why-ephemeral-keys/</link>
+      <pubDate>Wed, 18 Aug 2021 12:42:22 +0100</pubDate>
+      <guid>https://romailler.ch/2021/08/18/crypto-why-ephemeral-keys/</guid>
+      <description>If you&amp;rsquo;re an applied cryptographer or a developper working on implementing key agreements, it&amp;rsquo;s very likely that you&amp;rsquo;ll stumble upon the well known NIST 800-56A rev3 &amp;ldquo;Recommendation for Pair-Wise Key-Establishment Schemes Using Discrete Logarithm Cryptography&amp;rdquo; document that explains in details how to do things properly to have &amp;ldquo;secure&amp;rdquo; key establishments.&#xA;Reading between the lines In that document, in section 5.6.2.2.3.2 (I love these sub-sub-sub-sub-sub-sections) it notably says: &amp;ldquo;Recipient Obtains Assurance [of the Static Private Key] Directly from the Claimed Owner (i.</description>
+    </item>
+    <item>
+      <title>HashWires</title>
+      <link>https://romailler.ch/project/hashwire/</link>
+      <pubDate>Thu, 06 May 2021 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/hashwire/</guid>
+      <description>This work is about HashWires, a hash-based range proof protocol that is applicable in settings for which there is a trusted third party (typically a credential issuer) that can generate commitments. We refer to these as &amp;ldquo;credential-based&amp;rdquo; range proofs (CBRPs).&#xA;HashWires improves upon hashchain solutions that are typically restricted to micro-payments for small interval ranges, achieving an exponential speedup in proof generation and verification time. In terms of proof size and computational cost, we show that HashWires compares favorably against Bulletproofs for both 32- and 64-bit numeric values.</description>
+    </item>
+    <item>
+      <title>Working on Diem (Libra)</title>
+      <link>https://romailler.ch/project/libra-diem/</link>
+      <pubDate>Sat, 01 May 2021 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/libra-diem/</guid>
+      <description>I&amp;rsquo;ve worked between august 2020 and april 2021 on the Diem project, more specifically on its security and ecosystem. This proved to be an amazing experience, working for a FAANG on an Open Source project that is meant to empower million of people to access safe and affordable financial services.&#xA;Related links:&#xA;https://github.com/diem/diem/, a decentralized, programmable database. https://github.com/diem/whackadep, a tool trying to help with the third party dependency nightmare any large Rust project quickly becomes.</description>
+    </item>
+    <item>
+      <title>Being ad-free on Android without rooting</title>
+      <link>https://romailler.ch/2021/04/15/misc-pihole_over_dot/</link>
+      <pubDate>Thu, 15 Apr 2021 20:22:22 +0100</pubDate>
+      <guid>https://romailler.ch/2021/04/15/misc-pihole_over_dot/</guid>
+      <description>As everyone, I hate advertisment.&#xA;I know most of the webservices are relying on it to get some revenue, however I don&amp;rsquo;t like how intrusive it can get and how it defaces most websites when there&amp;rsquo;s too much of it.&#xA;So when I learned that Android 9 was bringing a so-called &amp;ldquo;Private DNS&amp;rdquo; that basically allowed one to configure their own global DNS server served over TLS using the DoT protocol, I immediately thought of running my own DNS server serving PiHoled DNS responses over TLS to get rid of advertisment.</description>
+    </item>
+    <item>
+      <title>Links</title>
+      <link>https://romailler.ch/page/links/</link>
+      <pubDate>Wed, 14 Apr 2021 13:23:23 +0000</pubDate>
+      <guid>https://romailler.ch/page/links/</guid>
+      <description>Software I like age dotdrop gopass rofi restic nosleep Friends&amp;rsquo; blogs (in random order)&#xA;0xabe KS Research heapspray tome one kobl deadc0de David Wong shiddy Perilous Tech </description>
+    </item>
+    <item>
+      <title>Modulo Biases and how to avoid them!</title>
+      <link>https://romailler.ch/2020/07/28/crypto-modulo_bias_guide/</link>
+      <pubDate>Tue, 28 Jul 2020 23:05:02 +0100</pubDate>
+      <guid>https://romailler.ch/2020/07/28/crypto-modulo_bias_guide/</guid>
+      <description>This is an archived version of my original post on Kudelski Security&amp;rsquo;s Research Blog, converted to markdown.&#xA;The perpetual finding Over the last 3 years, I&amp;rsquo;ve worked on countless code reviews and if there is one vulnerability that I keep seeing over and over again, that&amp;rsquo;s definitively the modulo bias. For example, I was recently working on an audit, and did a simple search on the modulo operator in the the code base, which gave me 3 results&amp;hellip; Well, guess what?</description>
+    </item>
+    <item>
+      <title>CVE-2020-0601: the ChainOfFools/CurveBall attack</title>
+      <link>https://romailler.ch/project/curveball-chainoffools/</link>
+      <pubDate>Wed, 15 Jan 2020 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/curveball-chainoffools/</guid>
+      <description>I&amp;rsquo;ve worked on the exploitation of the CVE-2020-0601 in 2020, along with one of my colleague, Sylvain Pelisser.&#xA;You can read all about it in my blog post on Kudelski Security&amp;rsquo;s research blog. I&amp;rsquo;ve also setup a test page in case you want to see if you are vulnerable: http://testcve.kudelskisecurity.com/&#xA;We have setup a public Github repository with the Python code and the OpenSSL command lines and configuration file: https://github.com/kudelskisecurity/chainoffools</description>
+    </item>
+    <item>
+      <title>FENTEC: Functional Encryption made practical</title>
+      <link>https://romailler.ch/project/fentec/</link>
+      <pubDate>Wed, 01 Jan 2020 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/fentec/</guid>
+      <description>I&amp;rsquo;ve worked between 2018 and 2020 on the FENTEC project, whose goal was to advance the state of the art in Functional Encryption.&#xA;In case you want to know more about FE, you can check my blog post on the topic:&#xA;Forget Homomorphic Encryption, Here Comes Functional Encryption Specifically, I&amp;rsquo;ve worked on the project as Kudelski Security&amp;rsquo;s technical advisor on the prototype we&amp;rsquo;ve presented in these blog posts:&#xA;Detecting movement using motion vectors &amp;amp; functional encryption Benchmarking privacy-preserving motion detection </description>
+    </item>
+    <item>
+      <title>Forget Homomorphic Encryption</title>
+      <link>https://romailler.ch/2019/11/25/crypto-forget_he_heres_fe/</link>
+      <pubDate>Mon, 25 Nov 2019 13:19:12 +0000</pubDate>
+      <guid>https://romailler.ch/2019/11/25/crypto-forget_he_heres_fe/</guid>
+      <description>This is a copy of my original post on Kudelski Security&amp;rsquo;s Research Blog for my archives.&#xA;Have you ever heard of Functional Encryption (FE)? If so, you may be associating it with some sort of homomorphic encryption, which is not wrong, but not exactly right neither.&#xA;Let us see today what FE is along with a few examples, roughly how it differs from Fully Homomorphic Encryption, and how the FENTEC project is working on it!</description>
+    </item>
+    <item>
+      <title>drand</title>
+      <link>https://romailler.ch/project/drand/</link>
+      <pubDate>Sun, 20 Oct 2019 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/drand/</guid>
+      <description>I have collaborated on the drand network project to have a decentralized network providing public randomness that you can trust.&#xA;I also briefly presented it in a talk at BSides LV in 2019: https://www.youtube.com/watch?v=8vm1IFpAMy0</description>
+    </item>
+    <item>
+      <title>Reaping and breaking keys at scale</title>
+      <link>https://romailler.ch/project/reaping-keys/</link>
+      <pubDate>Tue, 16 Oct 2018 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/reaping-keys/</guid>
+      <description>I worked with my colleague Nils Amiet on a very interesting project, collecting hundreds of millions of public keys and trying to break them:&#xA;https://research.kudelskisecurity.com/2018/10/16/reaping-and-breaking-keys-at-scale-when-crypto-meets-big-data/&#xA;You can see the video of our talk on the topic here: https://www.youtube.com/watch?v=Z7cLRE6t1Q8</description>
+    </item>
+    <item>
+      <title>On the PGP cipher preferences</title>
+      <link>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</link>
+      <pubDate>Mon, 09 Oct 2017 05:00:42 +0000</pubDate>
+      <guid>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</guid>
+      <description>This is a copy of my original post on Kudelski Security&amp;rsquo;s Research Blog for my archives.&#xA;I recently discovered a problem that involves PGP and a symmetric cipher called Camellia. It is possible to advertise the use of Camellia in your PGP public keys through the &#34;cipher preferences&#34;, but if you do so, be aware that the official PGP software won&#39;t currently allow your correspondent to encrypt mails or files&amp;nbsp;for you.</description>
+    </item>
+    <item>
+      <title>Go-dudect</title>
+      <link>https://romailler.ch/project/go-dudect/</link>
+      <pubDate>Wed, 12 Jul 2017 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/go-dudect/</guid>
+      <description>Go-dudect is available on Github: https://github.com/AnomalRoil/go-dudect&#xA;go-dudect This is a toy implementation in Go of Dudect, almost directly translated from C.&#xA;Its only purpose is to play around with the DecryptOAEP function to see if the signal caused by the leftPad timing discrepancies is enough to leak being given DecryptOAEP noise. Long story, short: no it doesn&amp;rsquo;t. So Manger&amp;rsquo;s attack would not apply there, unless someone finds another detectable discprancy or a better distinguisher, of course.</description>
+    </item>
+    <item>
+      <title>CDF</title>
+      <link>https://romailler.ch/project/cfp-fuzz/</link>
+      <pubDate>Sat, 01 Jul 2017 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/cfp-fuzz/</guid>
+      <description>In 2017 I&amp;rsquo;ve worked on an automated cryptographic tester called &amp;ldquo;CDF&amp;rdquo;, as in &amp;ldquo;Crypto Differential Fuzzer&amp;rdquo;, although it&amp;rsquo;s not really fuzzing any applications, but only testing cryptographic software, provided we have a common interface and comparing inputs and outputs between different implementations.&#xA;This project was then presented at BlackHat USA in August 2017 and is available on GitHub.&#xA;Future work is still planned on it, but I&amp;rsquo;ll need to find some time first.</description>
+    </item>
+    <item>
+      <title>CTF Writeup / PlaidCTF / Echo</title>
+      <link>https://romailler.ch/2017/04/26/pctf17-echo/</link>
+      <pubDate>Wed, 26 Apr 2017 19:00:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/04/26/pctf17-echo/</guid>
+      <description>&lt;p&gt;&lt;em&gt;We&amp;rsquo;re given a webapp performing text2speech on a maximium of 4 tweets. Exploiting an remote command injection in the dockerized script generating the audio allows to decode remotely the flag before exfiltrating it using text2speech.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How (not) to break your (EC)DSA</title>
+      <link>https://romailler.ch/2017/04/10/crypto-nobreak-ecdsa/</link>
+      <pubDate>Mon, 10 Apr 2017 19:26:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/04/10/crypto-nobreak-ecdsa/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is a copy of &lt;a href=&#34;https://research.kudelskisecurity.com/2017/04/10/how-not-to-break-your-ecdsa/&#34;&gt;my original post on Kudelski Security&amp;rsquo;s Research Blog&lt;/a&gt; for my archives.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p style=&#34;text-align: justify;&#34;&gt;During an internal work project pertaining to automated cryptographic testing, I&#39;ve discovered that many implementations don&#39;t respect standard specifications, especially signature algorithms. Let us take a deeper look into it. We will mostly discuss the DSA and ECDSA algorithms and their respective domains and parameters.&lt;/p&gt;&#xA;&lt;p style=&#34;text-align: justify;&#34;&gt;It is important to know that both of those digital signature algorithms were brought to the scene by standards, respectively the &lt;a href=&#34;http://dx.doi.org/10.6028/NIST.FIPS.186-4&#34; target=&#34;_blank&#34;&gt;NIST FIPS 186&lt;/a&gt;, also known as the &#34;Digital Signature Standard&#34; and the &lt;a href=&#34;http://webstore.ansi.org/RecordDetail.aspx?sku=ANSI+X9.62%3A2005&#34; target=&#34;_blank&#34;&gt;ANSI X9.62&lt;/a&gt; (which is paywalled, but a free description is available here). Note that the FIPS 186 in its current 186-4 version also discuss ECDSA. This means that most implementers (hopefully) referred to those documents to add the algorithms to their software.&lt;/p&gt;&#xA;&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    <item>
+      <title>Various Linux tips</title>
+      <link>https://romailler.ch/2017/03/20/misc-linux/</link>
+      <pubDate>Mon, 20 Mar 2017 21:56:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/03/20/misc-linux/</guid>
+      <description>Starting page logo with full disk encryption To change the grub starting page logo when using, as I currently do, Linux Mint (with LUKS encryption), you have to change it in /usr/share/plymouth/themes/mint-logo.&#xA;And then update your initramfs using sudo update-initramfs -u where the -u is there to tell it that we want to update an existing initramfs.&#xA;On Vim there&amp;rsquo;s a nice diffsplit view: One can do a diff with diffsplit file2 and then you can copy or import changes from the one or the other with do and dp.</description>
+    </item>
+    <item>
+      <title>Contact</title>
+      <link>https://romailler.ch/page/contact/</link>
+      <pubDate>Wed, 18 Jan 2017 01:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/page/contact/</guid>
+      <description>Contact You may easily reach me via Twitter @AnomalRoil. If you want to, you can also cold mail me, I&amp;rsquo;m fine with this. If you wish to communicate with me in a secure way, you may want to use my PGP key whose fingerprint is: 9B52 42E1 A9D7 1F7C 1D06 E4DD F578 2536 7618 1666.&#xA;I&amp;rsquo;m fine with a few different languages: 🇫🇷 🇺🇸 🇬🇧 🇩🇪&#xA;What&amp;rsquo;s more, I&amp;rsquo;m trying to operate by Crocker&amp;rsquo;s Rules, so you can be informative.</description>
+    </item>
+    <item>
+      <title>Manger&#39;s attack against RSA OAEP</title>
+      <link>https://romailler.ch/2016/12/17/manger/</link>
+      <pubDate>Sat, 17 Dec 2016 21:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2016/12/17/manger/</guid>
+      <description>Not too long ago I published on Github Go code to perform the famous Manger&amp;rsquo;s attack against RSA OAEP. This code allows us to leverage a padding Oracle in order to break RSA OAEP encryption, even though it has been mathematically proven secure&amp;hellip; How come?! may be your first reaction, but although a scheme is secure it doesn&amp;rsquo;t mean that its implementation aren&amp;rsquo;t leaking knowledge which can be leveraged to break the said scheme!</description>
+    </item>
+    <item>
+      <title>Yao&#39;s Garbled Circuits and TinyGarble</title>
+      <link>https://romailler.ch/project/yao-garbled/</link>
+      <pubDate>Thu, 18 Aug 2016 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/project/yao-garbled/</guid>
+      <description>TinyLib Since I wanted to learn Go and also to understand a bit better Yao&amp;rsquo;s garbled circuit and try to use them in practice, I ended up creating a wrapper in Golang around the TinyGarble CLI tool, to allow easier usage of it. (Easier for me at least.)&#xA;TinyGarble Wrapper This wrapper consists in a library allowing to use the basic features of TinyGarble in your program through two methods:</description>
+    </item>
+    <item>
+      <title>A strange ODBC driver problem</title>
+      <link>https://romailler.ch/2015/10/14/odbc-cryptic/</link>
+      <pubDate>Wed, 14 Oct 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2015/10/14/odbc-cryptic/</guid>
+      <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;ODBC Drivers I spent at least 6 hours knocking my head out because of some strange error the Qt OBDC driver was giving me when trying to access an Access Database file .accdb :&#xA;Could not find installable ISAM.&#xA;What a strange problem! After playing a bit more with ODBC I also got a new error:</description>
+    </item>
+    <item>
+      <title>A strange QSql Driver error</title>
+      <link>https://romailler.ch/2015/10/02/qt-accdb/</link>
+      <pubDate>Fri, 02 Oct 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2015/10/02/qt-accdb/</guid>
+      <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;QSql Drivers I spent at least 3 hours playing with QSql drivers, source code, DLLs and googling around in order to get rid of an annoying error :&#xA;After recompiling the qmysql drivers, therefore reinstalling MySQL &amp;amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&amp;rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>https://romailler.ch/page/about/</link>
+      <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/page/about/</guid>
+      <description>About me After doing a bilingual German&amp;amp;French high school degree in Frauenfeld, I&amp;rsquo;ve got a Bachelor Degree in Mathematics at the EPFL. I then decided that I wanted to work in IT security, possibly cryptography, and in order to do so, I kept going with a Master Degree in Communication Sciences oriented towards &amp;ldquo;IT Security and Business Networks&amp;rdquo;.&#xA;You can find me online under the &amp;ldquo;AnomalRoil&amp;rdquo; nickname.&#xA;About romailler.ch I basically wanted to have an easy to remember, easy to use email address ; I&amp;rsquo;m born in Switzerland and romailler.</description>
+    </item>
+  </channel>
+</rss>

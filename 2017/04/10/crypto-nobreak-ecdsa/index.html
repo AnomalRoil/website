@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>How (not) to break your (EC)DSA &middot; Yolan Romailler</title>
+        <meta name="description" content="Fun with signature algorithms.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="How (not) to break your (EC)DSA">
+<meta property="og:description" content="Fun with signature algorithms.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2017/04/10/crypto-nobreak-ecdsa/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">How (not) to break your (EC)DSA</h1>
+    
+        <p class="post-description" itemprop="description">Fun with signature algorithms.</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2017-04-10" itemprop="datePublished">Mon, Apr 10, 2017</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p><em>This is a copy of <a href="https://research.kudelskisecurity.com/2017/04/10/how-not-to-break-your-ecdsa/">my original post on Kudelski Security&rsquo;s Research Blog</a> for my archives.</em></p>
+<hr>
+<p style="text-align: justify;">During an internal work project pertaining to automated cryptographic testing, I've discovered that many implementations don't respect standard specifications, especially signature algorithms. Let us take a deeper look into it. We will mostly discuss the DSA and ECDSA algorithms and their respective domains and parameters.</p>
+<p style="text-align: justify;">It is important to know that both of those digital signature algorithms were brought to the scene by standards, respectively the <a href="http://dx.doi.org/10.6028/NIST.FIPS.186-4" target="_blank">NIST FIPS 186</a>, also known as the "Digital Signature Standard" and the <a href="http://webstore.ansi.org/RecordDetail.aspx?sku=ANSI+X9.62%3A2005" target="_blank">ANSI X9.62</a> (which is paywalled, but a free description is available here). Note that the FIPS 186 in its current 186-4 version also discuss ECDSA. This means that most implementers (hopefully) referred to those documents to add the algorithms to their software.</p>
+<p style="text-align: justify;">
+</p>
+<h2 id="dsa">DSA</h2>
+<p>Standards always include many recommendations, which are not always followed by the implementer afterwards. For instance, the DSA key parameters are restricted to four different pairs of key lengths $(L, N)$ in the standard: $(1024, 160), (2048, 224), (2048, 256),$ and $(3072, 256)$, while many implementations actually accept keys of any size.</p>
+<p style="text-align: justify;">While this may not appear to be a problem, there are other checks an implementation may fail to perform. Let us first study the DSA case. According to FIPS 186-4, the DSA parameters are defined as follows:</p>
+<ul>
+<li>$p$ is a prime modulus, where $2^{L-1} &lt; p &lt; 2^L$, and $L$ is the bit length of $p$.</li>
+<li>$q$ is a prime divisor of $(p - 1)$, where $2^{N-1} &lt; q &lt; 2^N$, and $N$ is the bit length of $q$.</li>
+<li>$g$ is a generator of a subgroup of order q in the multiplicative group of $GF(p)$, such that $1 &lt; g &lt; p$.</li>
+<li>$x$ is the private key that must remain secret; $x$ is a randomly or pseudorandomly generated integer, such that $0 &lt; x &lt; q$.</li>
+<li>$y$ is the public key, where $y = g^x \mod p$.</li>
+<li>$k$ is a secret number that is unique to each message;</li>
+<li>$k$ is a randomly or pseudorandomly generated integer, such that $0 &lt; k &lt; q$.</li>
+</ul>
+<p>We call $(p, q, g)$ <em>the domain parameters</em>.</p>
+<p>Note that $k$ is usually generated during the signature process and must be kept secret. Now, the standard also specifies both for DSA and ECDSA that the signing operation should go as follows:</p>
+<figure>
+<img src="/images/intended-fips-sign-ecdsa.png" alt="signature_as_per_fips" /> 
+<figcaption>The initial setup by an intended signatory as per FIPS 186-4.</figcaption>
+</figure>
+<p style="text-align: justify;">Now, as you can see, "obtain assurance of domain parameter validity" as well as "obtain assurance of public key validity" are both part of the process. And the same holds for verification, which goes as follows:</p>
+<figure>
+<img src="/images/intended-fips-verification-ecdsa.png" alt="verification_as_per_fips" />
+<figcaption>The digital signature verification and validation process as per FIPS 186-4.</figcaption>
+</figure>
+<p style="text-align: justify;">Now, it is interesting that the domain parameters in the signing process may be generated by another entity — that is, potentially by an adversary.  
+For the following, I'll assume that you know how (EC)DSA work. If not, their respective Wikipedia pages (<a href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm#Signing" target="_blank">DSA</a>,  <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Signature_generation_algorithm" target="_blank">ECDSA</a>) are enough to get the idea and understand the rest of this article.
+Let us begin with DSA. The standard states the following regarding signature generation:</p>
+<p>The values of $r$ and $s$ shall be checked to determine if $r=0$ or $s = 0$.<br>
+If either $r = 0$ or $s = 0$, a new value of $k$ shall be generated, and the signature shall be recalculated. It is extremely unlikely that $r = 0$ or $s = 0$ if signatures are generated properly.</p>
+<p>Now, when implementing DSA, most implementations follows the following idea: as long as we end up either with $r$ or $s$ equal to $0$, then we can loop back to generating a new $k$. In Go v1.7.4, for instance it was implemented as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">n</span>)
+</span></span><span style="display:flex;"><span>	[<span style="color:#f92672">...</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">kInv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fermatInverse</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">priv</span>.<span style="color:#a6e22e">Q</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span> = new(<span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>).<span style="color:#a6e22e">Exp</span>(<span style="color:#a6e22e">priv</span>.<span style="color:#a6e22e">G</span>, <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">priv</span>.<span style="color:#a6e22e">P</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Mod</span>(<span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">priv</span>.<span style="color:#a6e22e">Q</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Sign</span>() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">z</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">k</span>.<span style="color:#a6e22e">SetBytes</span>(<span style="color:#a6e22e">hash</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span> = new(<span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>).<span style="color:#a6e22e">Mul</span>(<span style="color:#a6e22e">priv</span>.<span style="color:#a6e22e">X</span>, <span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>	[<span style="color:#f92672">...</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">Sign</span>() <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now, what would happen to such an implementation if it were to try to compute a signature using $g=0$ as a domain parameter? Then it would cause <code>r = new(big.Int).Exp(priv.G, k, priv.P)</code> to be always equal to $0$, and the branch <code>if r.Sign() == 0</code> would always be taken, causing an infinite loop, resulting in a potential DoS by CPU exhaustion. A possible workaround, as it can now be found in Go v1.8.0 <a href="https://groups.google.com/forum/#!topic/golang-checkins/yL8J1Aa5-yw">after our report</a>, would be to limit the loop to a few iterations and checking if we get stuck or not:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">attempts</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">attempts</span> = <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">attempts</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">attempts</span><span style="color:#f92672">--</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>)
+</span></span><span style="display:flex;"><span>	[<span style="color:#f92672">...</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Only degenerate private keys will require more than a handful of
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// attempts.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">attempts</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">ErrInvalidPublicKey</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p style="text-align: justify;">While this is a simple workaround, actually the best way to ensure such case would not happen is to perform proper domain parameters and key validity checks prior to using any key material to perform DSA, as specified.</p>
+<p style="text-align: justify;">If you believe that the infinite loop is not a bug but a feature, then you share the opinion of the OpenSSL team, which did not patch against it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* Redo if r or s is zero as required by FIPS 186-3: this is very
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* unlikely.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">BN_is_zero</span>(<span style="color:#a6e22e">ret</span><span style="color:#f92672">-</span>&gt;<span style="color:#a6e22e">r</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">BN_is_zero</span>(<span style="color:#a6e22e">ret</span><span style="color:#f92672">-</span>&gt;<span style="color:#a6e22e">s</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">goto</span> <span style="color:#a6e22e">redo</span>;
+</span></span></code></pre></div><p>It will fall in an infinite loop if $g=0$, for example.</p>
+<p>Now, imagine the following scenario, which is not too far-stretched in my opinion:</p>
+<ul>
+<li>A server and a client are communicating.</li>
+<li>The server ask the client for the domain parameters he would like to use, as the standard seems to allow.</li>
+<li>The client provides maliciously crafted domain parameters, for example with $g=0.$</li>
+<li>The server generate a key pair using those parameters, sends the public key to the client.</li>
+<li>The server uses the private key to perform signature operations.</li>
+<li>The server is vulnerable because he used the invalid domain parameters provided.</li>
+</ul>
+<figure>
+<img src="/images/scenario-ecdsa.png" alt="scenario" />
+<figcaption>A schema representing the main actions required to have a vulnerable server, when performing DSA.</figcaption>
+</figure>
+<p style="text-align: justify;">This scenario is possible only if the server does not obtain assurance of the domain parameters validity, since otherwise it would have rejected them and would not actually use the malicious input.</p>
+<p>There are actually more risks than &ldquo;just&rdquo; a DoS here: imagine the client is passing as a generator the value $g=1$, then, if no proper checks are performed the key pair generated at step 4 would be bogus. (Note that in the Go case, the documentation of <code>func GenerateKey</code> states that &ldquo;the Parameters of the PrivateKey must already be valid&rdquo;, but no function currently allows to check it. In the OpenSSL case, this is undocumented.)</p>
+<p style="text-align: justify;">How bogus is the key pair generated when $g=1$? Well, let us take a look at the way the DSA public and private keys are generated, when given $p, q$ and $g$:</p>
+<ul>
+<li>Choose a secret key $x$ at random, so that $0&lt; x&lt;q$</li>
+<li>Compute the public key $y = g^x \mod p$</li>
+</ul>
+<p>So, if $g = 1$, then $y=1^x = 1$. And then  the verification process only relies on the fact that $s$ must then be equal to $1$, which is easily crafted.</p>
+<h2 id="ecdsa">ECDSA</h2>
+<p>We also discovered that libraries using the ECDSA algorithm were not always checking whether the points used in its computations were actually on the curve or not. Indeed, ECDSA sports so-called ECDSA parameters, which are an elliptic curve $\mathcal{C}$, a base point $G$, which is a generator of the elliptic curve with a large prime order $n$, that is, such that $n \times G = 0$, where $\times$ denotes the elliptic curve point multiplication by a scalar.</p>
+<p>An ECDSA key pair is constituted of a private key integer $d$ and a public key point $Q = d\times G$ on the curve $\mathcal{C}$.</p>
+<p>What happens if we provide a base point $G$ that is not on the curve?</p>
+<p>Well, then the public key $Q$ may also not be on the curve, and further computations may lead to so-called <em>invalid curve attacks</em>. Such attacks have been extensively studied in the Diffie-Hellman key exchange and other TLS-relevant cases, but the literature is scarce regarding ECDSA. That&rsquo;s primarily because, just like for DSA, an attacker-provided generator is a somewhat doubtful case. Even then, we would expect that a new private key be generated for that generator. The public key would also show the fact that there is some problem. So basically the practicality of such an invalid curve attack against ECDSA is limited. Vaudenay quickly mentioned the fact that &ldquo;similar attacks hold for <span class="highlight selected">ECDSA</span>&rdquo;, regarding generator attacks like those we discussed above for DSA in his 2003 article on <a href="https://www.iacr.org/archive/pkc2003/25670309/25670309.pdf"><em>The Security of DSA and ECDSA</em></a>.</p>
+<p>Nonetheless, as the ECDSA standard states, assurance of the validity of the public and private key material shall be obtained and checking in the EC context  whether the different points used belong to the curve may also tamper fault attacks or hardware failures.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In the end, it is important to keep in mind that the standards are there for a reason and involved a lot of reflexion. Even if the basic checks recommended may seem unnecessary, in practice those are the last safeguards against the lack of user awareness. We cannot expect extensive cryptographic knowledge from every developer and libraries should equally support use cases that their own developers did not think of. If you are reading this and are maintaining a software project implementing its own (EC)DSA, please check that you do not miss domain parameters and key validation in your codebase.</p>
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>, 
+                <a href="/tags/research/">research</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=How%20%28not%29%20to%20break%20your%20%28EC%29DSA&url=https%3a%2f%2fromailler.ch%2f2017%2f04%2f10%2fcrypto-nobreak-ecdsa%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=How%20%28not%29%20to%20break%20your%20%28EC%29DSA&url=https%3a%2f%2fromailler.ch%2f2017%2f04%2f10%2fcrypto-nobreak-ecdsa%2f&summary=Fun%20with%20signature%20algorithms."
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

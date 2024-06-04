@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Modulo Biases and how to avoid them! &middot; Yolan Romailler</title>
+        <meta name="description" content="In which we discover a strange creature named Modulo Bias, learn how it is born, why it is so dangerous, and how to fight it">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Modulo Biases and how to avoid them!">
+<meta property="og:description" content="In which we discover a strange creature named Modulo Bias, learn how it is born, why it is so dangerous, and how to fight it">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2020/07/28/crypto-modulo_bias_guide/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Modulo Biases and how to avoid them!</h1>
+    
+        <p class="post-description" itemprop="description">In which we discover a strange creature named Modulo Bias, learn how it is born, why it is so dangerous, and how to fight it</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2020-07-28" itemprop="datePublished">Tue, Jul 28, 2020</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p><em>This is an archived version of <a href="https://research.kudelskisecurity.com/2020/07/28/the-definitive-guide-to-modulo-bias-and-how-to-avoid-it/">my original post on Kudelski Security&rsquo;s Research Blog</a>, converted to markdown.</em></p>
+<h1 id="the-perpetual-finding">The perpetual finding</h1>
+<p>Over the last 3 years, I&rsquo;ve worked on countless code reviews and if there is one vulnerability that I keep seeing over and over again, that&rsquo;s definitively the modulo bias. For example, I was recently working on an audit, and did a simple search on the modulo operator in the the code base, which gave me 3 results&hellip; Well, guess what? Two of them were introducing a modulo bias, but these were in test files, which is arguably not a problem per se. But the last one was introducing an actual modulo bias which could undermine the trust one would place in the said code base because it produced biased results. I am not going to say that 100% of the modulo operations I&rsquo;m seeing are introducing modulo biases, but they do way too often.</p>
+<p>Sadly, every time I wanted to send a link to someone to explain it clearly, as well as how to avoid it, I&rsquo;m finding myself looking around on the internet to no avail. The scarcity of the documentation on the topic remains surprising to me, especially when thinking about how many times I&rsquo;ve heard about modulo bias and seen it in the wild.</p>
+<p>As we will see, the big problem with modulo biases is that <em>they can allow you to recover private keys</em> for certain schemes, including the ones used in Bitcoin, Ethereum and many other blockchains, or by manufacturers to sign their firmwares!</p>
+<p>So, let&rsquo;s do this:</p>
+<h2 id="a-modulo">A modulo?</h2>
+<p>First things first, we need to discuss what is a <strong>modulo</strong>. The modulo operation is used a lot in Cryptography, since we are usually dealing with number theory and algebraic structures that rely on the modulo operation at their core. But it is also used more broadly in Computer Science. It is typically represented in code by the symbol <code>%</code> and it is a binary operator that will take two integers as input and give one integer as output. The modulo as we know it in code is computing the remainder of the division of an integer <code>a</code> when divided by an integer <code>b</code>. That is: $a = k*b+r$ for the largest possible $k \leq a$, and so <code>a%b == r</code>, which we read &ldquo;<code>a</code> modulo <code>b</code> is equal to <code>r</code>&rdquo;, where <code>r</code> is the rest of the division of <code>a</code> by <code>b</code>.</p>
+<p>Truth to be told, the modulo as defined in mathematics is an equivalence relation defined over the ring of the integers and it says two integers $a$ and $r$ are equivalent modulo $b$ (that is, in the same equivalence class) if and only if the difference $a - r$ is divisible by $b$. But we do not need to care about equivalence classes for our typical modulo usage, and we will just consider the modulo we usually have in programming languages. (It&rsquo;s compatible with the mathematical definition anyway, even if not strictly equivalent.)</p>
+<p>What is telling about modulo, and showing how fundamental they are in Computer Science, is that they are defined on page 39 of Donald E. Knuth&rsquo;s &ldquo;Fundamental Algorithms&rdquo; (3rd Edition), the first volume of &ldquo;The Art Of Computer Programming&rdquo;. There, it is defined using the notion of &ldquo;floor&rdquo; and &ldquo;division&rdquo;, which together form the so-called &ldquo;integer division&rdquo; we have in programming. Specifically it is defined as follow:</p>
+<blockquote>
+<p>If $x$ and $y$ are any real numbers, we defined the following binary operation:<br>
+$x \mod y = x-y \lfloor x/y \rfloor \text{, \quad if }\quad y\neq 0 ; \\ x \mod 0 = x.$</p>
+<p>&mdash; <cite>Donald E. Knuth in &ldquo;Fundamental Algorithms&rdquo;</cite></p>
+</blockquote>
+<h2 id="a-bias">A bias?</h2>
+<p>So what does it mean, a modulo <strong>bias</strong>?
+Well, the problem appears when you have to pick at random an integer, usually you want to pick the integer in a given range, but you want the integer to be uniformly distributed within the given range. For example, if your range is [0, 106], you&rsquo;d like all values between 0 and 106 inclusive to be as likely as each other, with the probability of getting any of the 107 values $x \in [0, 106]$ being thus $P(x)=\frac{1}{107}$, however, when generating a random value, one will usually get a random byte string. Typically by relying on <code>GetRandom</code>, or on <code>/dev/urandom</code>, which both will provide you with a set number of random bytes. So in this example, it would suffice to sample at random 1 byte, since with 8 bits you can represent 255 values. But then you need a way to constrain your random byte to only the values 0 to 106, and that is typically where the modulo is misused and causing a Modulo Bias: your random byte, once casted to an integer will have a value between 0 and 255, thus one might be tempted to take its value modulo 107, because then you are guaranteed to obtain a value in the range 0 to 106, since 107 would be mapped to 0, 108 to 1, etc.</p>
+<p>Let&rsquo;s use Python with the Pandas library to retrieve 1'000'000 values from the operating system RNG, and show the value distribution :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> pandas<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;value&#39;</span>:list(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">1000000</span>))})
+</span></span><span style="display:flex;"><span>s[<span style="color:#e6db74">&#39;value&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sort_index()<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">5</span>),kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bar&#39;</span>)
+</span></span></code></pre></div><blockquote>
+<p><img src="/images/modulo/random_distribution-1.png" alt="">
+Number of occurrences by value</p>
+</blockquote>
+<p>These values look evenly distributed across the 255 possible values, which is expected from the random number generator. What about the distribution of random values modulo 107?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> pandas<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;value&#39;</span>:[x<span style="color:#f92672">%</span><span style="color:#ae81ff">107</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">1000000</span>)]})
+</span></span><span style="display:flex;"><span>s[<span style="color:#e6db74">&#39;value&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>sort_index()<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">5</span>),kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bar&#39;</span>)
+</span></span></code></pre></div><blockquote>
+<p><img src="/images/modulo/modulo_distribution-2.png" alt="">
+Number of occurrences by value</p>
+</blockquote>
+<p>And you can see that <em>the modulo introduced a bias</em> on the lowest 42 values! Why these values? Well, simply because the random value is initially sampled between 0 and 255, since we are taking 1 byte of random data. So all values from 0 to 213 are getting mapped to the range $[0, 106]$ with each result modulo 107 occurring twice ($1 \bmod 107 = 1, 108 \bmod 107 = 1$), but then the values from 214 to 255 are mapped only to the range $[0, 41]$&hellip; This means that after the modulo operation, the latter range and its 42 values are occurring 3 times whereas the values $[42, 106]$ are only occurring twice if you were to reduce all numbers from 0 to 255 modulo 107. This is really caused by the fact that 107 does not evenly divide 256.</p>
+<p>The problem is basically the same as when you&rsquo;re cutting a rope into smaller pieces of a given size: the last piece will most likely not be of the same size as the others, except if the initial length of your rope was perfectly divided by the length of the pieces.</p>
+<h2 id="the-dangers-of-such-biases">The dangers of such biases</h2>
+<p>Now, the value we sampled at first was random and we reduced it modulo something, but in the end the result still remains random&hellip; Sure, the 42 first values were more probable, but do we really need a perfectly uniform distribution of our random values? You would still have a hard time predicting the result of the reduction of a random 32 byte integer modulo a 128bit integer, since there are just too many possibilities, wouldn&rsquo;t you think?</p>
+<p>Well, yes and no! Yes, one wouldn&rsquo;t be able to predict it, and yes, if you were to generate a nonce using this method, your nonce still has a overwhelming chance of being unique. <br>But NO! You shouldn&rsquo;t rely on these claims, because even <a href="https://hal.inria.fr/hal-01094002/document">1 bit of bias on a 256 bit nonce value</a> can be enough to attack certain cryptographic schemes!</p>
+<p>In general, biases are extremely dangerous for the following (somewhat related) schemes:</p>
+<ul>
+<li>the <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm">(EC)DSA signature scheme</a> requires uniformly distributed nonces for its $k$ value, and attacks exploiting biased nonce have been known <a href="https://www.hpl.hp.com/techreports/1999/HPL-1999-90.pdf">since 1999</a>, and since have been used in practice multiple times for ECDSA (<a href="https://en.wikipedia.org/wiki/PlayStation_3_homebrew#Private_key_compromised">the infamous PS3 hack</a>, <a href="https://eprint.iacr.org/2019/023.pdf">Biased Nonce Sense</a>, etc.)</li>
+<li>the ElGamal signature schemes in general (which was behind a <a href="https://www.iacr.org/archive/eurocrypt2004/30270550/ProcEC04.pdf">vulnerability in GnuPG</a>)</li>
+<li>the Schnorr signature schemes in general (<a href="https://ecc2017.cs.ru.nl/slides/ecc2017-tibouchi.pdf">just like the others</a>)</li></ul></li>
+</ul>
+<p>For instance, the recent <a href="https://eprint.iacr.org/2020/615">LadderLeak</a> paper presents a private-key recovery attack against ECDSA &ldquo;with less than 1 bit of nonce leakage&rdquo;, which basically means a leakage that has some chances of occurring, and guess what? A non-uniform distribution can be seen as a leakage: in our example, the lower 5 bits have a higher chance of being set than the rest. Yes, you&rsquo;ve read this correctly: <em>if</em> <em>any bit of the nonce is somewhat predicable you can break (EC)DSA</em>, provided you can collect enough biased signatures.</p>
+<p>The attacks targeting these schemes are usually relying on the <a href="https://crypto.stanford.edu/~dabo/pubs/abstracts/dhmsb.html">Hidden Number Problem</a> (HNP, which was already introduced at Crypto ‘86 over 33 years ago) and is often solved using lattice representations in which one can then solve the closest (or shortest) vector problem to obtain solutions, or statistical attacks such as the <a href="https://eprint.iacr.org/2013/346.pdf">Bleichenbacher one using FFT</a>. The idea behind these attacks are that you have a nonce leakage, which you can exploit by collecting enough &ldquo;leaky signature&rdquo; (notice that a modulo bias can be seen as a probabilistic leak of the value of certain bits) to construct a <a href="https://crypto.stanford.edu/~dabo/pubs/abstracts/dhmsb.html">Hidden Number Problem</a> whose solution usually allows you to <strong>recover the private key</strong> used in the scheme. This the worst case possible for a public key scheme. (Interestingly, other schemes such as <a href="https://en.wikipedia.org/wiki/Commitment_scheme#A_perfectly_binding_scheme_based_on_the_discrete_log_problem_and_beyond">Pedersen commitments</a> are not sensitive to modulo bias because they do not rely on reusing a private key.) Notice that these attacks can be carried out in the same way if you were to obtain a side-channel leakage that allows you to gain some information on the nonce generated even if these are properly generated. We are only discussing here the case were the nonces are not properly generated and where a modulo bias allows to exploit them, but keep in mind that this is not the only threat depending on your threat model.</p>
+<p>It is true in general that biases are &ldquo;just&rdquo; reducing the actual entropy of a randomly generated value and thus are not as dangerous as for the above schemes, but future cryptanalytic breakthroughs might exploit them. As such we definitively prefer to have uniformly distributed random values, plus they also usually allow us to really rely on the mathematical proofs of security, when we have one.</p>
+<p>It is also interesting to note here that the only Wikipedia entry on the topic is found in <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#Modulo_bias">the Fisher–Yates shuffle (aka Knuth shuffle) article</a>, because this shuffle requires picking uniformly at random some indices during the shuffling. If you introduce a modulo bias there, you&rsquo;ll end up with a biased shuffle&hellip; Which could be pretty bad for your e-voting solution, mixing network, or online lottery code, depending where you use that shuffle.</p>
+<h2 id="avoiding-the-modulo-bias">Avoiding the Modulo Bias</h2>
+<p>There are different methods to avoid Modulo Bias and obtain unbiased, uniformly distributed random integers.</p>
+<h3 id="the-most-common-way-rejection-sampling">The most common way: rejection sampling</h3>
+<p>Rejection sampling consists in sampling a random value and rejecting all values that do not fall into the right range. Typically, when your random value provider is providing random byte strings, you would sample a random value of the right byte size, cast it as an integer and compare it with the min and max values you want to sample from. If the random value falls within the correct range, you can keep it, otherwise you sample another random value, i.e. &ldquo;rejecting&rdquo; the random values that are not within the right range. The advantage of rejection sampling is that the distribution of the sampled values will remain uniform, provided the random values were uniform in the first place.</p>
+<p>This can be achieved using our example Python script as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>values <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(len(values)<span style="color:#f92672">&amp;</span>lt;<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000</span>):
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> int<span style="color:#f92672">.</span>from_bytes(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">1</span>), byteorder<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;little&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&amp;</span>lt; <span style="color:#ae81ff">107</span>:
+</span></span><span style="display:flex;"><span>        values<span style="color:#f92672">.</span>append(x)
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> pandas<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;value&#39;</span>:values})
+</span></span></code></pre></div><blockquote>
+<p><img src="/images/modulo/rejection_sampling_1-1.png" alt="">
+Number of occurrences by value</p>
+</blockquote>
+<p>And you can directly see that the distribution looks uniform this time.</p>
+<p>When doing rejection sampling, there are a couple cons that you need to be aware of: the <em>larger your random value, the higher the risks of having multiple rejections before obtaining a valid candidate</em>, obviously. But there is a trick to try and minimize the impact of this: you can, and you should &ldquo;mask&rdquo;, or &ldquo;truncate&rdquo; your random value to the bit size of the maximum value you&rsquo;re willing to sample from. If you don&rsquo;t, you&rsquo;ll be sacrificing a lot of performance. But still, even if you do, there are &ldquo;worst case&rdquo; scenarios, where you&rsquo;ll still be rejecting your randomly sampled value almost 50% of the time!</p>
+<p>For example, if you are sampling something in the range $[0, 2^{128}]$, inclusive. Then you&rsquo;ll be sampling random values of 129 bits since $2^{128}$ require 129 bits to be represented, but you would still be rejecting all values whose most significant bit is set and that are not exactly $2^{128}$. But for a random value on 129 bits, that&rsquo;s $2^{128}$ values! Which means you&rsquo;d be rejecting 50% of the generated values, wasting computing power. This is even worse if you work with bytes instead of bits, so you really want to truncate your random bytes values to the bit size of your max value.</p>
+<p>For instance, here&rsquo;s how the <a href="https://golang.org/src/crypto/rand/util.go">Golang standard library</a> is sampling a random integer between 0 inclusive and <code>max</code> exclusive, including all the above-mentioned methods as it can be found in the std lib in <code>crypto/rand/util.go</code>.:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Int returns a uniform random value in [0, max). It panics if max &amp;lt;= 0.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Int</span>(<span style="color:#a6e22e">rand</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">max</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>) (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">max</span>.<span style="color:#a6e22e">Sign</span>() <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">lt</span>;= <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		panic(<span style="color:#e6db74">&#34;crypto/rand: argument to Int is &amp;lt;= 0&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> = new(<span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">Int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Sub</span>(<span style="color:#a6e22e">max</span>, <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">SetUint64</span>(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// bitLen is the maximum bit length needed to encode a value &amp;lt; max.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">bitLen</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">BitLen</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">bitLen</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// the only valid result is 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// k is the maximum byte length needed to encode a value &amp;lt; max.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">bitLen</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// b is the number of bits in the most significant byte of max-1.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> uint(<span style="color:#a6e22e">bitLen</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">b</span> = <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">bytes</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">k</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">ReadFull</span>(<span style="color:#a6e22e">rand</span>, <span style="color:#a6e22e">bytes</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Clear bits in the first byte to increase the probability
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// that the candidate is &amp;lt; max.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">bytes</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">amp</span>;= uint8(int(<span style="color:#ae81ff">1</span><span style="color:#f92672">&amp;</span><span style="color:#a6e22e">lt</span>;<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">lt</span>;<span style="color:#a6e22e">b</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">SetBytes</span>(<span style="color:#a6e22e">bytes</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Cmp</span>(<span style="color:#a6e22e">max</span>) <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">lt</span>; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In our example, the masking would reduce the random byte value to a random value on 7 bits, and would reject $128 - 107 = 21$ values out of the 128 it might get.</p>
+<h3 id="using-the-modulo-but-in-a-safe-way">Using the modulo, but in a safe way</h3>
+<p>Surprisingly, there are ways to still rely on a modulo reduction to constrain our random values into a given range, without any risk of bias&hellip; But only for certain bounds!</p>
+<p>As we discussed earlier, if you are generating a value between 0 and 106, using one byte of randomness, then <em>you can combine both rejection sampling and modulo reduction</em> to accept any value between 0 and 213 and then reduce it modulo 107, and this would still guarantee you a uniform distribution while significantly reducing the number of rejections, since you now have only 42 cases out of 256 possibilities where you reject, whereas you previously had 149 cases where you rejected with a &ldquo;simple&rdquo; rejection sampling. Notice that in the end, this is equivalent to the method using masking described above, because you are still rejecting the same proportion of random values (21 out of 128 in the first case, and 42 out of 256 here).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>values <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(len(values)<span style="color:#f92672">&amp;</span>lt;<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000</span>):
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> int<span style="color:#f92672">.</span>from_bytes(os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">1</span>), byteorder<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;little&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&amp;</span>lt; <span style="color:#ae81ff">214</span>:
+</span></span><span style="display:flex;"><span>        values<span style="color:#f92672">.</span>append(x <span style="color:#f92672">%</span> <span style="color:#ae81ff">107</span>)
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> pandas<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;value&#39;</span>:values})
+</span></span></code></pre></div><blockquote>
+<p><img src="/images/modulo/modulo_rejection.png" alt="">
+Number of occurrences by value</p>
+</blockquote>
+<p>To give you an idea, here are the number of sampled values for each of the mentioned methods to obtain 1'000'000 random values :</p>
+<table>
+<thead>
+<tr>
+<th><em>Method</em></th>
+<th><em>Number of samples</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal sampling (bias introduced)</td>
+<td>1'000'000</td>
+</tr>
+<tr>
+<td>Simple rejection sampling</td>
+<td>2'390'809 (+139%)</td>
+</tr>
+<tr>
+<td>Rejection sampling and modulo reduction (or masking)</td>
+<td>1'196'604 (+19%)</td>
+</tr>
+</tbody>
+</table>
+<p>But actually <strong>modulo reduction will be fine</strong> in general as soon as the modulo you&rsquo;re using is a divider of the max random value you can get. For example, if you are reducing a random x-bits value to a power of two that is smaller (i.e. a smaller bit-size). This works since you have a random value whose max value is $2^x-1$ and so you have $2^x$ possible values in your range, and any power of two $2^y, y&lt;x$ is naturally dividing a larger power of two: $\frac{2^x}{2^y}=2^{x-y}$ <em>without any remainder</em>. This notably means that you can simply generate random bytes and then reduce them to a smaller bit-length without risking a modulo bias.</p>
+<p>Rejection sampling combined with modulo works well, <em>as long as you are very careful with your bounds</em>, because otherwise you might have the <a href="https://nakedsecurity.sophos.com/2013/07/09/anatomy-of-a-pseudorandom-number-generator-visualising-cryptocats-buggy-prng/">same problem as Cryptocat</a>, where they were doing rejection sampling from 0 to 250 <em><strong>inclusive</strong></em> before computing the modulo reduction by 10. This means that they had 251 possible random values instead of 250, and the 251th value, $250$, was mapped to 0 instead of being rejected, and thus they had 2 chances out of 26 to get 0 and 1 chance out of 26 to get any other digit from 0 to 9.</p>
+<p>Okay, but I was mentioning way<em>s</em> to use the modulo in a safe manner, and actually it is worth noting here that when you have a number $p$ and a random value in the range $[0, 2^n[$, then the bias of reducing that value modulo $p$ is roughly of the order of $\frac{1}{2^(n-log(p))}$ and this means that if you generate a random value &ldquo;big enough&rdquo;, let say so that $n-log(p) &gt; 128$, then you&rsquo;ll still have a bias but it will likely be too small to be exploitable in practice. This is actually used in practice in cryptography, for instance the Ed25519 scheme is not vulnerable to Bleichenbacher&rsquo;s attack because it uses a 512-bit nonce reduced modulo its 252-bit curve order.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Alright, today we&rsquo;ve seen what are modulo biases, that can be very dangerous for certain popular schemes and also how to avoid them. We have also seen that we really need to use rejection sampling whenever we need to generate uniformly at random a value within a given range, but that we can use some tricks to have as little as 1 rejected value on average when doing so.</p>
+<p>Now, please be careful whenever you&rsquo;re using the modulo in your favourite programming language, and ask yourself if you&rsquo;re working on values that should be uniformly distributed or not.</p>
+<p>Credits: Thanks to my colleague <a href="https://twitter.com/baldanos">Nicolas</a> for coming up with the Python code and figures illustrating this post.</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Modulo%20Biases%20and%20how%20to%20avoid%20them%21&url=https%3a%2f%2fromailler.ch%2f2020%2f07%2f28%2fcrypto-modulo_bias_guide%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Modulo%20Biases%20and%20how%20to%20avoid%20them%21&url=https%3a%2f%2fromailler.ch%2f2020%2f07%2f28%2fcrypto-modulo_bias_guide%2f&summary=In%20which%20we%20discover%20a%20strange%20creature%20named%20Modulo%20Bias%2c%20learn%20how%20it%20is%20born%2c%20why%20it%20is%20so%20dangerous%2c%20and%20how%20to%20fight%20it"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>On the PGP cipher preferences &middot; Yolan Romailler</title>
+        <meta name="description" content="and a gaffe">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="On the PGP cipher preferences">
+<meta property="og:description" content="and a gaffe">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">On the PGP cipher preferences</h1>
+    
+        <p class="post-description" itemprop="description">and a gaffe</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2017-10-09" itemprop="datePublished">Mon, Oct 9, 2017</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p><em>This is a copy of <a href="https://research.kudelskisecurity.com/2017/10/09/on-the-pgp-cipher-preferences-and-a-gaffe/">my original post on Kudelski Security&rsquo;s Research Blog</a> for my archives.</em></p>
+<hr>
+<p>I recently discovered a problem that involves PGP and a symmetric cipher called <a href="https://en.wikipedia.org/wiki/Camellia_(cipher)">Camellia</a>. It is possible to advertise the use of Camellia in your PGP public keys through the "cipher preferences", but if you do so, be aware that the official PGP software won't currently allow your correspondent to encrypt mails or files&nbsp;for you. Let's look at the details behind this observation.</p>
+<h3>Background</h3>
+<p>PGP (Pretty Good Privacy) is the main way to send encrypted emails nowadays. PGP has its <a href="https://tools.ietf.org/html/rfc4880">very own standard</a> for email encryption called <a href="http://openpgp.org/about/">OpenPGP</a>&nbsp;and there are multiple OpenPGP solutions out there. Linux users generally rely on the <a href="https://www.gnu.org/philosophy/free-sw.html">free, open source software</a> <a href="https://gnupg.org/">GnuPG</a>, since it ships with most distributions. Corporate Windows users generally use commercial software instead and get professional support from the vendor. The most common PGP solution vendor is Symantec, which acquired the PGP Corporation in 2010, (see <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy#History">Wikipedia</a> for a short history of PGP).&nbsp;It currently distributes and supports an OpenPGP-compliant software, originally called PGP Desktop, now known as Symantec Encryption Desktop. At the time of writing, I tried this all on Symantec Encryption Desktop version 10.4.1.</p>
+<p>In the rest of this article, "PGP" refers to the OpenPGP standard description –&nbsp;not the software nor the company.</p>
+<h3>Encrypting with PGP</h3>
+<p>Since PGP allows you to easily encrypt data you intend to send to a <strong>given set</strong> of recipients, it naturally ends up using <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">asymmetric cryptography</a>.</p>
+<p>Asymmetric cryptography is well suited for that task since it allows you to have a key pair (K<sub>public</sub> ; K<sub>secret</sub>), with <strong>one public component</strong> K<sub>public</sub> that anybody can use (typically to encrypt data for you, or verify data signed by you); and <strong>one secret component</strong> K<sub>secret</sub> that allows you to decrypt the data encrypted for its public counterpart or to sign data. This is different to symmetric cryptography, which&nbsp;would require you to have a common, shared key in order to both encrypt and decrypt data.</p>
+<p>Now, what you actually want to do is to encrypt, send and decrypt the data <strong>efficiently</strong>, which is sadly not the main feature of asymmetric schemes. So you can obviously try to encrypt 4Mb of data for 10 recipients using <em>only</em> asymmetric cryptography, like the <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA cryptosystem</a>, but then you'll have the same data contained in <strong>10 different ciphertexts</strong>. You would end up with around 40Mb of data to send by email, since each ciphertext is specifically made to be decrypted only by one private key and contains all the plaintext information. This clearly reduces the desirability factor of asymmetric schemes.</p>
+<p>When we do asymmetric encryption nowadays, we actually use an <a href="https://en.wikipedia.org/wiki/Hybrid_cryptosystem">hybrid cryptosystem</a>, which encrypts the data with an efficient symmetric algorithm such as AES-256, and only encrypts the AES Data Encryption Key (DEK) of 256 bits using the multiple recipients public keys. This means that we end up with a very small overhead of typically less than 24Kb, way better than what I described in the previous paragraph.</p>
+<p>So, what symmetric algorithm should we use when we send an email using PGP? The asymmetric algorithm is already defined by the key type: it's typically RSA encryption, but there are multiple possibilities regarding the symmetric scheme used.</p>
+<p>In fact, it's worth pointing out that&nbsp;the PGP public keys also contain the symmetric algorithm preferences of its owner, listing the symmetric schemes one would like to use!</p>
+<h3>Public Keys</h3>
+<p>Since PGP is based on an hybrid encryption scheme, each user generates (securely) her key pair first.&nbsp;They then reveal (thanks, for example, to a key server) their public key.</p>
+<p>You may not know this, but when you export your public key, you are actually exporting multiple PGP packets at once. Usually a simple public key (<em>e.g.</em> created with the default <code>gpg --gen-key</code> settings) is constituted of:</p>
+<ul>
+<li>a <a href="https://tools.ietf.org/html/rfc4880#section-5.5.1.1">Public Key Packet</a>, containing the primary signing and certifying key material (<em>i.e.,</em> in the RSA case, its modulus and public exponent). This master key is the one used to produce a fingerprint</li>
+<li>a <a href="https://tools.ietf.org/html/rfc4880#section-5.5.1.2">Public Subkey Packet</a>, containing an encryption subkey</li>
+<li>a <a href="https://tools.ietf.org/html/rfc4880#section-5.11">User ID Packet</a>, usually containing the user's name and/or email</li>
+<li>two <a href="https://tools.ietf.org/html/rfc4880#section-5.2">Signature Packets</a>, one of which is normally&nbsp;of&nbsp;<a href="https://tools.ietf.org/html/rfc4880#section-5.2.1">type 0x13 (certification) and one of type 0x18 (subkey binding)</a>, generated thanks to the (main) private key, and used to certify the key and the subkey along with their respective properties.</li>
+</ul>
+<p>However you might have more than just those five packets in a key, since it is possible to have subkeys.&nbsp;Each of those would then have its very own signature packet certifying its purpose and binding it with the primary key. Those packets are typically visible if you try to do a <code>gpg --list-packet key.asc</code> or a <code>pgpdump &lt; key.asc</code>. Amongst the data contained in the signature packets, there is a field called "<a href="https://tools.ietf.org/html/rfc4880#section-13.2">Symmetric Algorithm Preferences</a>", which is simply a list of the symmetric algorithms accepted by the key-holder. You can typically have a human readable list thanks to the command <code>gpg --edit-key nameofyourkey showpref</code>, like (and these aren't the default) <em>e.g.</em>:</p>
+<blockquote>
+<p>Cipher: AES256, AES, CAMELLIA256, 3DES<br>
+Digest: SHA512, SHA256, SHA1</p>
+</blockquote>
+<p>Finally, since OpenPGP has a must-have algorithm and a must-have digest, namely <a href="https://en.wikipedia.org/wiki/Triple_DES">TripleDES</a> and SHA-1 <a href="https://shattered.io/">(!)</a>, even if they are not listed in the preferences fields, these are tacitly appended at the end of the preference list.</p>
+<p>This latest detail is important since it ensures you can always fall back to a common cipher, TripleDES, when using PGP. Thus, you'll never have to completely give up on security, even if your interlocutor is only advertising ciphers you cannot use in their preferences' list.</p>
+<h3>PGP preference hiccup</h3>
+<p>If you are like me and you find that Camellia is <a href="https://en.wikipedia.org/wiki/Camellia_(cipher)#Patent_status">still</a> a cool cipher (no, not just because of its name!), then you might have added it as one of your preferred ciphers in your PGP key... After all, it has been added to OpenPGP through <a href="https://tools.ietf.org/html/rfc5581">RFC 5581</a> and to GnuPG <a href="https://lists.gnupg.org/pipermail/gnupg-announce/2009q3/000291.html">starting with v1.4.10</a> since 2009!</p>
+<p>In case you're wondering, Camellia is a symmetric cipher designed in Japan as an alternative to AES. It is approved by ISO, the NESSIE project and the Japanese CRYPTREC project and can even be used in TLS.</p>
+<p>Well, if you have, let me warn you: users of the Symantec Desktop Encryption tool (<em>i.e.</em> the <em>official</em> PGP client) are presently unable to send you any encrypted data using your public key as it is. It will error out when encountering such an <em>unknown cipher</em> in the preferred list instead of kindly using one of the other ciphers listed in there, (or in a worst case scanario,&nbsp;fall back to TripleDES, as it should always be able to).</p>
+<p><img src="/images/error_camellia.png" alt="The error in question as shown in the logs" width="853" height="70"> The error in question as shown in the logs! ("cipher number", but "CypherAttachments", sic)</p>
+<p>What does this mean in the end? Well, two things in my opinion:</p>
+<ul>
+<li>The standard does not define sufficiently well how those preferences should be handled.&nbsp;If you advertise Camellia, or other less common ciphers in your PGP public key, you are at risks of disappointing some people since they won't be able to use PGP correctly with your public key and their PGP&nbsp;implementation, even if both of you should in theory support TripleDES, or you also advertise AES in your key (which is almost omnipresent nowadays).</li>
+<li>PGP clients should try to truly comply with the OpenPGP standard, which <a href="https://tools.ietf.org/html/rfc4880#page-26">specifies that</a>:<br>
+<blockquote>
+<p>“[...] if an implementation chooses not to implement some of the preferences, it is required to behave in a polite manner to respect the wishes of those users who do implement these preferences.”</p>
+</blockquote>
+<p>And I do not consider erroring out upon encountering an unknown cipher in that list something <em>polite</em>. Actually that's even rude since we both support TripleDES.</p>
+</li>
+</ul>
+<p>In the end,&nbsp;I've responsibly opened a ticket on Symantec's support to disclose this bug, and it appears that this is not a bug but a "feature request" (<em>sic</em>!). So be it. Maybe Camellia and other "<em>unknown ciphers</em>" will not prevent people to use another common algorithm soon!</p>
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=On%20the%20PGP%20cipher%20preferences&url=https%3a%2f%2fromailler.ch%2f2017%2f10%2f09%2fmisc-pgp_cipher_pref_gaffe%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=On%20the%20PGP%20cipher%20preferences&url=https%3a%2f%2fromailler.ch%2f2017%2f10%2f09%2fmisc-pgp_cipher_pref_gaffe%2f&summary=and%20a%20gaffe"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

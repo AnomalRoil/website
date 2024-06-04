@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Yao&#39;s Garbled Circuits and TinyGarble &middot; Yolan Romailler</title>
+        <meta name="description" content="A wrapper in Go for the TinyGarble C program.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Yao&#39;s Garbled Circuits and TinyGarble">
+<meta property="og:description" content="A wrapper in Go for the TinyGarble C program.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/project/yao-garbled/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">Yao&#39;s Garbled Circuits and TinyGarble</h1>
+    
+        <p class="post-description">A wrapper in Go for the TinyGarble C program.</p>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <h1 id="tinylib">TinyLib</h1>
+<p>Since I wanted to learn Go and also to understand a bit better Yao&rsquo;s garbled circuit and try to use them in practice, I ended up creating a <a href="https://github.com/anomalroil/go-tinylib-wrapper">wrapper in Golang</a> around the <a href="https://github.com/esonghori/TinyGarble">TinyGarble</a> CLI tool, to allow easier usage of it. (Easier for me at least.)</p>
+<h2 id="tinygarble-wrapper">TinyGarble Wrapper</h2>
+<p>This wrapper consists in a library allowing to use the basic features of TinyGarble in your program through two methods:</p>
+<pre><code>func YaoServer(data string, port int)
+</code></pre>
+<p>allows to use TinyGarble with server argument on the given port.</p>
+<p>The client can be used with</p>
+<pre><code>func YaoClient(data string, addr string, port int)
+</code></pre>
+<p>Both methods requires that the TinyGarble path, circuit path and number of clock cycles needed by the circuit were first setted using</p>
+<pre><code>func SetCircuit(tiPath string, ciPath string, clCycles int)
+</code></pre>
+<h3 id="other-features">Other features</h3>
+<p>I also implemented some other features, which are not just wrapping around TinyGarble. For example if you want to, you can use the AES circuits provided with TinyGarble to perform AES CBC or AES CTR encryption using the following methods, for CBC mode:</p>
+<pre><code>func AESCBC(data string, addr string, port int, iv string) ([]string, string)
+</code></pre>
+<p>where the data may be any hexadecimal string representing the data to be encrypted. As of now their must be at least 128 bits of data. The address and port should be the IP and port of the AESServer. This methods uses ciphertext stealing to avoid the need for padding.
+And for CTR mode :</p>
+<pre><code>func AESCTR(data string, addr string, port int, iv string) ([]string, string)
+</code></pre>
+<p>where the data may be any hexadecimal string of any length. CTR mode doesn&rsquo;t requires any padding. The address and port should be those of the AESServer.
+In order to be able to run those client function, a server should be listening on the same ports at each step. The following function allows to run a server which will stop after a given number of <em>rounds</em>:</p>
+<pre><code>func AESServer(key string, startingPort int, rounds int)
+</code></pre>
+<p>The starting port is incremented each time a new block is to be encrypted, so it should be in a range where the next ports are free. As of now, the wrapper is not yet able to establish a TCP session and then to dynamically choose which port he uses for the next block encryption. This may be a useful future extension.</p>
+<p><strong>Warning:</strong> in any real setup, you want to absolutely avoid using CTR mode with MPC, since it would be completely broken because of the very way one may trigger an IV reuse. (In my current setup, Eve can simply provide the same IV as Bob along with any plaintext she want to and so will be able to break Bob&rsquo;s encrypted data, if she intercepted it.)
+On the other hand, CBC should be fine since it doesn&rsquo;t expose the plaintext directly (the AES process is applied to the plaintext, unlike CTR mode).</p>
+
+</div>
+
+        <footer class="post-footer clearfix"><div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Yao%27s%20Garbled%20Circuits%20and%20TinyGarble&url=https%3a%2f%2fromailler.ch%2fproject%2fyao-garbled%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Yao%27s%20Garbled%20Circuits%20and%20TinyGarble&url=https%3a%2f%2fromailler.ch%2fproject%2fyao-garbled%2f&summary=A%20wrapper%20in%20Go%20for%20the%20TinyGarble%20C%20program."
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

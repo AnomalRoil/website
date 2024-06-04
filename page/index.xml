@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Yolan Romailler</title>
+    <link>https://romailler.ch/page/</link>
+    <description>Recent content in Pages on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Wed, 17 Jan 2024 11:11:11 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Talks</title>
+      <link>https://romailler.ch/page/talks/</link>
+      <pubDate>Wed, 17 Jan 2024 11:11:11 +0000</pubDate>
+      <guid>https://romailler.ch/page/talks/</guid>
+      <description>A supply chain issue lurking in your API (PDF)&#xA;2023-09-27, San Diego, USA&#xA;GopherCon USA (Lightning talk)&#xA;tlock: encrypting messages to the future in Go (PDF)&#xA;2023-06-29, Berlin, Germany&#xA;GopherCon EU (Lightning talk)&#xA;Practical exploitation of cryptographic flaws in Windows (PDF)&#xA;Done with Sylvain Pelissier.&#xA;2023-05-18, Montréal, Canada&#xA;North Sec&#xA;tlock: Practical timelock encryption based on threshold BLS (PDF) (Video)&#xA;Along with a research paper&#xA;2023-03, Tokyo, Japan&#xA;Real World Crypto</description>
+    </item>
+    <item>
+      <title>Links</title>
+      <link>https://romailler.ch/page/links/</link>
+      <pubDate>Wed, 14 Apr 2021 13:23:23 +0000</pubDate>
+      <guid>https://romailler.ch/page/links/</guid>
+      <description>Software I like age dotdrop gopass rofi restic nosleep Friends&amp;rsquo; blogs (in random order)&#xA;0xabe KS Research heapspray tome one kobl deadc0de David Wong shiddy Perilous Tech </description>
+    </item>
+    <item>
+      <title>Contact</title>
+      <link>https://romailler.ch/page/contact/</link>
+      <pubDate>Wed, 18 Jan 2017 01:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/page/contact/</guid>
+      <description>Contact You may easily reach me via Twitter @AnomalRoil. If you want to, you can also cold mail me, I&amp;rsquo;m fine with this. If you wish to communicate with me in a secure way, you may want to use my PGP key whose fingerprint is: 9B52 42E1 A9D7 1F7C 1D06 E4DD F578 2536 7618 1666.&#xA;I&amp;rsquo;m fine with a few different languages: 🇫🇷 🇺🇸 🇬🇧 🇩🇪&#xA;What&amp;rsquo;s more, I&amp;rsquo;m trying to operate by Crocker&amp;rsquo;s Rules, so you can be informative.</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>https://romailler.ch/page/about/</link>
+      <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/page/about/</guid>
+      <description>About me After doing a bilingual German&amp;amp;French high school degree in Frauenfeld, I&amp;rsquo;ve got a Bachelor Degree in Mathematics at the EPFL. I then decided that I wanted to work in IT security, possibly cryptography, and in order to do so, I kept going with a Master Degree in Communication Sciences oriented towards &amp;ldquo;IT Security and Business Networks&amp;rdquo;.&#xA;You can find me online under the &amp;ldquo;AnomalRoil&amp;rdquo; nickname.&#xA;About romailler.ch I basically wanted to have an easy to remember, easy to use email address ; I&amp;rsquo;m born in Switzerland and romailler.</description>
+    </item>
+  </channel>
+</rss>

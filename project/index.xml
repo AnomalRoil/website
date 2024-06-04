@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on Yolan Romailler</title>
+    <link>https://romailler.ch/project/</link>
+    <description>Recent content in Projects on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Thu, 06 May 2021 12:12:12 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/project/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HashWires</title>
+      <link>https://romailler.ch/project/hashwire/</link>
+      <pubDate>Thu, 06 May 2021 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/hashwire/</guid>
+      <description>This work is about HashWires, a hash-based range proof protocol that is applicable in settings for which there is a trusted third party (typically a credential issuer) that can generate commitments. We refer to these as &amp;ldquo;credential-based&amp;rdquo; range proofs (CBRPs).&#xA;HashWires improves upon hashchain solutions that are typically restricted to micro-payments for small interval ranges, achieving an exponential speedup in proof generation and verification time. In terms of proof size and computational cost, we show that HashWires compares favorably against Bulletproofs for both 32- and 64-bit numeric values.</description>
+    </item>
+    <item>
+      <title>Working on Diem (Libra)</title>
+      <link>https://romailler.ch/project/libra-diem/</link>
+      <pubDate>Sat, 01 May 2021 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/libra-diem/</guid>
+      <description>I&amp;rsquo;ve worked between august 2020 and april 2021 on the Diem project, more specifically on its security and ecosystem. This proved to be an amazing experience, working for a FAANG on an Open Source project that is meant to empower million of people to access safe and affordable financial services.&#xA;Related links:&#xA;https://github.com/diem/diem/, a decentralized, programmable database. https://github.com/diem/whackadep, a tool trying to help with the third party dependency nightmare any large Rust project quickly becomes.</description>
+    </item>
+    <item>
+      <title>CVE-2020-0601: the ChainOfFools/CurveBall attack</title>
+      <link>https://romailler.ch/project/curveball-chainoffools/</link>
+      <pubDate>Wed, 15 Jan 2020 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/curveball-chainoffools/</guid>
+      <description>I&amp;rsquo;ve worked on the exploitation of the CVE-2020-0601 in 2020, along with one of my colleague, Sylvain Pelisser.&#xA;You can read all about it in my blog post on Kudelski Security&amp;rsquo;s research blog. I&amp;rsquo;ve also setup a test page in case you want to see if you are vulnerable: http://testcve.kudelskisecurity.com/&#xA;We have setup a public Github repository with the Python code and the OpenSSL command lines and configuration file: https://github.com/kudelskisecurity/chainoffools</description>
+    </item>
+    <item>
+      <title>FENTEC: Functional Encryption made practical</title>
+      <link>https://romailler.ch/project/fentec/</link>
+      <pubDate>Wed, 01 Jan 2020 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/fentec/</guid>
+      <description>I&amp;rsquo;ve worked between 2018 and 2020 on the FENTEC project, whose goal was to advance the state of the art in Functional Encryption.&#xA;In case you want to know more about FE, you can check my blog post on the topic:&#xA;Forget Homomorphic Encryption, Here Comes Functional Encryption Specifically, I&amp;rsquo;ve worked on the project as Kudelski Security&amp;rsquo;s technical advisor on the prototype we&amp;rsquo;ve presented in these blog posts:&#xA;Detecting movement using motion vectors &amp;amp; functional encryption Benchmarking privacy-preserving motion detection </description>
+    </item>
+    <item>
+      <title>drand</title>
+      <link>https://romailler.ch/project/drand/</link>
+      <pubDate>Sun, 20 Oct 2019 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/drand/</guid>
+      <description>I have collaborated on the drand network project to have a decentralized network providing public randomness that you can trust.&#xA;I also briefly presented it in a talk at BSides LV in 2019: https://www.youtube.com/watch?v=8vm1IFpAMy0</description>
+    </item>
+    <item>
+      <title>Reaping and breaking keys at scale</title>
+      <link>https://romailler.ch/project/reaping-keys/</link>
+      <pubDate>Tue, 16 Oct 2018 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/reaping-keys/</guid>
+      <description>I worked with my colleague Nils Amiet on a very interesting project, collecting hundreds of millions of public keys and trying to break them:&#xA;https://research.kudelskisecurity.com/2018/10/16/reaping-and-breaking-keys-at-scale-when-crypto-meets-big-data/&#xA;You can see the video of our talk on the topic here: https://www.youtube.com/watch?v=Z7cLRE6t1Q8</description>
+    </item>
+    <item>
+      <title>Go-dudect</title>
+      <link>https://romailler.ch/project/go-dudect/</link>
+      <pubDate>Wed, 12 Jul 2017 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/go-dudect/</guid>
+      <description>Go-dudect is available on Github: https://github.com/AnomalRoil/go-dudect&#xA;go-dudect This is a toy implementation in Go of Dudect, almost directly translated from C.&#xA;Its only purpose is to play around with the DecryptOAEP function to see if the signal caused by the leftPad timing discrepancies is enough to leak being given DecryptOAEP noise. Long story, short: no it doesn&amp;rsquo;t. So Manger&amp;rsquo;s attack would not apply there, unless someone finds another detectable discprancy or a better distinguisher, of course.</description>
+    </item>
+    <item>
+      <title>CDF</title>
+      <link>https://romailler.ch/project/cfp-fuzz/</link>
+      <pubDate>Sat, 01 Jul 2017 12:12:12 +0000</pubDate>
+      <guid>https://romailler.ch/project/cfp-fuzz/</guid>
+      <description>In 2017 I&amp;rsquo;ve worked on an automated cryptographic tester called &amp;ldquo;CDF&amp;rdquo;, as in &amp;ldquo;Crypto Differential Fuzzer&amp;rdquo;, although it&amp;rsquo;s not really fuzzing any applications, but only testing cryptographic software, provided we have a common interface and comparing inputs and outputs between different implementations.&#xA;This project was then presented at BlackHat USA in August 2017 and is available on GitHub.&#xA;Future work is still planned on it, but I&amp;rsquo;ll need to find some time first.</description>
+    </item>
+    <item>
+      <title>Yao&#39;s Garbled Circuits and TinyGarble</title>
+      <link>https://romailler.ch/project/yao-garbled/</link>
+      <pubDate>Thu, 18 Aug 2016 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/project/yao-garbled/</guid>
+      <description>TinyLib Since I wanted to learn Go and also to understand a bit better Yao&amp;rsquo;s garbled circuit and try to use them in practice, I ended up creating a wrapper in Golang around the TinyGarble CLI tool, to allow easier usage of it. (Easier for me at least.)&#xA;TinyGarble Wrapper This wrapper consists in a library allowing to use the basic features of TinyGarble in your program through two methods:</description>
+    </item>
+  </channel>
+</rss>

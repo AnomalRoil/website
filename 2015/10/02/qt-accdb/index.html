@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>A strange QSql Driver error &middot; Yolan Romailler</title>
+        <meta name="description" content="Or the hell with the DLL.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="A strange QSql Driver error">
+<meta property="og:description" content="Or the hell with the DLL.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2015/10/02/qt-accdb/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">A strange QSql Driver error</h1>
+    
+        <p class="post-description" itemprop="description">Or the hell with the DLL.</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2015-10-02" itemprop="datePublished">Fri, Oct 2, 2015</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.</p>
+<hr>
+<h2 id="qsql-drivers">QSql Drivers</h2>
+<p>I spent at least 3 hours <em>playing</em> with QSql drivers, source code, DLLs and googling around in order to get rid of an annoying error :</p>
+<p><img src="/images/connexion-error-mosdes.jpg" alt="alt text" title="the problem"></p>
+<p>After recompiling the qmysql drivers, therefore reinstalling MySQL &amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</p>
+<p>I finally got it to run smoothly by <em>simply</em> copying the <code>libmysql.dll</code> file from the MySQL C connector to the run folder of my application! Note that it didn&rsquo;t even show up in &ldquo;Dependency walker&rdquo; that it needed some more DLLs.</p>
+<p>I could have kept recompiling for hours to no avail!</p>
+<p>BTW, in order to compile the QMySQL driver, it is best to take a good old MySQL Community Server 5.1, and install only the developer components &ldquo;C Include Files / Lib Files&rdquo;. Then one can simply use the MinGW Qt Command prompt and do inside <code>Src\qtbase\src\plugins\sqldrivers\mysql</code> the following:</p>
+<pre tabindex="0"><code>qmake &#34;INCLUDEPATH+=C:/MySQL/MySQL51/include&#34; &#34;LIBS+=C:/MySQL/MySQL51/lib/opt/libmysql.lib&#34; mysql.pro
+mingw32-make
+</code></pre><p><em>et voilà</em>, you&rsquo;ll get a nice pair of dll inside <code>Src\qtbase\plugins\sqldrivers</code>.</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/qt/">qt</a>, 
+                <a href="/tags/development/">development</a>, 
+                <a href="/tags/problems/">problems</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=A%20strange%20QSql%20Driver%20error&url=https%3a%2f%2fromailler.ch%2f2015%2f10%2f02%2fqt-accdb%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=A%20strange%20QSql%20Driver%20error&url=https%3a%2f%2fromailler.ch%2f2015%2f10%2f02%2fqt-accdb%2f&summary=Or%20the%20hell%20with%20the%20DLL."
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Yolan Romailler</title>
+    <link>https://romailler.ch/post/</link>
+    <description>Recent content in Posts on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Wed, 18 Aug 2021 12:42:22 +0100</lastBuildDate>
+    <atom:link href="https://romailler.ch/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How ephemeral keys validate possession of a static key</title>
+      <link>https://romailler.ch/2021/08/18/crypto-why-ephemeral-keys/</link>
+      <pubDate>Wed, 18 Aug 2021 12:42:22 +0100</pubDate>
+      <guid>https://romailler.ch/2021/08/18/crypto-why-ephemeral-keys/</guid>
+      <description>If you&amp;rsquo;re an applied cryptographer or a developper working on implementing key agreements, it&amp;rsquo;s very likely that you&amp;rsquo;ll stumble upon the well known NIST 800-56A rev3 &amp;ldquo;Recommendation for Pair-Wise Key-Establishment Schemes Using Discrete Logarithm Cryptography&amp;rdquo; document that explains in details how to do things properly to have &amp;ldquo;secure&amp;rdquo; key establishments.&#xA;Reading between the lines In that document, in section 5.6.2.2.3.2 (I love these sub-sub-sub-sub-sub-sections) it notably says: &amp;ldquo;Recipient Obtains Assurance [of the Static Private Key] Directly from the Claimed Owner (i.</description>
+    </item>
+    <item>
+      <title>Being ad-free on Android without rooting</title>
+      <link>https://romailler.ch/2021/04/15/misc-pihole_over_dot/</link>
+      <pubDate>Thu, 15 Apr 2021 20:22:22 +0100</pubDate>
+      <guid>https://romailler.ch/2021/04/15/misc-pihole_over_dot/</guid>
+      <description>As everyone, I hate advertisment.&#xA;I know most of the webservices are relying on it to get some revenue, however I don&amp;rsquo;t like how intrusive it can get and how it defaces most websites when there&amp;rsquo;s too much of it.&#xA;So when I learned that Android 9 was bringing a so-called &amp;ldquo;Private DNS&amp;rdquo; that basically allowed one to configure their own global DNS server served over TLS using the DoT protocol, I immediately thought of running my own DNS server serving PiHoled DNS responses over TLS to get rid of advertisment.</description>
+    </item>
+    <item>
+      <title>Modulo Biases and how to avoid them!</title>
+      <link>https://romailler.ch/2020/07/28/crypto-modulo_bias_guide/</link>
+      <pubDate>Tue, 28 Jul 2020 23:05:02 +0100</pubDate>
+      <guid>https://romailler.ch/2020/07/28/crypto-modulo_bias_guide/</guid>
+      <description>This is an archived version of my original post on Kudelski Security&amp;rsquo;s Research Blog, converted to markdown.&#xA;The perpetual finding Over the last 3 years, I&amp;rsquo;ve worked on countless code reviews and if there is one vulnerability that I keep seeing over and over again, that&amp;rsquo;s definitively the modulo bias. For example, I was recently working on an audit, and did a simple search on the modulo operator in the the code base, which gave me 3 results&amp;hellip; Well, guess what?</description>
+    </item>
+    <item>
+      <title>Forget Homomorphic Encryption</title>
+      <link>https://romailler.ch/2019/11/25/crypto-forget_he_heres_fe/</link>
+      <pubDate>Mon, 25 Nov 2019 13:19:12 +0000</pubDate>
+      <guid>https://romailler.ch/2019/11/25/crypto-forget_he_heres_fe/</guid>
+      <description>This is a copy of my original post on Kudelski Security&amp;rsquo;s Research Blog for my archives.&#xA;Have you ever heard of Functional Encryption (FE)? If so, you may be associating it with some sort of homomorphic encryption, which is not wrong, but not exactly right neither.&#xA;Let us see today what FE is along with a few examples, roughly how it differs from Fully Homomorphic Encryption, and how the FENTEC project is working on it!</description>
+    </item>
+    <item>
+      <title>On the PGP cipher preferences</title>
+      <link>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</link>
+      <pubDate>Mon, 09 Oct 2017 05:00:42 +0000</pubDate>
+      <guid>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</guid>
+      <description>This is a copy of my original post on Kudelski Security&amp;rsquo;s Research Blog for my archives.&#xA;I recently discovered a problem that involves PGP and a symmetric cipher called Camellia. It is possible to advertise the use of Camellia in your PGP public keys through the &#34;cipher preferences&#34;, but if you do so, be aware that the official PGP software won&#39;t currently allow your correspondent to encrypt mails or files&amp;nbsp;for you.</description>
+    </item>
+    <item>
+      <title>CTF Writeup / PlaidCTF / Echo</title>
+      <link>https://romailler.ch/2017/04/26/pctf17-echo/</link>
+      <pubDate>Wed, 26 Apr 2017 19:00:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/04/26/pctf17-echo/</guid>
+      <description>&lt;p&gt;&lt;em&gt;We&amp;rsquo;re given a webapp performing text2speech on a maximium of 4 tweets. Exploiting an remote command injection in the dockerized script generating the audio allows to decode remotely the flag before exfiltrating it using text2speech.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How (not) to break your (EC)DSA</title>
+      <link>https://romailler.ch/2017/04/10/crypto-nobreak-ecdsa/</link>
+      <pubDate>Mon, 10 Apr 2017 19:26:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/04/10/crypto-nobreak-ecdsa/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is a copy of &lt;a href=&#34;https://research.kudelskisecurity.com/2017/04/10/how-not-to-break-your-ecdsa/&#34;&gt;my original post on Kudelski Security&amp;rsquo;s Research Blog&lt;/a&gt; for my archives.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p style=&#34;text-align: justify;&#34;&gt;During an internal work project pertaining to automated cryptographic testing, I&#39;ve discovered that many implementations don&#39;t respect standard specifications, especially signature algorithms. Let us take a deeper look into it. We will mostly discuss the DSA and ECDSA algorithms and their respective domains and parameters.&lt;/p&gt;&#xA;&lt;p style=&#34;text-align: justify;&#34;&gt;It is important to know that both of those digital signature algorithms were brought to the scene by standards, respectively the &lt;a href=&#34;http://dx.doi.org/10.6028/NIST.FIPS.186-4&#34; target=&#34;_blank&#34;&gt;NIST FIPS 186&lt;/a&gt;, also known as the &#34;Digital Signature Standard&#34; and the &lt;a href=&#34;http://webstore.ansi.org/RecordDetail.aspx?sku=ANSI+X9.62%3A2005&#34; target=&#34;_blank&#34;&gt;ANSI X9.62&lt;/a&gt; (which is paywalled, but a free description is available here). Note that the FIPS 186 in its current 186-4 version also discuss ECDSA. This means that most implementers (hopefully) referred to those documents to add the algorithms to their software.&lt;/p&gt;&#xA;&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    <item>
+      <title>Various Linux tips</title>
+      <link>https://romailler.ch/2017/03/20/misc-linux/</link>
+      <pubDate>Mon, 20 Mar 2017 21:56:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/03/20/misc-linux/</guid>
+      <description>Starting page logo with full disk encryption To change the grub starting page logo when using, as I currently do, Linux Mint (with LUKS encryption), you have to change it in /usr/share/plymouth/themes/mint-logo.&#xA;And then update your initramfs using sudo update-initramfs -u where the -u is there to tell it that we want to update an existing initramfs.&#xA;On Vim there&amp;rsquo;s a nice diffsplit view: One can do a diff with diffsplit file2 and then you can copy or import changes from the one or the other with do and dp.</description>
+    </item>
+    <item>
+      <title>Manger&#39;s attack against RSA OAEP</title>
+      <link>https://romailler.ch/2016/12/17/manger/</link>
+      <pubDate>Sat, 17 Dec 2016 21:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2016/12/17/manger/</guid>
+      <description>Not too long ago I published on Github Go code to perform the famous Manger&amp;rsquo;s attack against RSA OAEP. This code allows us to leverage a padding Oracle in order to break RSA OAEP encryption, even though it has been mathematically proven secure&amp;hellip; How come?! may be your first reaction, but although a scheme is secure it doesn&amp;rsquo;t mean that its implementation aren&amp;rsquo;t leaking knowledge which can be leveraged to break the said scheme!</description>
+    </item>
+    <item>
+      <title>A strange ODBC driver problem</title>
+      <link>https://romailler.ch/2015/10/14/odbc-cryptic/</link>
+      <pubDate>Wed, 14 Oct 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2015/10/14/odbc-cryptic/</guid>
+      <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;ODBC Drivers I spent at least 6 hours knocking my head out because of some strange error the Qt OBDC driver was giving me when trying to access an Access Database file .accdb :&#xA;Could not find installable ISAM.&#xA;What a strange problem! After playing a bit more with ODBC I also got a new error:</description>
+    </item>
+    <item>
+      <title>A strange QSql Driver error</title>
+      <link>https://romailler.ch/2015/10/02/qt-accdb/</link>
+      <pubDate>Fri, 02 Oct 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2015/10/02/qt-accdb/</guid>
+      <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;QSql Drivers I spent at least 3 hours playing with QSql drivers, source code, DLLs and googling around in order to get rid of an annoying error :&#xA;After recompiling the qmysql drivers, therefore reinstalling MySQL &amp;amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&amp;rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</description>
+    </item>
+  </channel>
+</rss>

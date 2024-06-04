@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>How ephemeral keys validate possession of a static key &middot; Yolan Romailler</title>
+        <meta name="description" content="and why key confirmation isn&#39;t enough!">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="How ephemeral keys validate possession of a static key">
+<meta property="og:description" content="and why key confirmation isn&#39;t enough!">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2021/08/18/crypto-why-ephemeral-keys/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">How ephemeral keys validate possession of a static key</h1>
+    
+        <p class="post-description" itemprop="description">and why key confirmation isn&#39;t enough!</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2021-08-18" itemprop="datePublished">Wed, Aug 18, 2021</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>If you&rsquo;re an applied cryptographer or a developper working on implementing key agreements, it&rsquo;s very likely that you&rsquo;ll stumble upon the well known <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf">NIST 800-56A rev3</a> &ldquo;Recommendation for Pair-Wise Key-Establishment Schemes Using Discrete Logarithm Cryptography&rdquo; document that explains in details how to do things properly to have &ldquo;secure&rdquo; key establishments.</p>
+<h1 id="reading-between-the-lines">Reading between the lines</h1>
+<p>In that document, in section <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A118%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">5.6.2.2.3.2</a> (I love these sub-sub-sub-sub-sub-sections) it notably says:
+&ldquo;Recipient Obtains Assurance [of the Static Private Key] Directly from the Claimed Owner (i.e., the Other Party)&rdquo; and proceeds with 2 conditions to be met during a key-agreement for the &ldquo;Public Key Recipient&rdquo; to ensure that the other party possesses the corresponding private key:</p>
+<blockquote>
+<ol>
+<li>The recipient of the static public key contributes an ephemeral public key to the key-agreement process, one that is intended to be arithmetically combined with the claimed owner’s (i.e., the other party’s) static private key in computations performed by the claimed owner. (If an appropriate key-agreement scheme is employed, the claimed owner will be challenged to demonstrate current knowledge of his static private key by successfully performing those computations during the transaction.)</li>
+<li>The recipient of the static public key is also a key-confirmation recipient, with the claimed owner (i.e., other party) serving as the key-confirmation provider. (By successfully providing key confirmation, the claimed owner can demonstrate ownership of the received static public key and current knowledge of the corresponding static private key.)</li>
+</ol>
+</blockquote>
+<p>Basically these say that you need to contribute an ephemeral key (condition 1) and confirm the resulting agreed upon key is the same for the other party (condition 2).</p>
+<p>So that section is basically saying that when these 2 conditions are met in a key agreement protocol, we don&rsquo;t need to explicitly check the private key possession by the other party using any other mean, i.e. no extra challenge/response protocol or so, because the computations done during key agreement already prove the claimed possession. It also lists the schemes that satisfy both conditions as all of the so-called $C(1e, 2s)$ and $C(1e, 1s)$ schemes, but none of the $C(2e, 2s)$ schemes are listed in that section&hellip;</p>
+<dl>
+<dt>$C(Xe,Ys)$</dt>
+<dd>In case you&rsquo;re wondering, the $C(Xe,Ys)$ notation is just a way to classify these key agreement schemes depending on the number $X$ of ephemeral keys $e$ and the number $Y$ of static keys $s$ involved in the scheme.</dd>
+</dl>
+<p>A few question that can arise from this are:</p>
+<ol>
+<li>Why don&rsquo;t the key agreement computations with key confirmation prove possession of the static private key already?</li>
+<li>Why don&rsquo;t $C(2e, 2s)$ schemes with bilateral key confirmation satisfy the given conditions?</li>
+<li>It could seem like $C(0e, 2s)$ schemes with bilateral key confirmation should also prove the possession of the static private key, why is the ephemeral key required?</li>
+</ol>
+<h1 id="to-prevent-kci-attacks">To prevent KCI attacks!</h1>
+<p>Well, these are excellent questions to ask and one of the kind of attacks that we are trying to prevent here with such mechanisms is called &ldquo;<a href="https://eprint.iacr.org/2006/252.pdf">Key Compromise Impersonation</a>&rdquo;, where a party <strong>obtained your private key</strong> (not the other party&rsquo;s) and is trying to <em>impersonate other parties to you</em>.</p>
+<p>Now, let me tackle these questions in the reverse order as it makes more sense to me and should help with the global understanding of the underlying conditions:</p>
+<h2 id="q3">Q.3</h2>
+<blockquote>
+<ol start="3">
+<li>It could seem like $C(0e, 2s)$ schemes with bilateral key confirmation should also prove the possession of the static private key, why is the ephemeral key required?</li>
+</ol>
+</blockquote>
+<p>No, because when using 2 static keys and 0 ephemeral key, an attacker knowing only our private key, but not the other&rsquo;s party private key is able to compute the same shared secret as us!</p>
+<p>The problem is somewhat hidden in the text we people digging, e.g. in <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A398%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">6.3.3.3</a> it says:</p>
+<blockquote>
+<p>The successful completion of the key-confirmation process provides each party with assurance that the other party has derived the same secret Z value</p>
+</blockquote>
+<p>So, what we&rsquo;re getting confirmation about is really just that <strong>the derived secret is the same as ours</strong>, but not that the other party actually used their knowledge of the secret static key they claim to hold.</p>
+<p>So here we&rsquo;re able to ensure there&rsquo;s no &ldquo;Person in the Middle&rdquo; tampering with our key agreement: we&rsquo;ve both derived the same agreed upon key.</p>
+<blockquote>
+<p><strong>why is the ephemeral key required?</strong></p>
+</blockquote>
+<p>That&rsquo;s really the gist of this article, right?</p>
+<p>Well, because it&rsquo;s an ephemeral key that we are creating, the other party can&rsquo;t know its corresponding ephemeral secret key (e.g. assuming our adversary hasn&rsquo;t gained persistent access to our device).
+So during key agreement, since we are combining our secret ephemeral key with their (claimed) public static key, if they don&rsquo;t know their (claimed) secret static key <strong>they won&rsquo;t be able to perform the same derivation</strong> as we did using the ephemeral public key we sent them.</p>
+<p>With an ephemeral key here is what&rsquo;s happening usually on our side:</p>
+<ol>
+<li>we combine your ephemeral secret key with their (claimed) static public key, we get a secret $Z_e$</li>
+<li>we combine your static secret key with their (claimed) static public key, we get a secret $Z_s$</li>
+<li>we use both $Z_e$ and $Z_s$ in our derivation process to get the final shared secret $Z$</li>
+<li>we use a key confirmation process to ensure we both derived the same shared secret $Z$.</li>
+</ol>
+<p>And the other party is doing more or less the same, but they are using our public ephemeral key instead.</p>
+<p>(This is a summarised classical $C(1e,2s)$ key agreement, other ones with ephemeral keys work similarily.)</p>
+<p>Now, an adversary knowing <em>our</em> secret key is able to mimic step 2, but cannot mimic step 1, thus cannot perform step 3 correctly and will get <em>caught</em> in step 4, if we use an ephemeral key.
+But if we don&rsquo;t have an ephemeral key then we are relying only on step 2 in step 3, and thus impersonation isn&rsquo;t detected in step 4 because they could derive the same key as us without knowing the (claimed) secret static key.</p>
+<p>This is really the main point of what&rsquo;s being said in <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A118%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">5.6.2.2.3.2</a> first condition (emphasis mine):</p>
+<blockquote>
+<ol>
+<li>The recipient of the static public key contributes an ephemeral public key to the key-agreement process, <strong>one that is intended to be arithmetically combined with the claimed owner’s</strong> (i.e., the other party’s) static private key in computations performed by the claimed owner. (If an appropriate key-agreement scheme is employed, <strong>the claimed owner will be challenged to demonstrate current knowledge of his static private key by successfully performing those computations during the transaction</strong>.)</li>
+</ol>
+</blockquote>
+<p>This means that step 1 and 3 needs to occur in my above example.</p>
+<p>And then we have the second condition:</p>
+<blockquote>
+<ol start="2">
+<li>The recipient of the static public key is also a key-confirmation recipient, with the claimed owner (i.e., other party) serving as the key-confirmation provider. (<strong>By successfully providing key confirmation, the claimed owner can demonstrate ownership of the received static public key and current knowledge of the corresponding static private key.</strong>)</li>
+</ol>
+</blockquote>
+<p>This basically means that step 4 must occur, hence providing the assurance that the key derivation process was carried as expected and thus providing assurance that the step 1 couldn&rsquo;t be &ldquo;faked&rdquo; by someone not knowing the secret static key of the received static public key, but instead our own secret static key.</p>
+<h2 id="q2">Q.2</h2>
+<blockquote>
+<p>Why don&rsquo;t $C(2e, 2s)$ schemes with bilateral key confirmation satisfy the given conditions?</p>
+</blockquote>
+<p>Well, they usually do!</p>
+<p>They can actually satisfy to a <strong>much stronger version</strong>, where we also obtain assurance of the possession of the (claimed) secret ephemeral key ontop of that of the (claimed) secret static key. If we look at <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A120%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">section 5.6.2.2.4</a>, we can see the following:</p>
+<blockquote>
+<ol>
+<li>The recipient of the ephemeral public key also receives a static public key that is presumed to be owned by the other party and is used in the key-agreement transaction. (Therefore, the other party is the claimed owner of both the received static public key and the received ephemeral public key.)</li>
+<li>The recipient of the static and ephemeral public keys contributes its own (distinct) ephemeral public key to the key-agreement process, one that is intended to be arithmetically combined with the private key corresponding to the received ephemeral public key in computations performed by the claimed owner of the received static and ephemeral public keys. (If an appropriate key-agreement scheme is employed, the claimed owner of the received public keys will be challenged to demonstrate current knowledge of his ephemeral private key by successfully performing those computations during the transaction.)</li>
+<li>The recipient of the static and ephemeral public keys is also a key confirmation recipient, with the claimed owner of the received public keys serving as the key-confirmation provider. (By successfully providing key confirmation, the claimed owner of the received public keys can demonstrate that he is the owner of the received static public key and that he knows the ephemeral private key corresponding to the received ephemeral public key.)</li>
+</ol>
+</blockquote>
+<p>And we can see that the $C(2e, 2s)$ schemes that are satisfying these conditions 2 and 3 naturally satisfy the conditions 1 and 2 of the previous <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A118%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">section 5.6.2.2.3.2</a>.</p>
+<p>Notice that only the Diffie-Hellman and One Pass Unified model schemes are quoted there, that&rsquo;s because as it is said in <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A424%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">section 7.1</a> (emphasis mine):</p>
+<blockquote>
+<p><strong>If an MQV scheme (MQV2 or Full MQV) will be employed during a transaction with an adversary who is in possession of a compromised static private key</strong> (or a compromised implicit signature corresponding to that static private key), <strong>the adversary is limited to masquerading as the owner of the compromised key pair</strong> (or as the owner of the static key pair corresponding to the compromised implicit signature). <strong>The use of the Full Unified model or dhHybrid1 scheme, however, offers the adversary additional opportunities for masquerading</strong>: If an adversary compromises an entity’s static private key, then the adversary may be able to impersonate any other entity during a Full Unified model- or dhHybrid1-based key-agreement transaction with that entity.</p>
+</blockquote>
+<p>The MQV schemes in their &ldquo;two passes&rdquo; forms are already resistant to these Key Compromise Impersonation attacks and do not require the extra step that the DH-based or Full Unified model-based schemes do, which are detailed in <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A118%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">5.6.2.2.3.2</a> and <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A120%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">5.6.2.2.4</a>. This is presumably why they are not explicitly quoted in <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#%5B%7B%22num%22%3A120%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C96%2C720%2C0%5D">5.6.2.2.4</a>.</p>
+<h2 id="q1">Q.1</h2>
+<p>And eventually I think the answer to our first question naturally follows from the above:</p>
+<blockquote>
+<ol>
+<li>Why don&rsquo;t the key agreement computations with key confirmation prove possession of the static private key already?</li>
+</ol>
+</blockquote>
+<p>No it does not, it could also prove possession of our own static private key instead.
+This is why we need the ephemeral key steps: <strong>to avoid a Key Compromise Impersonation attack</strong> against our (long term) static keys.</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=How%20ephemeral%20keys%20validate%20possession%20of%20a%20static%20key&url=https%3a%2f%2fromailler.ch%2f2021%2f08%2f18%2fcrypto-why-ephemeral-keys%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=How%20ephemeral%20keys%20validate%20possession%20of%20a%20static%20key&url=https%3a%2f%2fromailler.ch%2f2021%2f08%2f18%2fcrypto-why-ephemeral-keys%2f&summary=and%20why%20key%20confirmation%20isn%27t%20enough%21"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

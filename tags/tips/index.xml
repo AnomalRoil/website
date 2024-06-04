@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tips on Yolan Romailler</title>
+    <link>https://romailler.ch/tags/tips/</link>
+    <description>Recent content in Tips on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Mon, 20 Mar 2017 21:56:00 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/tags/tips/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Various Linux tips</title>
+      <link>https://romailler.ch/2017/03/20/misc-linux/</link>
+      <pubDate>Mon, 20 Mar 2017 21:56:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/03/20/misc-linux/</guid>
+      <description>Starting page logo with full disk encryption To change the grub starting page logo when using, as I currently do, Linux Mint (with LUKS encryption), you have to change it in /usr/share/plymouth/themes/mint-logo.&#xA;And then update your initramfs using sudo update-initramfs -u where the -u is there to tell it that we want to update an existing initramfs.&#xA;On Vim there&amp;rsquo;s a nice diffsplit view: One can do a diff with diffsplit file2 and then you can copy or import changes from the one or the other with do and dp.</description>
+    </item>
+  </channel>
+</rss>

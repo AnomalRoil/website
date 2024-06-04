@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Talk on Yolan Romailler</title>
+    <link>https://romailler.ch/tags/talk/</link>
+    <description>Recent content in Talk on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Sat, 17 Dec 2016 21:13:50 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/tags/talk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Manger&#39;s attack against RSA OAEP</title>
+      <link>https://romailler.ch/2016/12/17/manger/</link>
+      <pubDate>Sat, 17 Dec 2016 21:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2016/12/17/manger/</guid>
+      <description>Not too long ago I published on Github Go code to perform the famous Manger&amp;rsquo;s attack against RSA OAEP. This code allows us to leverage a padding Oracle in order to break RSA OAEP encryption, even though it has been mathematically proven secure&amp;hellip; How come?! may be your first reaction, but although a scheme is secure it doesn&amp;rsquo;t mean that its implementation aren&amp;rsquo;t leaking knowledge which can be leveraged to break the said scheme!</description>
+    </item>
+  </channel>
+</rss>

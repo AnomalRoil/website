@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Problems on Yolan Romailler</title>
+    <link>https://romailler.ch/tags/problems/</link>
+    <description>Recent content in Problems on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Wed, 14 Oct 2015 02:13:50 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/tags/problems/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A strange ODBC driver problem</title>
+      <link>https://romailler.ch/2015/10/14/odbc-cryptic/</link>
+      <pubDate>Wed, 14 Oct 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2015/10/14/odbc-cryptic/</guid>
+      <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;ODBC Drivers I spent at least 6 hours knocking my head out because of some strange error the Qt OBDC driver was giving me when trying to access an Access Database file .accdb :&#xA;Could not find installable ISAM.&#xA;What a strange problem! After playing a bit more with ODBC I also got a new error:</description>
+    </item>
+    <item>
+      <title>A strange QSql Driver error</title>
+      <link>https://romailler.ch/2015/10/02/qt-accdb/</link>
+      <pubDate>Fri, 02 Oct 2015 02:13:50 +0000</pubDate>
+      <guid>https://romailler.ch/2015/10/02/qt-accdb/</guid>
+      <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;QSql Drivers I spent at least 3 hours playing with QSql drivers, source code, DLLs and googling around in order to get rid of an annoying error :&#xA;After recompiling the qmysql drivers, therefore reinstalling MySQL &amp;amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&amp;rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</description>
+    </item>
+  </channel>
+</rss>
