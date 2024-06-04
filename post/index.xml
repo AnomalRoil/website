@@ -38,11 +38,46 @@
       <description>This is a copy of my original post on Kudelski Security&amp;rsquo;s Research Blog for my archives.&#xA;Have you ever heard of Functional Encryption (FE)? If so, you may be associating it with some sort of homomorphic encryption, which is not wrong, but not exactly right neither.&#xA;Let us see today what FE is along with a few examples, roughly how it differs from Fully Homomorphic Encryption, and how the FENTEC project is working on it!</description>
     </item>
     <item>
+      <title>CTF Writeup / GoogleCTF 2018 / DM Collision</title>
+      <link>https://romailler.ch/2018/06/30/gctf18-notdes/</link>
+      <pubDate>Sat, 30 Jun 2018 23:30:00 +0200</pubDate>
+      <guid>https://romailler.ch/2018/06/30/gctf18-notdes/</guid>
+      <description>The challenge said:&#xA;Can you find a collision in this compression function? nc dm-col.ctfcompetition.com 1337 and gave us an attachment containing two python scripts: not_des.py and challenge.py.&#xA;Firstly, let&amp;rsquo;s have a quick peek into not_des.py: it seems to be a regular implementation of the DES cipher, but given its name, it means something has been tampered with&amp;hellip; It&amp;rsquo;s probably the S-Boxes, but we&amp;rsquo;ll be able to come back to this later.</description>
+    </item>
+    <item>
+      <title>CTF Writeup / GoogleCTF 2018 / Perfect Secrecy</title>
+      <link>https://romailler.ch/2018/06/24/gctf18-perfectrsa/</link>
+      <pubDate>Sun, 24 Jun 2018 20:30:00 +0200</pubDate>
+      <guid>https://romailler.ch/2018/06/24/gctf18-perfectrsa/</guid>
+      <description>After having great fun last year in Google CTF with a nice RSA challenge, and a couple of strange crypto schemes, and despite the lack of enthusiasm of my fellow team members, I decided to play again this year. And the first crypto challenge I solved was also about RSA, it said:&#xA;Perfect Secrecy This crypto experiment will help you decrypt an RSA encrypted message. nc perfect-secrecy.ctfcompetition.com 1337 And it provided us an attachment, which contained a file called flag.</description>
+    </item>
+    <item>
+      <title>Understanding and implementing Manger attack</title>
+      <link>https://romailler.ch/2018/04/05/manger-explained/</link>
+      <pubDate>Thu, 05 Apr 2018 15:00:00 +0200</pubDate>
+      <guid>https://romailler.ch/2018/04/05/manger-explained/</guid>
+      <description>The RSA cryptosystem has had its fair share of attacks over the years, but among the most impressive, you can find the infamous Bleichenbacher attack [Ble98], which doomed PKCS v1.5 in 1998. Nineteen years later, the ROBOT attack proved that the Bleichenbacher attack was still a concern today. Now, what alternatives to RSA PKCS v1.5 do we have? Well, its successor, RSA OAEP also known as RSA PKCS v2.1 is obviously a good candidate.</description>
+    </item>
+    <item>
+      <title>CTF Writeup / Y-Not-CTF / SmS Secret Secure Server</title>
+      <link>https://romailler.ch/2017/11/17/ynot17-sms/</link>
+      <pubDate>Fri, 17 Nov 2017 19:00:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/11/17/ynot17-sms/</guid>
+      <description>&lt;p&gt;&lt;em&gt;We were given a ssh username, server ip and public key using ECDSA, along with a &lt;em&gt;very secure RNG&lt;/em&gt; python script used to generate the ECDSA key. Exploiting a weakness in the RNG, we can enumerate all possible keys and find the private key to log on the server.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>On the PGP cipher preferences</title>
       <link>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</link>
       <pubDate>Mon, 09 Oct 2017 05:00:42 +0000</pubDate>
       <guid>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</guid>
       <description>This is a copy of my original post on Kudelski Security&amp;rsquo;s Research Blog for my archives.&#xA;I recently discovered a problem that involves PGP and a symmetric cipher called Camellia. It is possible to advertise the use of Camellia in your PGP public keys through the &#34;cipher preferences&#34;, but if you do so, be aware that the official PGP software won&#39;t currently allow your correspondent to encrypt mails or files&amp;nbsp;for you.</description>
+    </item>
+    <item>
+      <title>Yao&#39;s Garbled Circuits and how to construct those</title>
+      <link>https://romailler.ch/2017/06/09/crypto-garbling_circuits/</link>
+      <pubDate>Fri, 09 Jun 2017 23:22:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/06/09/crypto-garbling_circuits/</guid>
+      <description>I recently answered a nice question about garbled circuits, and I wanted to share my explanations. So let us review how garbled circuits actually work and how we can construct some. I&amp;rsquo;ll try to explain this from top to bottom:&#xA;The protocol Let Alice and Bob be willing to compute securely a function $f(x,y)$ (for example, it could be $f(x,y)=\min(x,y)$) while keeping their respective inputs $x$ and $y$ secret.&#xA;In order to do so, they will first model the function $f$ as a Boolean circuit, which is possible since there exists a Boolean circuit $C$ that calculates the output of $f$ for any function $f$ with fixed size inputs [1].</description>
     </item>
     <item>
       <title>CTF Writeup / PlaidCTF / Echo</title>
@@ -85,6 +120,13 @@
       <pubDate>Fri, 02 Oct 2015 02:13:50 +0000</pubDate>
       <guid>https://romailler.ch/2015/10/02/qt-accdb/</guid>
       <description>This is a post meant to be found on Google by people having the same problem, hopefully this will save them some time.&#xA;QSql Drivers I spent at least 3 hours playing with QSql drivers, source code, DLLs and googling around in order to get rid of an annoying error :&#xA;After recompiling the qmysql drivers, therefore reinstalling MySQL &amp;amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&amp;rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</description>
+    </item>
+    <item>
+      <title>A ladder, a box and a wall</title>
+      <link>https://romailler.ch/2015/06/30/ladder/</link>
+      <pubDate>Tue, 30 Jun 2015 19:31:00 +0000</pubDate>
+      <guid>https://romailler.ch/2015/06/30/ladder/</guid>
+      <description>I was recently reading a newspaper in the train and there was a little math riddle, I thought &amp;ldquo;how funny, that&amp;rsquo;s gonna be easy, let&amp;rsquo;s do it&amp;rdquo; and yet&amp;hellip;&#xA;The problem goes as follow : in a barn, there is a 1 meter cubic box against a wall and a 4 meter ladder is leaning against the wall, touching the box at its corner. Here is a picture :&#xA;So, the big triangle has a hypotenuse $FE$ of $4$, the square $ABDC$ has sides of length $1$ and is basically &amp;ldquo;insquared&amp;rdquo; at the right angle, i.</description>
     </item>
   </channel>
 </rss>

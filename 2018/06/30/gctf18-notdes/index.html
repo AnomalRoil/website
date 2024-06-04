@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CTF Writeup / GoogleCTF 2018 / DM Collision &middot; Yolan Romailler</title>
+        <meta name="description" content="Done as a member of the duks team.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="CTF Writeup / GoogleCTF 2018 / DM Collision">
+<meta property="og:description" content="Done as a member of the duks team.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2018/06/30/gctf18-notdes/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLG9T7LPZ"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KRLG9T7LPZ');
+        }
+      </script>
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">CTF Writeup / GoogleCTF 2018 / DM Collision</h1>
+    
+        <p class="post-description" itemprop="description">Done as a member of the duks team.</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2018-06-30" itemprop="datePublished">Sat, Jun 30, 2018</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>The challenge said:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Can you find a collision in this compression <span style="color:#66d9ef">function</span>?
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nc dm-col.ctfcompetition.com <span style="color:#ae81ff">1337</span>
+</span></span></code></pre></div><p>and gave us an <a href="/ddl/ctf/googlectf/2018/dm_collision.zip">attachment</a> containing two python scripts: <code>not_des.py</code> and <code>challenge.py</code>.</p>
+<p>Firstly, let&rsquo;s have a quick peek into <code>not_des.py</code>: it seems to be a regular implementation of the DES cipher, but given its name, it means something has been tampered with&hellip; It&rsquo;s probably the S-Boxes, but we&rsquo;ll be able to come back to this later.</p>
+<p>Now, the <code>challenge.py</code> file is a bit more interesting, since it contains the following functions:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">ReadFlag</span>(filename): <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Compress</span>(reader): <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Challenge</span>(flag, reader, writer): <span style="color:#f92672">...</span>
+</span></span></code></pre></div><p>and a relatively simple <code>main</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>  logging<span style="color:#f92672">.</span>basicConfig(stream<span style="color:#f92672">=</span>sys<span style="color:#f92672">.</span>stderr, level<span style="color:#f92672">=</span>logging<span style="color:#f92672">.</span>DEBUG)
+</span></span><span style="display:flex;"><span>  flag <span style="color:#f92672">=</span> ReadFlag(sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> Challenge(flag, sys<span style="color:#f92672">.</span>stdin<span style="color:#f92672">.</span>buffer, sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>buffer)
+</span></span></code></pre></div><p>So, it seems that the server is simply passing the inputs to the <code>Challenge</code> function, which goes as follow:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Challenge</span>(flag, reader, writer):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    b1 <span style="color:#f92672">=</span> Compress(reader)
+</span></span><span style="display:flex;"><span>    b2 <span style="color:#f92672">=</span> Compress(reader)
+</span></span><span style="display:flex;"><span>    b3 <span style="color:#f92672">=</span> Compress(reader)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> b1<span style="color:#f92672">.</span>key <span style="color:#f92672">+</span> b1<span style="color:#f92672">.</span>input <span style="color:#f92672">==</span> b2<span style="color:#f92672">.</span>key <span style="color:#f92672">+</span> b2<span style="color:#f92672">.</span>input:
+</span></span><span style="display:flex;"><span>      writer<span style="color:#f92672">.</span>write(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Input blocks should be different.&#39;</span>)
+</span></span><span style="display:flex;"><span>      writer<span style="color:#f92672">.</span>flush()
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> b1<span style="color:#f92672">.</span>output <span style="color:#f92672">!=</span> b2<span style="color:#f92672">.</span>output:
+</span></span><span style="display:flex;"><span>      writer<span style="color:#f92672">.</span>write(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;No collision detected.&#39;</span>)
+</span></span><span style="display:flex;"><span>      writer<span style="color:#f92672">.</span>flush()
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> b3<span style="color:#f92672">.</span>output <span style="color:#f92672">!=</span> [<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> BLOCK_SIZE:
+</span></span><span style="display:flex;"><span>      writer<span style="color:#f92672">.</span>write(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;0 pre-image not found.&#39;</span>)
+</span></span><span style="display:flex;"><span>      writer<span style="color:#f92672">.</span>flush()
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    writer<span style="color:#f92672">.</span>write(flag)
+</span></span><span style="display:flex;"><span>    writer<span style="color:#f92672">.</span>flush()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>So, it seems the inputs are used in the Compress function to generate 3 different values <code>b1</code>, <code>b2</code> and <code>b3</code> satisfying a so-called <code>block</code> type, that contains a <code>key</code>, an <code>input</code> and an <code>output</code> value.</p>
+<p>Then the first two blocks are compared in a first conditional statement to see whether they differ or not.</p>
+<p>If they differ, their output are then compared to see whether they are the same or not, which means—as the error message says—that the blocks <a href="https://en.wikipedia.org/wiki/Collision_attack">collide</a>.</p>
+<p>And if they do, finally the latest block <code>b3</code> is checked against the all <code>0</code> output and—as its error message says—this basically means that we need to <a href="https://en.wikipedia.org/wiki/Preimage_attack">find the pre-image</a> of <code>0</code>.</p>
+<p>So far so good, we need to dig into that <code>Compress</code> function now:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Compress</span>(reader):
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#34;&#34;Davies-Meyer single-block-length compression function.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  key <span style="color:#f92672">=</span> reader<span style="color:#f92672">.</span>read(KEY_SIZE)
+</span></span><span style="display:flex;"><span>  inp <span style="color:#f92672">=</span> reader<span style="color:#f92672">.</span>read(BLOCK_SIZE)
+</span></span><span style="display:flex;"><span>  output <span style="color:#f92672">=</span> Xor(DESEncrypt(inp, key), inp)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> Block(key, inp, output)
+</span></span></code></pre></div><p>That&rsquo;s quite straightforward: the <code>Compress</code> function is simply using the Davies-Meyer single-block-length compression function, and its <a href="https://en.wikipedia.org/wiki/One-way_compression_function#Davies%E2%80%93Meyer">Wikipedia entry</a> even mentions the fact that the Davies-Meyer construction has the property that even when using a totally secure block cipher, one can compute fixed points for the construction, since for any value $m$, one can find a value of $h$ such that $E_m(h) \oplus h = h$, since we can simply set $h = E_m^{-1}(0)$. But remember that we have to find a collision and the pre-image of 0, and so this funny property might not necessarily help us there.</p>
+<p>The next step at this point is obviously to dig into the <code>not_des.py</code> file to see how it differs from the usual <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard">Data Encryption Standard</a>.
+But let me first recall you quickly how DES operates. DES is a classical blockcipher and it is based on a 16 rounds <a href="https://en.wikipedia.org/wiki/Feistel_cipher">Feistel network</a> and a so-called &ldquo;cipher function&rdquo;. Without digging too much into the details, the Feistel network ensure us that the cipher behave as a strong pseudorandom permutation, while the cipher-function is doing the actual encryption work.</p>
+<p>Here is a depiction of the DES encryption process with its Feistel network clearly visible, and for $F$ the cipher function:
+<img src="/images/gctf18-notdes/des_encryption.jpg#center" alt="DES encryption process">
+and when looking at the code inside of the <code>not_des.py</code> file, we can see it clearly, along with some comments to make it even clearer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">DESEncrypt</span>(plaintext, key):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> isinstance(key, bytes):
+</span></span><span style="display:flex;"><span>    key <span style="color:#f92672">=</span> Str2Bits(key)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> (len(key) <span style="color:#f92672">==</span> <span style="color:#ae81ff">64</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> isinstance(plaintext, bytes):
+</span></span><span style="display:flex;"><span>    plaintext <span style="color:#f92672">=</span> Str2Bits(plaintext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Initial permutation.</span>
+</span></span><span style="display:flex;"><span>  plaintext <span style="color:#f92672">=</span> [plaintext[IP[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">64</span>)]
+</span></span><span style="display:flex;"><span>  L, R <span style="color:#f92672">=</span> plaintext[:<span style="color:#ae81ff">32</span>], plaintext[<span style="color:#ae81ff">32</span>:]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Feistel network.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> ki <span style="color:#f92672">in</span> KeyScheduler(key):
+</span></span><span style="display:flex;"><span>    L, R <span style="color:#f92672">=</span> R, Xor(L, CipherFunction(ki, R))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Final permutation.</span>
+</span></span><span style="display:flex;"><span>  ciphertext <span style="color:#f92672">=</span> Concat(R, L)
+</span></span><span style="display:flex;"><span>  ciphertext <span style="color:#f92672">=</span> [ciphertext[IP_INV[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">64</span>)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> Bits2Str(ciphertext)
+</span></span></code></pre></div><p>So far, so good, this is plain DES encryption, without any difference.</p>
+<p>So, it probably means that things are a bit different in the <code>CipherFunction</code>, right? So, DES <code>CipherFunction</code> works: it takes two inputs, a subkey of 48 bits and a block of 32 bits, it expands the block into 48 bits and it mixes the key with it by XORing them together. Then, the XORed value is passed through 8 <a href="https://en.wikipedia.org/wiki/Substitution_box">S-Boxes</a> that will map their 6-bits input onto 4 output bits. So, we get again 32 bits, which are passed through a latest permutation step that rearranged them according to a fixed permutation called the P-box in order to ensure that each S-Box output are spread across 4 different S-boxes at the next round. We can depict it as follows:</p>
+<img src="/images/gctf18-notdes/des_cipher_function.jpg#center" alt="DES encryption process"><p>So, is anything deviating from that method in the code contained in our challenge? Well, not really:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">CipherFunction</span>(key, inp):
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#34;&#34;Single confusion-diffusion step.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">assert</span> (len(key) <span style="color:#f92672">==</span> <span style="color:#ae81ff">48</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">assert</span> (len(inp) <span style="color:#f92672">==</span> <span style="color:#ae81ff">32</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Confusion step.</span>
+</span></span><span style="display:flex;"><span>  res <span style="color:#f92672">=</span> Xor(Expand(inp), key)
+</span></span><span style="display:flex;"><span>  sbox_out <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> si <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">48</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">6</span>):
+</span></span><span style="display:flex;"><span>    sbox_inp <span style="color:#f92672">=</span> res[<span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> si:<span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> si <span style="color:#f92672">+</span> <span style="color:#ae81ff">6</span>]
+</span></span><span style="display:flex;"><span>    sbox <span style="color:#f92672">=</span> SBOXES[si]
+</span></span><span style="display:flex;"><span>    row <span style="color:#f92672">=</span> (int(sbox_inp[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> int(sbox_inp[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>    col <span style="color:#f92672">=</span> int(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join([str(b) <span style="color:#66d9ef">for</span> b <span style="color:#f92672">in</span> sbox_inp[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">5</span>]]), <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bits <span style="color:#f92672">=</span> bin(sbox[row][col])[<span style="color:#ae81ff">2</span>:]
+</span></span><span style="display:flex;"><span>    bits <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">4</span> <span style="color:#f92672">-</span> len(bits)) <span style="color:#f92672">+</span> bits
+</span></span><span style="display:flex;"><span>    sbox_out <span style="color:#f92672">+=</span> [int(b) <span style="color:#66d9ef">for</span> b <span style="color:#f92672">in</span> bits]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Diffusion step.</span>
+</span></span><span style="display:flex;"><span>  res <span style="color:#f92672">=</span> sbox_out
+</span></span><span style="display:flex;"><span>  res <span style="color:#f92672">=</span> [res[P[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">32</span>)]
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> res
+</span></span></code></pre></div><p>as you can see, everything seems to be matching the DES cipher function.</p>
+<p>But, if this is so, then it means that the S-boxes are not the same, since it is called &ldquo;not DES&rdquo; and that the code actually gives different output than DES, when run. Right?<br>
+Not even! Each S-box perfectly matches the corresponding DES S-box, and so does the key schedule, the P-box, the expansion function, and the rest&hellip; And yet, it does not interoperate with DES, so we are probably missing something.</p>
+<p>And I did! The S-boxes are taken from the <code>SBOXES</code> array, but that array is actually defined as being:
+<code>SBOXES = [S6, S4, S1, S5, S3, S2, S8, S7]</code></p>
+<p>So, basically &ldquo;Not DES&rdquo; cipher function looks like this:
+<img src="/images/gctf18-notdes/notdes_cipher_function.jpg#center" alt="Not DES encryption process"></p>
+<p>So, now we have a DES with reordered S-Boxes and we need to find a Davies-Meyer collision and the pre-image of $0$ to get the flag.</p>
+<p>The first one, the collision, isn&rsquo;t too hard: a DES key is actually made of 64 bits, of which only 56 are actually used, as mentioned (sic) in a comment in the <code>KeyScheduler</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Only 56 bits are used. A bit in each byte is reserved for pairity checks.</span>
+</span></span></code></pre></div><p>So, there are 8 remaining bits, which are usually either discarded or used as parity check bits. Here the comment mentions the parity check, but when looking for it, that parity check is nowhere to be found in the code, which means that we can very easily generate two different blocks that would bypass the first sanity check performed by the <code>Challenge</code> function.
+This can be done for example by simply taking a given input and key, and building the second block with the same input and the almost same key, excepted for its last bit that we could flip.</p>
+<p>Both block would have a different key <code>b1.key != b2.key</code>, but if the keys are differing only at a &ldquo;parity check bit&rdquo;, the actual (not)DES encryption wouldn&rsquo;t differ between the two blocks and it would pass the test <code>b1.output == b2.output</code> as long as their <code>input</code> values are the same.</p>
+<p>All right, now we can pass the first gate, but we still have to find a pre-image of $0$ in order to obtain our flag.</p>
+<p>That might be a bit harder, given the Davies-Meyer construction, if we want to have $E_m(h) \oplus h = 0$, we actually need to have $E_m(h)=h$, which means that we need to find a fixed point of the notDES encryption.</p>
+<p>Now, everybody learns in cryptography classes that DES has well-known &ldquo;<a href="https://en.wikipedia.org/wiki/Weak_key#Weak_keys_in_DES">weak keys</a>&rdquo; such as <code>00..0</code> and <code>11..1</code>, for example. These weak keys are generally quoted because they happen to cause the DES encryption mode to act exactly as the DES decryption mode, which means that they are transforming the DES <code>CipherFunction</code> into an <a href="https://en.wikipedia.org/wiki/Involution_(mathematics)">involution</a>.</p>
+<p>But another less known fact about the DES weak keys, is that they also cause DES to have at least $2^{32}$ fixed points per weak key. This was initially discussed during <a href="https://www.math.uzh.ch/doc/cd/crypto/HTML/C85.HTM">Crypto'85</a> by Coppersmith and Rivest, after the latter found a short cycle using weak keys. That means that $h_0 = h_j$ for some $j&gt;0$, where $E_{k_1}(E_{k_0}(h_i))=h_{i+1}$ for $0 \leq i \leq j$, and $k_0$,$k_1$ two complementary weak keys.</p>
+<p>This was then explained by Coppersmith in term of fixed points $E_{k_0}(h)=h$, and short cycles $E_{k_1}(E_{k_0}(h))=h$, occurring in the middle of the cycle generally when $h = h_{\frac{j}{2}}$. This means that we can rely on these Coppersmith cycles to find a fixed point!</p>
+<p>So, we know it was possible in 1985 to find such cycles in DES. Furthermore since our notDES encryption scheme is using the <strong>same key schedule</strong> and cipher function as DES, it means that a DES weak key will also be a notDES weak key. And so, I tried to see if I could find such a cycle using the provided python implementation.</p>
+<p>However, Python being Python, it was awfully slow! A million iteration would take ages and it soon became clear that this wouldn&rsquo;t lead to a reasonable computation time for a CTF.
+In order to improve the performance, I ended up recoding notDES in Go, which wasn&rsquo;t too hard, as the Go implementation is very similar to the <code>not_des.py</code> file and tried to find some Coppersmith cycle by applying Rivest&rsquo;s experiment to notDES with the all $0$s and all $1$s weak key pair:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span>func <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	c, _ :<span style="color:#f92672">=</span> notdes.<span style="color:#a6e22e">NewCipher</span>([]byte{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>})
+</span></span><span style="display:flex;"><span>	c2, _ :<span style="color:#f92672">=</span> notdes.<span style="color:#a6e22e">NewCipher</span>([]byte{<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	dst :<span style="color:#f92672">=</span> <span style="color:#a6e22e">make</span>([]byte, <span style="color:#ae81ff">8</span>)
+</span></span><span style="display:flex;"><span>	dst2 :<span style="color:#f92672">=</span> <span style="color:#a6e22e">make</span>([]byte, <span style="color:#ae81ff">8</span>)
+</span></span><span style="display:flex;"><span>	p :<span style="color:#f92672">=</span> <span style="color:#a6e22e">make</span>([]byte, <span style="color:#ae81ff">8</span>)
+</span></span><span style="display:flex;"><span>	src, _ :<span style="color:#f92672">=</span> hex.<span style="color:#a6e22e">DecodeString</span>(os.Args[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	i :<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>bytes.<span style="color:#a6e22e">Equal</span>(p, dst) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>bytes.<span style="color:#a6e22e">Equal</span>(p, dst2) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>bytes.<span style="color:#a6e22e">Equal</span>(dst2, dst) {
+</span></span><span style="display:flex;"><span>		i<span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">copy</span>(p, dst)
+</span></span><span style="display:flex;"><span>		c.<span style="color:#a6e22e">Encrypt</span>(dst, src[<span style="color:#f92672">:</span>])
+</span></span><span style="display:flex;"><span>		c2.<span style="color:#a6e22e">Encrypt</span>(dst2, dst[<span style="color:#f92672">:</span>])
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">copy</span>(src, dst2)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (i<span style="color:#f92672">%</span><span style="color:#ae81ff">100000</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>			fmt.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d: %x from %x</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, i, dst, src)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;We won! At iteration&#34;</span>, i, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Values:&#34;</span>, p, dst, dst2, src)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And sure enough, the Go implementation, once launched with 4 different arguments soon crunched DES encryption using 100% of my CPU, and with some 800M iterations per minutes, it didn&rsquo;t take too long before I got some positive results on input <code>12341234567445F8</code> after 10 minutes already:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>We won! At iteration <span style="color:#ae81ff">1843856254</span> 
+</span></span><span style="display:flex;"><span>Values: <span style="color:#f92672">[</span><span style="color:#ae81ff">156</span> <span style="color:#ae81ff">50</span> <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">110</span> <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">24</span> 166<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">194</span> <span style="color:#ae81ff">252</span> <span style="color:#ae81ff">85</span> <span style="color:#ae81ff">163</span> <span style="color:#ae81ff">252</span> <span style="color:#ae81ff">110</span> <span style="color:#ae81ff">145</span> 125<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">194</span> <span style="color:#ae81ff">252</span> <span style="color:#ae81ff">85</span> <span style="color:#ae81ff">163</span> <span style="color:#ae81ff">252</span> <span style="color:#ae81ff">110</span> <span style="color:#ae81ff">145</span> 125<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">194</span> <span style="color:#ae81ff">252</span> <span style="color:#ae81ff">85</span> <span style="color:#ae81ff">163</span> <span style="color:#ae81ff">252</span> <span style="color:#ae81ff">110</span> <span style="color:#ae81ff">145</span> 125<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>So, as you can see, we&rsquo;ve found a cycle where <code>dst == dst2</code>, which means that <code>dst</code> is a fixed point for the all $1$s weak key, and that means that we have found a preimage for the all $0$s block under the Davies-Meyer compression function! We have found $\text{dst} \xrightarrow{\operatorname{E}_0} \text{dst}$.</p>
+<p>Another instance of my program kept running a bit longer and found another interesting case on input <code>DEDEDADADEDEDADA</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>We won! At iteration <span style="color:#ae81ff">3284689159</span>
+</span></span><span style="display:flex;"><span>Values: <span style="color:#f92672">[</span><span style="color:#ae81ff">127</span> <span style="color:#ae81ff">78</span> <span style="color:#ae81ff">105</span> <span style="color:#ae81ff">31</span> <span style="color:#ae81ff">185</span> <span style="color:#ae81ff">107</span> <span style="color:#ae81ff">147</span> 123<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">107</span> <span style="color:#ae81ff">237</span> <span style="color:#ae81ff">194</span> <span style="color:#ae81ff">162</span> <span style="color:#ae81ff">101</span> <span style="color:#ae81ff">166</span> 10<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">127</span> <span style="color:#ae81ff">78</span> <span style="color:#ae81ff">105</span> <span style="color:#ae81ff">31</span> <span style="color:#ae81ff">185</span> <span style="color:#ae81ff">107</span> <span style="color:#ae81ff">147</span> 123<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#ae81ff">127</span> <span style="color:#ae81ff">78</span> <span style="color:#ae81ff">105</span> <span style="color:#ae81ff">31</span> <span style="color:#ae81ff">185</span> <span style="color:#ae81ff">107</span> <span style="color:#ae81ff">147</span> 123<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>Which means that the encryption of <code>p</code> by the all $0$s key itself encrypted by the all $1$s key is equal to <code>p</code>, so we have a short cycle.
+We have found $\text{src} \xrightarrow{\operatorname{E}_0} \text{dst} \xrightarrow{\operatorname{E}_1} \text{src}$.</p>
+<p>This could also allow us to build a collision using two completely different keys, if the parity bit trick had failed to pass the two first conditional checks, since $E_0(\text{dst}) = \text{src}$ and $ E_1(\text{dst}) = \text{src}$ (this holds because we&rsquo;re using weak keys, and the encryption is equivalent to the decryption when doing so.)</p>
+<p>In the end, we can simply get the flag with the following code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">win</span>():
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> socket()
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>connect((<span style="color:#e6db74">&#34;dm-col.ctfcompetition.com&#34;</span>,<span style="color:#ae81ff">1337</span>))
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>send(unhexlify(<span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#e6db74">&#39;00&#39;</span>))
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>send(unhexlify(<span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#e6db74">&#39;00&#39;</span>))
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>send(unhexlify(<span style="color:#ae81ff">7</span><span style="color:#f92672">*</span><span style="color:#e6db74">&#39;00&#39;</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#39;01&#39;</span>))
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>send(unhexlify(<span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#e6db74">&#39;00&#39;</span>))
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> bytes([<span style="color:#ae81ff">194</span>, <span style="color:#ae81ff">252</span>, <span style="color:#ae81ff">85</span> ,<span style="color:#ae81ff">163</span> ,<span style="color:#ae81ff">252</span> ,<span style="color:#ae81ff">110</span> ,<span style="color:#ae81ff">145</span> ,<span style="color:#ae81ff">125</span>])
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>send(unhexlify(<span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#e6db74">&#39;ff&#39;</span>))
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>send(m)
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">95</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;&gt;&#39;</span>,a)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#&gt; b&#39;CTF{7h3r35 4 f1r3 574r71n6 1n my h34r7 r34ch1n6 4 f3v3r p17ch 4nd 175 br1n61n6 m3 0u7 7h3 d4rk}&#39;</span>
+</span></span></code></pre></div><p>And we can smile, because the flag is a reference to <a href="https://www.youtube.com/watch?v=rYEDA3JcQqw">Adele&rsquo;s &ldquo;Rolling in the Deep&rdquo;</a> song.</p>
+<p>Drawings made with <span style="color:red">❤</span> by <a href="https://www.instagram.com/nawdoodle">NawDoodle</a>.</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>, 
+                <a href="/tags/ctf/">ctf</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=CTF%20Writeup%20%2f%20GoogleCTF%202018%20%2f%20DM%20Collision&url=https%3a%2f%2fromailler.ch%2f2018%2f06%2f30%2fgctf18-notdes%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=CTF%20Writeup%20%2f%20GoogleCTF%202018%20%2f%20DM%20Collision&url=https%3a%2f%2fromailler.ch%2f2018%2f06%2f30%2fgctf18-notdes%2f&summary=Done%20as%20a%20member%20of%20the%20duks%20team."
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

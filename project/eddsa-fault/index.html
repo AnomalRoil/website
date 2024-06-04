@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Defeating Ed25519 and EdDSA using a fault attack &middot; Yolan Romailler</title>
+        <meta name="description" content="Along with a practical demonstration.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Defeating Ed25519 and EdDSA using a fault attack">
+<meta property="og:description" content="Along with a practical demonstration.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/project/eddsa-fault/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+	onload="renderMathInElement(document.body);"></script>
+	
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+	renderMathInElement(document.body, {
+		delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "$", right: "$", display: false}
+		]
+	});
+});
+</script>
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLG9T7LPZ"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KRLG9T7LPZ');
+        }
+      </script>
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container">
+        <header class="post-header">
+    <h1 class="post-title">Defeating Ed25519 and EdDSA using a fault attack</h1>
+    
+        <p class="post-description">Along with a practical demonstration.</p>
+    
+</header>
+
+        <div class="post-content clearfix">
+    
+
+    <p>This work was performed with my colleague <a href="https://research.kudelskisecurity.com/author/sylvainpelissier/">Sylvain Pelissier</a>.
+We demonstrated that the EdDSA signature scheme is vulnerable to single fault attacks, and mounted such an attack against the Ed25519 scheme running on an Arduino Nano board.
+We presented a paper on the topic at <a href="http://www.fdtc-workshop.eu">FDTC 2017</a>, last week in Taipei.</p>
+<p>As you all know, ECDSA is known for being the elliptic curve counterpart of the digital signature algorithm DSA.
+ECDSA is also notably known because of the <a href="https://events.ccc.de/congress/2010/Fahrplan/events/4087.en.html">PlayStation 3 hack</a> in which an ECDSA private key could be retrieved because ECDSA wasn&rsquo;t properly randomized.</p>
+<p>ECDSA is also used by Bitcoin to sign the transactions and data. In 2013, <a href="https://blockchain.info/address/1HKywxiL4JziqXrzLKhmB6a74ma6kxbSDj">over 59 bitcoins</a> (which were then moved when bitcoin crossed the $4,400 line in August 2017) were stolen because of the same weakness as in PS3&rsquo;s:
+many Android Bitcoin wallets were <a href="https://bitcoin.org/en/alert/2013-08-11-android">relying on a weak random generator</a> to produce their $k$ when signing transaction. This allowed an attacker <!--she's traditionally called Eve, so the attacker is a girl--> to recover these wallets&rsquo; private keys and thus to empty those compromised wallets.</p>
+<p>Researchers have asked themselves how could data be signed without relying on a random generator, hence avoiding randomness-failure of this sort. A few answers came out, with — most notably — <a href="https://tools.ietf.org/html/rfc6979">RFC6979</a>, which introduced a deterministic version of ECDSA to avoid those problems.</p>
+<p>This deterministic version of ECDSA <a href="http://link.springer.com/chapter/10.1007/978-3-319-44524-3_11">proved to be vulnerable to fault attacks</a> because signing two different messages with the same $k$ is still as deadly as with the normal version, and a fault after the deterministic generation of $k$ can lead to signing different data with the same $k$; which in turn allows to recover the private key, as previously seen.</p>
+<p>EdDSA is another deterministic elliptic curve signature scheme, described in <a href="https://tools.ietf.org/html/rfc8032">RFC8032</a>. EdDSA works over <a href="https://eprint.iacr.org/2008/013">twisted Edwards curves</a>, which have a few nice properties. For example, those curves have fast and <em>complete</em> addition formulas, which means one formula can be used with all pairs of possible inputs and also for doubling a point. The most used twisted Edwards curve is probably the one <a href="https://en.wikipedia.org/wiki/Birational_geometry">birationally equivalent</a> to the Montgomery curve &ldquo;Curve25519&rdquo;, since it is at the core of the &ldquo;Ed25519&rdquo; signature scheme. This scheme is one of the two explicit variants of EdDSA defined in <a href="https://tools.ietf.org/html/rfc8032">RFC8032</a>. EdDSA is built in order to be immune to most of the common attacks plaguing ECDSA and other signatures schemes, but they both also rely on a deterministic generation of their $r$ parameter (which corresponds to the ECDSA&rsquo;s $k$ parameter) using a hash function $H$.</p>
+<p>What&rsquo;s more, Ed25519 is especially interesting because it notably features the followings (quoted from <a href="https://ed25519.cr.yp.to/">its homepage</a>):</p>
+<blockquote><ul>
+<li>Fast single-signature verification.</li>
+<li>Very fast signing.</li>
+<li>Collision resilience. Hash-function collisions do not break this system. This adds a layer of defense against the possibility of weakness in the selected hash function.</li>
+<li>Foolproof session keys. Signatures are generated deterministically; key generation consumes new randomness but new signatures do not. This is not only a speed feature but also a security feature, directly relevant to the recent collapse of the Sony PlayStation 3 security system.</li>
+<li>Small signatures. Signatures fit into 64 bytes.</li>
+<li>Small keys. Public keys consume only 32 bytes.</li>
+</ul></blockquote>
+All of those features render the Ed25519 signature scheme really interesting, even on embedded devices.
+<h3>Attacking EdDSA with faults</h3>
+But EdDSA, and Ed25519, are still compromised if two <strong>different</strong> messages are signed using the same value for $r$. This is obviously impossible in theory, since $r$ is produced deterministically as follows:
+$ r=H(h_b, \ldots, h_{2b-1},M)$,
+for the hash $H(K)=(h_0,h_1,..., h_{2b-1})$ of the $b$-bit secret string $K$, and for $M$ the message.
+<p>Once $r$ has been deterministically generated, the signature is generated in two steps:</p>
+<ul>
+<li>Define the first part $R=rB$, for $B$ the base point of the elliptic curve at hand and $r$ as defined above;</li></li>
+<li>Define the second part $S=(r + H(R,A,M)a)\mod \ell$, for $ell$ the order of $B$, and $A = aB$ the public key, where $a$ is determined as:
+$a = 2^{b-2}+\sum_{3\leq i \leq b-3} 2^ih_i$</li></li>
+</ul>
+</ul>
+This means that unlike ECDSA, if you sign the same message twice, it will output the same value, since it is deterministic.
+For a more precise description of the algorithm, <a href="https://ed25519.cr.yp.to/papers.html">the paper by Bernstein et al.</a> is the best place to start.
+<p>Problems arise when the value $r$ is either reused to produce $S$ for another message or is not secret. The first case can be spotted thanks to the public value $R=rB$, since it will be the same if $r$ is reused, we discuss how to recover secret key material from $r$ reuses below. In the second case, an attacker can simply use the knowledge of that value to compute:
+$(S-r)(H(R,A,M))^{-1} = a \mod \ell$
+and obtain the secret value $a$, which in turn can be used to forge valid signatures using the following procedure:</p>
+<ul>
+<li>Define the first part $R=rB$, with $r$ any random value of her choice;</li>
+<li>Define the second part $S=(r+H(R,A,M)a) \mod \ell$, just like before.</li>
+</ul>
+The verifier has then no way to distinguish the forged signature from a properly generated EdDSA signature, unless he has knowledge of the secret key $K$ and is able to compute the correct value $r'=H(h_b, \ldots, h_{2b-1},M)$ and compare $R$ and $r'B$ to see whether they correspond or not, which nobody can do excepted for the actual possessor of the private key $K$. Even in that case, the hacked signer may claim he didn't sign the message, but couldn't possibly prove that he didn't, since he may have been generating signatures just like the attacker did, using a random $r$ value instead of the hash of the second part of his private key.
+<p>So $r$ has to be kept secret.</p>
+<p>What happens if you were to twice sign the same message $M$? It would output the same signature $(R,S)$ both time, as previously explained. Unless an error occurred at some point during the signature generation. More precisely, what if an error occurs during the computation of $H(R,A,M)$ in $S=(r + H(R,A,M)a)\mod \ell$, producing a $S&rsquo;$ instead?</p>
+<p>We would then have a different, invalid, value $S&rsquo;$ instead of $S$ and the resulting signature would be $(R, S&rsquo;)$. Then the verification of that signature against the known message $M$ would fail, of course. But if the attacker were to know the kind of error which happened and the correct signature $(R, S)$, she could also possibly recover the value $a$ by computing $a=(S-S&rsquo;)(h-h&rsquo;)^{-1} \mod \ell$ and so be able to perform the exact same attack we described above!</p>
+<p>This means that we can recover enough of the secret key material with a single glitch in the signature computation to compromise the system.</p>
+<p><img src="/images/vccconnectionnano.jpg" alt="vccConnectionNano.JPG" /> <center>Our    Arduino Nano board, ready to suffer voltage glitches.</center></p>
+<p>We demonstrated it on an Arduino Nano, using the Arduino Libs&rsquo; Crypto Ed25519 implementation and <strong>simple voltage glitches</strong>. We were able to cause single byte random errors at the end of the computation of $H(R,A,M)$, allowing us to efficiently brute-force the error location and value, thus recovering half of the secret key. This allowed us to generate seemingly valid signatures for any message, thanks to randomly generated $r$ values, in a way that is indistinguishable from the real signer to the verifier, since the value $r$ has to be kept secret by the signer.</p>
+<p>Want to try it at home? Our code is <a href="https://github.com/kudelskisecurity/EdDSA-fault-attack">freely available online on our Github</a>. We also have a software version, simulating the actual faults, in case you don&rsquo;t have the necessary hardware to perform VCC glitches. Plus the code of the brute force recovery of the secret value, which simply needs two signatures of the same message, a faulted signature and a valid one, to retrieve the secret, if there was a single byte error in the computation.</p>
+<p>If you want to learn more details, read <a title="Practical fault attack against EdDSA_FDTC 2017" href="/ddl/10.1109_FDTC.2017.12_eddsa.pdf">our paper</a>, in which we also proposed a novel so-called &ldquo;infective countermeasure&rdquo; to avoid falling for such faults, while keeping full compatibility with the EdDSA standard (contrary to the countermeasure consisting in a fall back to a randomized $r$ value.)</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>, 
+                <a href="/tags/research/">research</a>, 
+                <a href="/tags/talk/">talk</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Defeating%20Ed25519%20and%20EdDSA%20using%20a%20fault%20attack&url=https%3a%2f%2fromailler.ch%2fproject%2feddsa-fault%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Defeating%20Ed25519%20and%20EdDSA%20using%20a%20fault%20attack&url=https%3a%2f%2fromailler.ch%2fproject%2feddsa-fault%2f&summary=Along%20with%20a%20practical%20demonstration."
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+

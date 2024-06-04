@@ -65,8 +65,29 @@
     <loc>https://romailler.ch/project/reaping-keys/</loc>
     <lastmod>2018-10-16T12:12:12+00:00</lastmod>
   </url><url>
+    <loc>https://romailler.ch/tags/ctf/</loc>
+    <lastmod>2018-06-30T23:30:00+02:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/2018/06/30/gctf18-notdes/</loc>
+    <lastmod>2018-06-30T23:30:00+02:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/2018/06/24/gctf18-perfectrsa/</loc>
+    <lastmod>2018-06-24T20:30:00+02:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/2018/04/05/manger-explained/</loc>
+    <lastmod>2018-04-05T15:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/2017/11/17/ynot17-sms/</loc>
+    <lastmod>2017-11-17T19:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://romailler.ch/2017/10/09/misc-pgp_cipher_pref_gaffe/</loc>
     <lastmod>2017-10-09T05:00:42+00:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/project/eddsa-fault/</loc>
+    <lastmod>2017-10-05T20:48:00+00:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/tags/talk/</loc>
+    <lastmod>2017-10-05T20:48:00+00:00</lastmod>
   </url><url>
     <loc>https://romailler.ch/project/go-dudect/</loc>
     <lastmod>2017-07-12T12:12:12+00:00</lastmod>
@@ -74,8 +95,8 @@
     <loc>https://romailler.ch/project/cfp-fuzz/</loc>
     <lastmod>2017-07-01T12:12:12+00:00</lastmod>
   </url><url>
-    <loc>https://romailler.ch/tags/ctf/</loc>
-    <lastmod>2017-04-26T19:00:00+00:00</lastmod>
+    <loc>https://romailler.ch/2017/06/09/crypto-garbling_circuits/</loc>
+    <lastmod>2017-06-09T23:22:00+00:00</lastmod>
   </url><url>
     <loc>https://romailler.ch/2017/04/26/pctf17-echo/</loc>
     <lastmod>2017-04-26T19:00:00+00:00</lastmod>
@@ -98,9 +119,6 @@
     <loc>https://romailler.ch/2016/12/17/manger/</loc>
     <lastmod>2016-12-17T21:13:50+00:00</lastmod>
   </url><url>
-    <loc>https://romailler.ch/tags/talk/</loc>
-    <lastmod>2016-12-17T21:13:50+00:00</lastmod>
-  </url><url>
     <loc>https://romailler.ch/project/yao-garbled/</loc>
     <lastmod>2016-08-18T02:13:50+00:00</lastmod>
   </url><url>
@@ -118,6 +136,15 @@
   </url><url>
     <loc>https://romailler.ch/tags/development/</loc>
     <lastmod>2015-10-02T02:13:50+00:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/2015/06/30/ladder/</loc>
+    <lastmod>2015-06-30T19:31:00+00:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/tags/maths/</loc>
+    <lastmod>2015-06-30T19:31:00+00:00</lastmod>
+  </url><url>
+    <loc>https://romailler.ch/tags/riddles/</loc>
+    <lastmod>2015-06-30T19:31:00+00:00</lastmod>
   </url><url>
     <loc>https://romailler.ch/page/about/</loc>
     <lastmod>2015-04-03T02:13:50+00:00</lastmod>

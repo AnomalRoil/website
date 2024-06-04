@@ -53,7 +53,20 @@ document.addEventListener("DOMContentLoaded", function() {
         
   
     
-      
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLG9T7LPZ"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KRLG9T7LPZ');
+        }
+      </script>
     
   
 
@@ -159,9 +172,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <h3>FE vs FHE, why the <s>ache</s> H?</h3>
 <p>If you are familiar with the concept of (Fully) Homomorphic Encryption, (F)HE, it is interesting to draw the following parallel:</p>
 <p>With FHE one can compute arbitrary functions on encrypted data without decrypting that data. This is very interesting for delegating computation to untrusted third parties. The downside (depending on your use case) of FHE being that the result is still encrypted and thus needs to be sent back to the entity holding the private key in order to decrypt the result of the computation. We can somehow represent the FHE process as follows, with $ E $ being an encryption scheme and $ F $ being the function we want to compute on the encrypted data:</p>
-<p>$$ E(x_1), E(x_2), &hellip;, E(x_n) \rightarrow E(F(x_1,x_2, \cdots, x_n))$$</p>
+$$ E(x_1), E(x_2), ..., E(x_n) \rightarrow E(F(x_1,x_2, \cdots, x_n))$$
 <p>On the other hand, with FE, the result is directly accessible in plaintext after computation, which means we could see it as follows:</p>
-<p>$$ E(x_1), E(x_2), \cdots , E(x_n) \rightarrow F(x_1,x_2, \cdots, x_n)$$</p>
+$$ E(x_1), E(x_2), \cdots , E(x_n) \rightarrow F(x_1,x_2, \cdots, x_n)$$
 <p>In some sense, we can see FE as being a scheme that does both evaluation and decryption of the result of a function at the same time, without leaking the private key allowing to decrypt the data and without leaking information about the plaintexts $ x_1, x_2, \cdots, x_n $ other than the result of their evaluation by the function $ F $.</p>
 <p>Obviously, we don't want everyone to be able to evaluate any function they might want to, as otherwise it would be easy to leak information about individual plaintexts. (Look! I'd like to evaluate the identity function, <em>pretty please</em>.) Hence, only the private key holder is actually able to decrypt $ E(x_i) $, and only they can generate the evaluation keys for specific functions of their choice. This means that functional encryption requires a "central authority" to issue the "evaluation key" to the parties in charge of the functional evaluation.</p>
 <p>So, functional encryption <em>per se</em> is a generalization of the notion of public-key encryption, which allows users to delegate to third parties the computation of certain classes of functions of the encrypted data by generating specific secret keys for these functions. Unlike standard encryption schemes, it allows for a more fine-grained control of the decryption capabilities of third parties.</p>

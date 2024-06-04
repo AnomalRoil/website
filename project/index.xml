@@ -42,7 +42,7 @@
       <link>https://romailler.ch/project/drand/</link>
       <pubDate>Sun, 20 Oct 2019 12:12:12 +0000</pubDate>
       <guid>https://romailler.ch/project/drand/</guid>
-      <description>I have collaborated on the drand network project to have a decentralized network providing public randomness that you can trust.&#xA;I also briefly presented it in a talk at BSides LV in 2019: https://www.youtube.com/watch?v=8vm1IFpAMy0</description>
+      <description>In 2018-2019, I have collaborated on the drand network project to have a decentralized network providing public randomness that you can trust. We have launched the League of Entropy in 2019.&#xA;I also briefly presented it in a talk at BSides LV in 2019: https://www.youtube.com/watch?v=8vm1IFpAMy0&#xA;Since 2022, I am now the Tech Lead on the drand team at Protocol Labs. Here is a more in-depth presentation of drand that I&amp;rsquo;ve done at MCH: https://media.</description>
     </item>
     <item>
       <title>Reaping and breaking keys at scale</title>
@@ -50,6 +50,13 @@
       <pubDate>Tue, 16 Oct 2018 12:12:12 +0000</pubDate>
       <guid>https://romailler.ch/project/reaping-keys/</guid>
       <description>I worked with my colleague Nils Amiet on a very interesting project, collecting hundreds of millions of public keys and trying to break them:&#xA;https://research.kudelskisecurity.com/2018/10/16/reaping-and-breaking-keys-at-scale-when-crypto-meets-big-data/&#xA;You can see the video of our talk on the topic here: https://www.youtube.com/watch?v=Z7cLRE6t1Q8</description>
+    </item>
+    <item>
+      <title>Defeating Ed25519 and EdDSA using a fault attack</title>
+      <link>https://romailler.ch/project/eddsa-fault/</link>
+      <pubDate>Thu, 05 Oct 2017 20:48:00 +0000</pubDate>
+      <guid>https://romailler.ch/project/eddsa-fault/</guid>
+      <description>This work was performed with my colleague Sylvain Pelissier. We demonstrated that the EdDSA signature scheme is vulnerable to single fault attacks, and mounted such an attack against the Ed25519 scheme running on an Arduino Nano board. We presented a paper on the topic at FDTC 2017, last week in Taipei.&#xA;As you all know, ECDSA is known for being the elliptic curve counterpart of the digital signature algorithm DSA. ECDSA is also notably known because of the PlayStation 3 hack in which an ECDSA private key could be retrieved because ECDSA wasn&amp;rsquo;t properly randomized.</description>
     </item>
     <item>
       <title>Go-dudect</title>

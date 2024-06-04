@@ -7,8 +7,29 @@
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Yolan Romailler</copyright>
-    <lastBuildDate>Wed, 26 Apr 2017 19:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 30 Jun 2018 23:30:00 +0200</lastBuildDate>
     <atom:link href="https://romailler.ch/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CTF Writeup / GoogleCTF 2018 / DM Collision</title>
+      <link>https://romailler.ch/2018/06/30/gctf18-notdes/</link>
+      <pubDate>Sat, 30 Jun 2018 23:30:00 +0200</pubDate>
+      <guid>https://romailler.ch/2018/06/30/gctf18-notdes/</guid>
+      <description>The challenge said:&#xA;Can you find a collision in this compression function? nc dm-col.ctfcompetition.com 1337 and gave us an attachment containing two python scripts: not_des.py and challenge.py.&#xA;Firstly, let&amp;rsquo;s have a quick peek into not_des.py: it seems to be a regular implementation of the DES cipher, but given its name, it means something has been tampered with&amp;hellip; It&amp;rsquo;s probably the S-Boxes, but we&amp;rsquo;ll be able to come back to this later.</description>
+    </item>
+    <item>
+      <title>CTF Writeup / GoogleCTF 2018 / Perfect Secrecy</title>
+      <link>https://romailler.ch/2018/06/24/gctf18-perfectrsa/</link>
+      <pubDate>Sun, 24 Jun 2018 20:30:00 +0200</pubDate>
+      <guid>https://romailler.ch/2018/06/24/gctf18-perfectrsa/</guid>
+      <description>After having great fun last year in Google CTF with a nice RSA challenge, and a couple of strange crypto schemes, and despite the lack of enthusiasm of my fellow team members, I decided to play again this year. And the first crypto challenge I solved was also about RSA, it said:&#xA;Perfect Secrecy This crypto experiment will help you decrypt an RSA encrypted message. nc perfect-secrecy.ctfcompetition.com 1337 And it provided us an attachment, which contained a file called flag.</description>
+    </item>
+    <item>
+      <title>CTF Writeup / Y-Not-CTF / SmS Secret Secure Server</title>
+      <link>https://romailler.ch/2017/11/17/ynot17-sms/</link>
+      <pubDate>Fri, 17 Nov 2017 19:00:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/11/17/ynot17-sms/</guid>
+      <description>&lt;p&gt;&lt;em&gt;We were given a ssh username, server ip and public key using ECDSA, along with a &lt;em&gt;very secure RNG&lt;/em&gt; python script used to generate the ECDSA key. Exploiting a weakness in the RNG, we can enumerate all possible keys and find the private key to log on the server.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>CTF Writeup / PlaidCTF / Echo</title>
       <link>https://romailler.ch/2017/04/26/pctf17-echo/</link>

@@ -7,8 +7,22 @@
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Yolan Romailler</copyright>
-    <lastBuildDate>Sat, 17 Dec 2016 21:13:50 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Oct 2017 20:48:00 +0000</lastBuildDate>
     <atom:link href="https://romailler.ch/tags/talk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Defeating Ed25519 and EdDSA using a fault attack</title>
+      <link>https://romailler.ch/project/eddsa-fault/</link>
+      <pubDate>Thu, 05 Oct 2017 20:48:00 +0000</pubDate>
+      <guid>https://romailler.ch/project/eddsa-fault/</guid>
+      <description>This work was performed with my colleague Sylvain Pelissier. We demonstrated that the EdDSA signature scheme is vulnerable to single fault attacks, and mounted such an attack against the Ed25519 scheme running on an Arduino Nano board. We presented a paper on the topic at FDTC 2017, last week in Taipei.&#xA;As you all know, ECDSA is known for being the elliptic curve counterpart of the digital signature algorithm DSA. ECDSA is also notably known because of the PlayStation 3 hack in which an ECDSA private key could be retrieved because ECDSA wasn&amp;rsquo;t properly randomized.</description>
+    </item>
+    <item>
+      <title>Yao&#39;s Garbled Circuits and how to construct those</title>
+      <link>https://romailler.ch/2017/06/09/crypto-garbling_circuits/</link>
+      <pubDate>Fri, 09 Jun 2017 23:22:00 +0000</pubDate>
+      <guid>https://romailler.ch/2017/06/09/crypto-garbling_circuits/</guid>
+      <description>I recently answered a nice question about garbled circuits, and I wanted to share my explanations. So let us review how garbled circuits actually work and how we can construct some. I&amp;rsquo;ll try to explain this from top to bottom:&#xA;The protocol Let Alice and Bob be willing to compute securely a function $f(x,y)$ (for example, it could be $f(x,y)=\min(x,y)$) while keeping their respective inputs $x$ and $y$ secret.&#xA;In order to do so, they will first model the function $f$ as a Boolean circuit, which is possible since there exists a Boolean circuit $C$ that calculates the output of $f$ for any function $f$ with fixed size inputs [1].</description>
+    </item>
     <item>
       <title>Manger&#39;s attack against RSA OAEP</title>
       <link>https://romailler.ch/2016/12/17/manger/</link>

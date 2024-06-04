@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maths on Yolan Romailler</title>
+    <link>https://romailler.ch/tags/maths/</link>
+    <description>Recent content in Maths on Yolan Romailler</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <copyright>Yolan Romailler</copyright>
+    <lastBuildDate>Tue, 30 Jun 2015 19:31:00 +0000</lastBuildDate>
+    <atom:link href="https://romailler.ch/tags/maths/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A ladder, a box and a wall</title>
+      <link>https://romailler.ch/2015/06/30/ladder/</link>
+      <pubDate>Tue, 30 Jun 2015 19:31:00 +0000</pubDate>
+      <guid>https://romailler.ch/2015/06/30/ladder/</guid>
+      <description>I was recently reading a newspaper in the train and there was a little math riddle, I thought &amp;ldquo;how funny, that&amp;rsquo;s gonna be easy, let&amp;rsquo;s do it&amp;rdquo; and yet&amp;hellip;&#xA;The problem goes as follow : in a barn, there is a 1 meter cubic box against a wall and a 4 meter ladder is leaning against the wall, touching the box at its corner. Here is a picture :&#xA;So, the big triangle has a hypotenuse $FE$ of $4$, the square $ABDC$ has sides of length $1$ and is basically &amp;ldquo;insquared&amp;rdquo; at the right angle, i.</description>
+    </item>
+  </channel>
+</rss>

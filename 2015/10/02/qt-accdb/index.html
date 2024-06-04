@@ -33,7 +33,20 @@
         
   
     
-      
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLG9T7LPZ"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KRLG9T7LPZ');
+        }
+      </script>
     
   
 
@@ -134,8 +147,7 @@
 <hr>
 <h2 id="qsql-drivers">QSql Drivers</h2>
 <p>I spent at least 3 hours <em>playing</em> with QSql drivers, source code, DLLs and googling around in order to get rid of an annoying error :</p>
-<p><img src="/images/connexion-error-mosdes.jpg" alt="alt text" title="the problem"></p>
-<p>After recompiling the qmysql drivers, therefore reinstalling MySQL &amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</p>
+<img src="/images/connexion-error-mosdes.jpg" alt="alt text" title="the problem"><p>After recompiling the qmysql drivers, therefore reinstalling MySQL &amp; going through the pain of installing MS Visual Studio because it looked like Qt needed it to compile its qmysql driver (while it actually doesn&rsquo;t ; you can compile it using MinGW) I was finally able to tackle the problem!</p>
 <p>I finally got it to run smoothly by <em>simply</em> copying the <code>libmysql.dll</code> file from the MySQL C connector to the run folder of my application! Note that it didn&rsquo;t even show up in &ldquo;Dependency walker&rdquo; that it needed some more DLLs.</p>
 <p>I could have kept recompiling for hours to no avail!</p>
 <p>BTW, in order to compile the QMySQL driver, it is best to take a good old MySQL Community Server 5.1, and install only the developer components &ldquo;C Include Files / Lib Files&rdquo;. Then one can simply use the MinGW Qt Command prompt and do inside <code>Src\qtbase\src\plugins\sqldrivers\mysql</code> the following:</p>

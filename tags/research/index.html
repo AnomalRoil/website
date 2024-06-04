@@ -35,7 +35,20 @@
         
   
     
-      
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLG9T7LPZ"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KRLG9T7LPZ');
+        }
+      </script>
     
   
 
@@ -131,6 +144,16 @@
         <h4 class="post-stub-title">Forget Homomorphic Encryption</h4>
         
             <p class="post-stub-description">Here Comes Functional Encryption</p>
+        
+        
+    </a>
+</li>
+        
+            <li class="post-stub">
+    <a href="https://romailler.ch/project/eddsa-fault/">
+        <h4 class="post-stub-title">Defeating Ed25519 and EdDSA using a fault attack</h4>
+        
+            <p class="post-stub-description">Along with a practical demonstration.</p>
         
         
     </a>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Yao&#39;s Garbled Circuits and how to construct those &middot; Yolan Romailler</title>
+        <meta name="description" content="It&#39;s not even that hard!">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.126.1">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Yao&#39;s Garbled Circuits and how to construct those">
+<meta property="og:description" content="It&#39;s not even that hard!">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://romailler.ch/2017/06/09/crypto-garbling_circuits/">
+        <link rel="stylesheet" href="https://romailler.ch/dist/site.css">
+        <link rel="stylesheet" href="https://romailler.ch/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://romailler.ch//styles/font-awesome.min.css">
+<link rel="stylesheet" href="https://romailler.ch//styles/images.css">
+
+
+
+        
+        
+        
+
+    </head>
+    <body>
+        
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLG9T7LPZ"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KRLG9T7LPZ');
+        }
+      </script>
+    
+  
+
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://romailler.ch/">Yolan Romailler</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/anomalroil" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/anomalroil" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" aria-label="LinkedIn" href="https://linkedin.com/in/anomalroil/" rel="me">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:yolan@romailler.ch">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/post/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/talks/">Talks</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/links/">Links</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/page/about/">About</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Yao&#39;s Garbled Circuits and how to construct those</h1>
+    
+        <p class="post-description" itemprop="description">It&#39;s not even that hard!</p>
+    
+    <p class="post-date post-line">
+        <span>Published <time datetime="2017-06-09" itemprop="datePublished">Fri, Jun 9, 2017</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://romailler.ch/page/contact" itemprop="url" rel="author">Yolan</a>
+            </span>
+        </span>
+    </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>I recently answered a nice question about garbled circuits, and I wanted to share my explanations. So let us review how garbled circuits actually work and how we can construct some. I&rsquo;ll try to explain this from top to bottom:</p>
+<h2 id="the-protocol">The protocol</h2>
+<p>Let Alice and Bob be willing to compute <em>securely</em> a function $f(x,y)$ (<a href="https://research.cyber.ee/~peeter/teaching/krprot08s/kodu2.html">for example</a>, it could be $f(x,y)=\min(x,y)$) while keeping their respective inputs $x$ and $y$ <strong>secret</strong>.</p>
+<p>In order to do so, they will first model the function $f$ as a Boolean circuit, which is possible since there exists a Boolean circuit $C$ that calculates the output of $f$ for any function $f$ with fixed size inputs [1].
+However, the way such a modelling is performed can depend on the function and will not be further discussed here.</p>
+<p>Then Alice will <em>garble</em> the Boolean circuit:
+for each wire $W_i$ of the circuit $C$, she randomly chooses two secret values $w^0_i, w^1_i$, where $w^j_i$ is the <em>garbled value</em> of the value $j\in {0,1}$ of the wire $W_i$.
+Note that $w_i^j$ cannot reveal $j$ in itself, so Alice has to keep track of $i$ and $j$.
+This has to be done for each and every input and output wires of every logical gates in the circuit, excepted for the circuit output gates which can be left ungarbled.</p>
+<p>Then Alice also has to construct a <em>garbled truth table</em> (GTT) $T_i$ for each of the gates $G_i$ in $C$.
+Those tables have to be so that given garbled values along its set of input wires, $T_i$ will allow to recover the garbled output of this $G_i$ and <strong>no other information</strong>.
+This is achieved through encryption of the output values.
+I will detail further the garbling of gates below.</p>
+<p><a href="//romailler.ch/images/garbled_1.png"><img src="//romailler.ch/images/garbled_1.png" alt="A logical AND gate, its labels and its truth table"></a></p>
+<p>Afterwards, Alice can translate each bit of her input into its corresponding garbled values on the circuit&rsquo;s input wires.
+And then she can send the—now garbled—circuit where each gate is replaced by its GTT to Bob with her encrypted input.</p>
+<p>After Bob received the garbled circuit, since all input wires are encrypted and only Alice knows the mapping of the encrypted values and the real bits, Bob need to perform an <em><strong>oblivious transfer</strong></em> (I let you <a href="https://en.wikipedia.org/wiki/Oblivious_transfer">look that one up</a>, since it&rsquo;s just a building block of the protocol) with Alice for each of his input bits, so that Alice can inform him of what encrypted values correspond to his inputs bits with knowing what are his actual input bits.</p>
+<p>So it means that for each input wire, Bob will choose one amongst the two random strings $w_i^0, w_i^1$ which correspond respectively to $0$ and $1$, but without knowing the content of the string he does not choose.
+And thanks to the properties of the <em>oblivious transfer</em> Alice cannot learn Bob&rsquo;s input.</p>
+<p>Then Bob has all the needed values to compute the output of the circuit as I will discuss it below. Once he has done so, he can tell the output values to Alice.
+So Bob was able to obtain the output of $f$ without revealing his input, nor knowing Alice&rsquo;s input, this means that Alice and Bob successfully simulated a trusted third party and performed thus secure MPC!</p>
+<h2 id="garbling-logical-gates">Garbling Logical Gates</h2>
+<p>The notion of garbling logical gates and their truth table is crucial.
+Without loss of generality, I will only consider logical gates with two input wires and one output wire.
+As I quickly explained above, for a given gate $G\in C$ and its input wires $W_0,W_1$ and its output wire $W$, Alice had to choose six different random strings, $w_0^0, w_0^1,w_1^0,w_1^1,w^0,w^1$ she assigned to each values of the wires in a one-to-one mapping, where $w_i^j$ represents the random string assigned to the value $j$ of the wire $W_i$.</p>
+<p>Then in order to garble the truth table of $G$ in a way which would not reveal any information given two input values $w_0,w_1$ excepted for its output value $w$, not even the type of the gate, Alice can encrypt the output values $w^0,w^1$ using the garbled input values as keys, using a given symmetric encryption scheme $\mathbb{E}$.
+I use the notation \(\mathbb{E}_{k_0,k_1}(x) =\mathbb{E}_{k_0} (\mathbb{E}_{k_1}(x))\)
+to denote encrypting twice with two given keys $ k_0,k_1 $.
+As an example, let us encrypt the truth table of the AND gate from Figure 1:</p>
+\[
+\begin{array}{c|c|c||c}
+W_0 & W_1 & W & \text{Garbled value} \\
+w_0^0 & w_1^0 & w^0 & \mathbb{E}_{w_0^0,w_1^0}(w^0) \\
+w_0^0 & w_1^1 & w^0 & \mathbb{E}_{w_0^0,w_1^1}(w^0) \\
+w_0^1 & w_1^0 & w^0 & \mathbb{E}_{w_0^1,w_1^0}(w^0)\\
+w_0^1 & w_1^1 & w^1 & \mathbb{E}_{w_0^1,w_1^1}(w^1)
+\end{array}
+\]
+<p>The GTT $T$ of the gate $G$ is then simply the set $\left\lbrace\mathbb{E}_{w_0^j,w_1^k}(w^{G(j,k)}) \mid j,k \in  \left\lbrace0,1\right\rbrace \right\rbrace$ of the garbled values, where $G(j,k)$ corresponds to the output of the gate $G$ under inputs $(j,k)$.</p>
+<h2 id="evaluation-of-a-garbled-circuit">Evaluation of a garbled circuit</h2>
+<p>Once Bob has received the garbled circuit $C$ from Alice and obtained the garbled values of his input through multiple <em>oblivious transfers</em>, he can evaluate the circuit.</p>
+<p>It is important to realize that a garbled circuit differs from a regular Boolean circuit.
+In a Boolean circuit, <strong>semantic</strong> and <strong>syntax</strong> are basically the same: we are assigning to each wire two possible <em>semantic</em> values, namely <code>True</code> or <code>False</code>, which we will <em>syntactically</em> denote as a signal with 1 or 0 values respectively.</p>
+<p>Those signals were public and the same signals were associated with every wire and anybody could tell from the signal what semantic value it held.
+<em>This changes in a garbled circuit</em>, since the <strong>semantic</strong> values of each <em>signal</em>—excepted for the circuit&rsquo;s output ones—are now secret and the <em>signals</em> are now varying from one wire to another wire.</p>
+<p>Thus, in order to evaluate the circuit, for each gates $G_i$ of the circuit, Bob can try and decrypt the values in the associated truth table $T_i$ using the gate&rsquo;s input values as keys. One of the entries in $T_i$ will then decrypt into the output of the gate.
+Hence it seems necessary to have an oracle to confirm successful decryption of the entries of $T_i$, however a trick I&rsquo;ll detail right now called <strong>permute-and-point</strong> first used in [2] and then clearly explained in Phillip Rogoway&rsquo;s dissertation [3], allows to decide which entry of the GTT is to be decrypted given the garbled inputs, enabling faster computations and still preventing the evaluator to deduce anything from the order of the truth table&rsquo;s entries.</p>
+<h2 id="permute-and-point">Permute-and-point</h2>
+<p>This trick works as follows: for each input and output wires $W_i$, Alice will concatenate a random bit $a\in {0,1}$ at the end of its garbled value $w_i^0$ and concatenate its inverse $b=\overline{a}=1-a$ at the end of $w_i^1$. So it allows to associate each of the 4 permutations of 2 bits to one of the entry of the GTT, without having any correlation between the bits and the values of the ungarbled truth table. So Alice can simply order the GTT according to the natural ordering and give it to Bob which will then be able to deduce which entry he should decrypt on a given input.
+To obtain a nice representation of this trick, those bits can be seen as a pair of <em>colors</em>, as I depict them in Figure 2, in which we see how the truth table is modified to take into account this method.</p>
+<p><a href="//romailler.ch/images/garbled_2.png"><img src="//romailler.ch/images/garbled_2.png" alt="The permute-and-point trick"></a></p>
+<p>Those modifications allow Bob to simply decrypt the entry whose index corresponds with the <em>colors</em> associated to its input wires and thus to obtain the output wire&rsquo;s value and its <em>color</em>, allowing him to further evaluate the circuit.</p>
+<hr>
+<h2 id="example-evaluation-with-permute-and-point">Example evaluation with permute-and-point</h2>
+<p><a href="//romailler.ch/images/garbled_3.png"><img src="//romailler.ch/images/garbled_3.png" alt="A circuit made of one AND gate and one OR gate and one XOR gate with their respective GTT and their labeled wires randomly colored. The bold values are the values used to compute the example below."></a></p>
+<p>Let us see how one could evaluate the garbled circuit represented in Figure 3 using the <em>permute-and-point</em> method we discussed above.
+Let us assume that the semantic input values of $(W_1,W_2,W_3,W_4)$ are $(0,0,1,0)$, which means that the actual garbled input is $({\color{green}\bullet}{}w_1^0,{\color{red}\bullet}{}w_2^0,{\color{red}\bullet}{}w_3^1,{\color{green}\bullet}{}w_4^0)$ where the $w_j^i$ are the random values that Alice chose when she garbled the circuit, as seen above.
+Let us also assume that Alice already provided her garbled input, say $(W_1,W_3)$, and that Bob already obtained his garbled input $(W_2,W_4)$ from Alice through two applications of <em>oblivious transfer</em> as described in the protocol part.</p>
+<p>So Bob will begin by evaluating first the AND gate using the input $({\color{green}\bullet}{}w_1^0,{\color{red}\bullet}{}w_2^0)$, since it has the colors $ \color{green}\bullet\color{red}\bullet$
+he will try and decrypt the third entry of the GGT of the AND gate, which works and thus provide him with the garbled value ${\color{green}\bullet}{}w_5^0$.</p>
+<p>Then he can continue his evaluation with the second gate, which is the OR gate. He looks at its input $({\color{red}\bullet}{}w_3^1,{\color{green}\bullet}{}w_4^0)$ and try to decrypt the entry corresponding to $ \color{red}\bullet\color{green}\bullet$ with the keys $(w_3^1,w_4^0)$, it decrypt into the garbled value ${\color{green}\bullet}{}w_6^1$.</p>
+<p>He can now decrypt the final XOR gate using the computed input $({\color{green}\bullet}{}w_5^0,{\color{green}\bullet}{}w_6^1)$, thus decrypting the $\color{green}\bullet\color{green}\bullet$ entry which provide him with the final result: &ldquo;1&rdquo;.</p>
+<p>And Bob does not know what was Alice&rsquo;s input, he just knows the final output &ldquo;1&rdquo; and the randomly generated strings $w_1^0,w_2^0,w_3^1,w_4^0,w_5^0,w_6^1$. He can still for example deduce from the circuit that the semantic values of $w_5^0$ and $w_6^1$ are opposed, however it does not allow him to reverse the garbled circuit up to Alice&rsquo;s input values. There are circuits where no privacy is assured, like for example a circuit computing the sum of the inputs, however in this example case, Bob—knowing his semantic input values—can simply restrict Alice&rsquo;s inputs to a subset of the possible inputs but cannot uniquely determine the actual Alice&rsquo;s input values.</p>
+<hr>
+<h2 id="example-modelling-the-min-function">Example: modelling the min function</h2>
+<p>The fastest way to model a boolean function is to draw its truth table, so in our case, we have 4 bits inputs, with the numbers $a$ and $b$ being 2-bits numbers $a_1a_2$ and $b_1b_2$ respectively, and we want as output the minimum $c$ of $a$ and $b$, where $c$ is constituted of two bits: $c_1c_2$.</p>
+<p>So we can draw the truth table:</p>
+\[\begin{array}{c|c||c|c||c|c}
+a_1 & a_2 & b_1 & b_2 & c_1 & c_2 \\
+\hline
+0 &	0 &	0 &	0 &	0 &	0 \\
+0 &	0 &	0 &	1 &	0 &	0 \\
+0 &	0 &	1 &	0 &	0 &	0 \\
+0 &	0 &	1 &	1 &	0 &	0 \\
+0 &	1 &	0 &	0 &	0 &	0 \\
+0 &	1 &	0 &	1 &	0 &	1 \\
+0 &	1 &	1 &	0 &	0 &	1 \\
+0 &	1 &	1 &	1 &	0 &	1 \\
+1 &	0 &	0 &	0 &	0 &	0 \\
+1 &	0 &	0 &	1 &	0 &	1 \\
+1 &	0 &	1 &	0 &	1 &	0 \\
+1 &	0 &	1 &	1 &	1 &	0 \\
+1 &	1 &	0 &	0 &	0 &	0 \\
+1 &	1 &	0 &	1 &	0 &	1 \\
+1 &	1 &	1 &	0 &	1 &	0 \\
+1 &	1 &	1 &	1 &	1 &	1
+\end{array}\]
+<p>And now we can model our boolean circuit by taking the <code>true</code> values in the results and represent them as being boolean expressions:</p>
+<p>For $c_1$:</p>
+\[
+\begin{array}{c|c||c|c||c|c}
+a_1 & a_2 & b_1 & b_2 & c_1 & {bool. expr.} \\  
+\hline
+1 &	0 &	1 &	0 &	1 & a_1 \land \overline{a_2}\land b_1 \land \overline{b_2}	 \\
+1 &	0 &	1 &	1 &	1 &	a_1 \land \overline{a_2}\land b_1 \land {b_2} \\
+1 &	1 &	1 &	0 &	1 &	a_1 \land {a_2}\land b_1 \land \overline{b_2} \\
+1 &	1 &	1 &	1 &	1 &	a_1 \land {a_2}\land b_1 \land {b_2}
+\end{array}
+\]
+<p>And for $c_2$:</p>
+\[
+\begin{array}{c|c||c|c||c|c}
+a_1 & a_2 & b_1 & b_2 & c_2 & {bool. expr.}  \\  
+\hline
+0 &	1 &	0 &	1 &	1 & \overline{a_1} \land {a_2}\land \overline{b_1} \land {b_2}\\
+0 &	1 &	1 &	0 &	1 & \overline{a_1} \land {a_2}\land b_1 \land \overline{b_2}\\
+0 &	1 &	1 &	1 &	1 & \overline{a_1} \land {a_2}\land b_1 \land {b_2}\\
+1 &	0 &	0 &	1 &	1 & a_1 \land \overline{a_2}\land \overline{b_1} \land {b_2}\\
+1 &	1 &	0 &	1 &	1 & a_1 \land {a_2}\land \overline{b_1} \land {b_2}\\
+1 &	1 &	1 &	1 &	1 & a_1 \land {a_2}\land b_1 \land {b_2}
+\end{array}
+\]
+<p>Now, we can express $c_1$ and $c_2$ as the OR of all their respective boolean expression, this method is called the boolean Sum-of-Product:</p>
+\[
+\begin{aligned}
+c_1= (a_1\land \overline{a_2}\land b_1 \land \overline{b_2})	
+\lor(a_1\land \overline{a_2}\land b_1 \land {b_2}) \\
+\lor(a_1\land {a_2}\land b_1 \land \overline{b_2}) 
+\lor(a_1\land {a_2}\land b_1 \land {b_2}) 
+\end{aligned}
+\]
+<p>And for $c_2$:</p>
+\[
+\begin{aligned}
+ c_2 = (\overline{a_1} \land {a_2}\land \overline{b_1} \land {b_2})
+\lor(\overline{a_1} \land {a_2}\land b_1 \land \overline{b_2})\\
+\lor(\overline{a_1} \land {a_2}\land b_1 \land {b_2})
+\lor(a_1 \land \overline{a_2}\land \overline{b_1} \land {b_2})\\
+\lor(a_1 \land {a_2}\land \overline{b_1} \land {b_2})
+\lor(a_1 \land {a_2}\land b_1 \land {b_2})\\
+\end{aligned}
+\]
+<p>And we have a possible circuit (represented as boolean expressions) for our $\min$ function.</p>
+<p>But those expression are really ugly and we want to simplify them, it is possible to convert them into nicer forms, like <a href="https://en.wikipedia.org/wiki/Disjunctive_normal_form">DNF</a> (this is where <a href="https://en.wikipedia.org/wiki/Karnaugh_map">Karnaugh maps</a> can help). But I won&rsquo;t cover this topic today.</p>
+<p>For instance, $c_1$ can be rewritten as: $c_1=a_1 \land b_1$ (actually we can see this directly from the truth table) and $c_2$ can be rewritten as:
+$c_2 = (a_1 \land \overline{b_1} \land b_2) \lor (\overline{a_1} \land a_2 \land b_1) \lor (a_2 \land b_2)$</p>
+<p>I haven&rsquo;t much resources to refer you to there, but a quick search led me to <a href="https://www.allaboutcircuits.com/textbook/digital/chpt-7/converting-truth-tables-boolean-expressions/">this page</a> and <a href="http://www.32x8.com/var4.html">that one, which even has a graphical representation</a> of the circuit, once given the truth table, nice!</p>
+<hr>
+<h2 id="references">References</h2>
+<p>[1] Goldwasser, S., Micali, S., &amp; Wigderson, A. (1987). How to play any mental game, or a completeness theorem for protocols with an honest majority. In Proc. of the Nienteenth Annual ACM STOC (Vol. 87, pp. 218-229). <a href="https://www.researchgate.net/profile/Oded_Goldreich/publication/234778924_How_to_play_ANY_mental_game/links/0deec5232112523fc5000000.pdf">[PDF]</a></p>
+<p>[2] Beaver, D., Micali, S., &amp; Rogaway, P. (1990, April). The round complexity of secure protocols. In Proceedings of the twenty-second annual ACM symposium on Theory of computing (pp. 503-513). ACM. <a href="https://pdfs.semanticscholar.org/f71d/b4d70d4cc9e931a63dde7a6db8dad10a61a0.pdf">[PDF]</a></p>
+<p>[3] Rogaway, P., &amp; Micali, S. (1991). The round complexity of secure protocols (Doctoral dissertation, Massachusetts Institute of Technology, Dept. of Electrical Engineering and Computer Science). <a href="http://mame.myds.me/bitsavers/pdf/mit/lcs/tr/MIT-LCS-TR-503.pdf">[PDF]</a></p>
+<p>PS: I have shared these images and their source TeX code on <a href="https://www.iacr.org/authors/tikz/">TikZ for Cryptographers</a> if you don&rsquo;t know this project, check it out, it&rsquo;s awesome.</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/crypto/">crypto</a>, 
+                <a href="/tags/talk/">talk</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=Yao%27s%20Garbled%20Circuits%20and%20how%20to%20construct%20those&url=https%3a%2f%2fromailler.ch%2f2017%2f06%2f09%2fcrypto-garbling_circuits%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Yao%27s%20Garbled%20Circuits%20and%20how%20to%20construct%20those&url=https%3a%2f%2fromailler.ch%2f2017%2f06%2f09%2fcrypto-garbling_circuits%2f&summary=It%27s%20not%20even%20that%20hard%21"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;" aria-label="Share on LinkedIn">
+               <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://romailler.ch/">Yolan Romailler</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2024</span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://romailler.ch/js/jquery-1.11.3.min.js"></script>
+        <script src="https://romailler.ch/js/jquery.fitvids.js"></script>
+        <script src="https://romailler.ch/js/scripts.js"></script>
+    </body>
+</html>
+
